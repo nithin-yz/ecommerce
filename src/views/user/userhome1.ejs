@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BESTBUY</title>
+    <link rel="shortcut icon" href="./../../public/images/userhome/logo_black .png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/user/userhome/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="./css/responsiveHome.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+</head>
+<body>
+    <section id="header">
+        <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" style="width: 80px; height: 82px;"></a>
+        <div>
+            <ul id="navbar">
+                <li class="search-bar">
+                    <input type="text" name="searchbar" id="search">
+                    <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+                </li>
+                <li><a class="active" href="#" style="text-decoration: none;">Home</a></li>
+                <li><a href="./sub-pages/shop.html">Category</a></li>
+                <li><a href="/userhome/men">men</a></li>
+                <li><a href="/userhome/women">women</a></li>
+                <li><a href="/userhome/account">Account</a></li>
+                <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li> <!-- Heart icon for wishlist -->
+                <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li> <!-- Existing cart symbol -->
+                <li><a href="#">logout</a></li>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="./sub-pages/cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+            <i id="bar" class="fa-solid fa-bars"></i>
+        </div>
+    </section>
+
+    <section id="hero"> 
+        <h4>Trade-In-Offer</h4>
+        <h2>Super Value Deals</h2>
+        <h1>On all products</h1>
+        <p>Save more with coupons & up to 70% off!</p>
+        <button> Shop Now</button>
+
+        <!-- Your hero section content -->
+    </section>
+
+    <section id="feature" class="section-p1">
+        <!-- Your feature section content -->
+        <div class="fe-box">
+            <img src="/images/userhome/f1.png" alt="F-1">
+            <h6>Free Shipping</h6>
+        </div>
+        <div class="fe-box">
+            <img src="/images/userhome/f2.png" alt="F-1">
+            <h6>Online Order</h6>
+        </div>
+        <div class="fe-box">
+            <img src="/images/userhome/f3.png" alt="F-1">
+            <h6>Save Money</h6>
+        </div>
+        <div class="fe-box">
+            <img src="/images/userhome/f4.png" alt="F-1">
+            <h6>Promotion</h6>
+        </div>
+        <div class="fe-box">
+            <img src="/images/userhome/f5.png" alt="F-1">
+            <h6>Happy Sell</h6>
+        </div>
+        <div class="fe-box">
+            <img src="/images/userhome/f6.png" alt="F-1">
+            <h6>24/7 Support</h6>
+        </div>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <h2>Featured Products</h2>
+        <p>Summer Collection New Morden Design</p>
+        <div class="pro-container">
+            <% products.forEach(function(product) { %>
+                <div class="pro">
+                    <img src="/uploads/<%= product.image1 %>" alt="<%= product.name %>">
+                    <div class="des">
+                        <span><%= product.price %></span>
+                        <h5><%= product.name %></h5>
+                        <div class="star">
+                            <% for (let i = 0; i < product.rating; i++) { %>
+                                <i class="fa-solid fa-star"></i>
+                            <% } %>
+                        </div>
+                        <h4>$<%= product.newprice %></h4>
+                    </div>
+                    <a href="#" class="cart"><i class="fa-solid fa-cart-shopping"></i></a> <!-- Existing cart icon -->
+                    <a href="#" class="wishlist"><i class="fa-regular fa-heart"></i></i></a> <!-- Heart icon for wishlist -->
+                </div>
+            <% }); %>
+        </div>
+    </section>
+
+    <!-- Other sections and content -->
+
+    
+
+    <footer class="section-p1">
+        <div class="col">
+            <img src="/images/userhome/logo.png" alt="logo" class="logoS" style="width:150px; height:150px;">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco</p>
+            <p><strong>Phone:</strong>+01 2222 3665 / (+91) 01 2345 6763</p>
+            <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-linkedin"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Poilcy</a>
+            <a href="#">Terms & Condition</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account </h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My WishList</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="/images/userhome/app.jpg" alt="app">
+                <img src="/images/userhome/play.jpg" alt="play">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="/images/userhome/pay.png" alt="pay">
+        </div>
+        <div class="copyright">
+            <p>2024 , Ecommerce Project</p>
+        </div>
+        <!-- Your footer section content -->
+    </footer>
+
+    <script src="../../public/script/userhome.js"></script>
+</body>
+</html>

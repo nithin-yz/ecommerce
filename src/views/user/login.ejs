@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="shortcut icon" href="images/cartlogo.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/user/userlogin/userlogin.css">
+</head>
+<body>
+    <form action="/login" method="post">
+        <div class="left">
+            <img class="logo" src="images/signup/logo.png" alt="">
+            <div class="SHOPON">
+                <span class="shop">&nbsp;Best</span>
+                <span class="on">Buy</span>
+            </div>
+                    </div>
+        <h3>LOGIN</h3>
+        <label for="email">Email</label>
+        <input type="text" placeholder="xyz@gmail.com" id="email" name="email">
+        <label for="password">Password</label>
+        <input type="password" placeholder="********" id="password" name="password">
+        <% if (error) { %>
+          <p style="color: rgb(235, 80, 80);margin-top: 8px;"><%= error %></p>
+        <% } %>
+        <button type="submit">Log In</button>
+        <div class="down">
+          <div class="signup">Dont have an account?&nbsp;&nbsp;&nbsp;<a href="/signup">Sign-up</a> 
+            <br><br>
+            <span style="display:block; color:red">forgotpassword?</span>
+            <br><br><br>
+            <div></div>
+<% if (error1) { %>
+
+  <b class="bolder"> <%=error1 %>   </b>
+
+
+<%} %> 
+
+        
+        </div>
+         </div>
+      </form>
+</body>
+</html>

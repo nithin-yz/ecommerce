@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="/css/user/otp/otp.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Enter OTP</h2>
+        <form action="/signup/otp/<%=message%>" method="POST">
+
+            <input type="text" name="otp" placeholder="Enter OTP">
+            <button type="submit">Verify</button>
+            <br>
+           <a href=#  action ="post"><button style="background-color:green">Resend OTP</button></a> 
+        </form>
+        <% if (message) { %>
+            <p class="message">otp is sucessfully send to ur <%= message %></p>
+        <% } %>
+        <% if (error) { %>
+
+
+            <p class="error"><%= error  %></p>
+            
+            <% }  %>
+            
+    </div>
+
+
+</body>
+</html>

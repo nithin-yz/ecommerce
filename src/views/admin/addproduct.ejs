@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin/addproducts.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <div class="admin-logo">
+        <img src="/images/admin/logo.png" alt="Admin Logo" />
+      </div>
+      <nav class="admin-nav">
+        <ul>
+          <li><a href="/adminhome">Home</a></li>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <h1>Add Product</h1>
+
+    <form
+      action="/adminhome/addproduct"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <label for="product">Product Name:</label>
+      <input type="text" id="product" name="productname" required />
+
+      <label for="category">category</label>
+
+      <select id="category" , name="category">
+        <option value="MEN">Men</option>
+        <option value="Woman">Woman</option>
+        <option value="Kids">Kids</option>
+        <!-- Add more options as needed -->
+      </select>
+      <!-- <input type="text" id="category" name="category" required /> -->
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description"></textarea>
+
+      <label for="image1">Image URL:</label>
+      <input type="file" id="image1" name="image1" required />
+      <label for="image2">Image URL:</label>
+      <input type="file" id="image2" name="image2" required />
+      <label for="image3">Image URL:</label>
+      <input type="file" id="image3" name="image3" required />
+
+      <label for="price">price</label>
+      <input type="text" id="price" name="price" required />
+
+      <label for="newprice">new price</label>
+      <input type="text" id="price" name="newprice" required />
+
+      <label for="newprice">stock</label>
+      <input type="text" id="stock" name="stock" required />
+
+      <button type="submit">Add Product</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+/* Resetting default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Admin header styling */
+.admin-header {
+  background-color: green;
+  color: #fff;
+  padding: 0px 47px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-logo img {
+  height: 100px;
+  width:100px
+}
+
+.admin-nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-nav ul li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.admin-nav ul li:first-child {
+  margin-left: 0;
+}
+
+.admin-nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.admin-nav ul li a:hover {
+  text-decoration: underline;
+}
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049;
+}

@@ -1,0 +1,111 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline-color: none;
+    outline: none;
+}
+body{
+    background-color: whitesmoke;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+    overflow: hidden;
+}
+form{
+    background-color: #66A2BA;;
+    height: 580px;
+    width: 430px;
+    /* position: absolute; */
+    /* transform: translate(-50%,-50%); */
+    /* top: 50%;
+    left: 50%; */
+    border-radius: 10px;
+    padding: 20px 35px;
+    font-family: 'Poppins',sans-serif;
+    /* box-shadow: 0 0 8px 2px rgb(111, 110, 110); */
+}
+.left{
+    /* width: 100%; */
+    display: flex;
+    margin-left: 30px;
+    align-items: center;
+    /* justify-content: center; */
+  }
+  .logo {
+    height: 50px;
+    width: 50px;
+  }
+  .SHOPON {
+    display: flex;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .SHOPON .on {
+    color: black;
+  }
+form h3{
+    font-size: 35px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: 40px;
+    color:black;
+}
+img{
+    height: 110px;
+    width: 150px;
+    margin-left: 100px;
+}
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    color: white;
+    display: block;
+    height: 50px;
+    width: 100%;
+    padding: 0 10px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 300;
+    border: solid 1px rgb(180, 179, 179);
+    background-color: rgba(255, 255, 255, 0.215)
+}
+::placeholder{
+    color: white;
+}
+button{
+    margin-top: 40px;
+    width: 100%;
+    background-color: #156a8c;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+.down{
+    margin-top: 50px;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color:black;
+}
+input {
+
+    outline: none;
+}
+
+.bolder{
+
+    color:rebeccapurple
+}

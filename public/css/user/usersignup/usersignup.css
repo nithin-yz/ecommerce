@@ -1,0 +1,119 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+ body{
+    background-color: whitesmoke;
+    color: white;
+ }
+  form{
+    background-color: #66A2BA;
+    height: 620px;
+    width: 500px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    padding: 0px 35px;
+    font-family: 'Poppins',sans-serif;
+    /* box-shadow:  0 0 8px 2px rgb(111, 110, 110); */
+  }
+  .left{
+    /* width: 100%; */
+    display: flex;
+    margin-left: 160px;
+    margin-top: 15px;
+    align-items: center;
+    /* justify-content: center; */
+  }
+  .logo {
+    height: 50px;
+    width: 50px;
+  }
+  .SHOPON {
+    display: flex;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .SHOPON .on {
+    color: black;
+  }
+  form h3{
+    font-size: 35px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: 30px;
+    color:#080710;
+  }
+  label{
+    display: block;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  input{
+ 
+    display: block;
+    height: 35px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.215);
+    padding: 0 10px;
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: 300;
+    border: none;
+    color:black;
+  }
+  /* input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+  } */
+  ::placeholder{
+    color: black;
+  }
+  button{
+    margin-top: 30px;
+    width: 100%;
+    background-color: #156a8c;
+    color: #080710;
+    height: 45px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+  }
+
+  button:hover{
+
+background-color:whitesmoke;
+
+  }
+  .down{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .login{
+    font-size: 18px;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
+  .redLabel{
+    color: red;
+  }
+
+
+  input,button:focus {
+    outline: none; /* Remove the default blue outline */
+}
+
