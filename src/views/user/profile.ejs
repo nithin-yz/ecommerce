@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BESTBUY</title>
+    <link rel="stylesheet" href="/css/user/userhome/header.css">
+    <link rel="shortcut icon" href="/images/userhome/logo.png" type="image/.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="./css/responsiveHome.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <style>
+        /* CSS for the forms */
+        .main-container {
+            display: flex; /* Use flexbox to position forms side by side */
+            justify-content: center; /* Center align the content */
+            align-items: flex-start; /* Align forms to the top */
+            gap: 20px; /* Add some space between the forms */
+            margin-top: 20px;
+        }
+
+
+        #profile-form {
+            width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        #profile-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        #profile-form input[type="text"],
+        #profile-form input[type="email"],
+        #profile-form input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        #profile-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #profile-form button:hover {
+            background-color: #45a049;
+        }
+
+        .address {
+            width: 50%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .address h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .address label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .address hr {
+            margin: 10px 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <section id="header">
+        <a href="#"><img class ="logo"src="/images/userhome/logo.png" alt="logo" class="logo" style="width: 80px; height: 82px;"></a>
+        <div>
+            <ul id="navbar">
+                <li class="search-bar">
+                    <input type="text" name="searchbar" id="search">
+                    <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+                </li>
+                <li><a class="active" href="/index.html" style="text-decoration: none;">Home</a></li>
+                <li><a href="./sub-pages/shop.html">Category</a></li>
+                <li><a href="/userhome/men">men</a></li>
+                <li><a href="/userhome/women">women</a></li>
+                <li><a href="/userhome/account">Account</a></li>
+                <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
+                <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                <li><a href="#">logout</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <form action="" method="POST" id="profile-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="<%= person.username %>" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<%= person.email %>" required>
+            
+            <label for="password">Phone Number:</label>
+            <input type="tel" id="password" name="phonenumber" value="<%= person.phonenumber %>" required>
+            
+            <label for="locality">Locality:</label>
+            <input type="text" id="locality" name="locality" value="<%= person1 ? person1.locality : null %>">
+            
+            <label for="landmark">Landmark:</label>
+            <input type="text" id="landmark" name="landmark" value="<%= person1 ? person1.landmark : null %>">
+            
+            <label for="pin">Pin:</label>
+            <input type="text" id="pin" name="pin" value="<%= person1 ? person1.pin : null %>">
+            
+            <button type="submit">Save Profile</button>
+        </form>
+
+        <div class="address">
+            <% if (addresses && addresses.length > 0) { %>
+                <h2>Addresses found</h2>
+                <% addresses.forEach(function(address) { %>
+                    <label>Address: <%= address %></label>
+                    <hr> <!-- Add a horizontal line between addresses -->
+                <% }); %>
+            <% } else { %>
+                <h2>No Addresses found</h2>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

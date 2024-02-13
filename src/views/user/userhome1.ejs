@@ -7,7 +7,8 @@
     <link rel="shortcut icon" href="./../../public/images/userhome/logo_black .png" type="image/x-icon">
     <link rel="stylesheet" href="/css/user/userhome/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link rel="stylesheet" href="./css/responsiveHome.css">
+    <link rel="stylesheet" href="/css/user/userhome/header.css">
+    <link rel="stylesheet" href="/css/user/userhome/responsiveHome.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
 </head>
 <body>
@@ -74,14 +75,14 @@
     </section>
 
     <section id="product1" class="section-p1">
-        <h2>Featured Products</h2>
-        <p>Summer Collection New Morden Design</p>
+        <!-- <h2>Featured Products</h2>
+        <p>Summer Collection New Morden Design</p> -->
         <div class="pro-container">
             <% products.forEach(function(product) { %>
-                <div class="pro">
-                    <img src="/uploads/<%= product.image1 %>" alt="<%= product.name %>">
+              <div class="pro">
+                   <a href="/userhome/usershowproduct/<%=product._id%>"><img src="/uploads/<%= product.image1 %>" alt="<%= product.name %>"></a> 
                     <div class="des">
-                        <span><%= product.price %></span>
+                        <span><s><%=  product.price %></s></span>
                         <h5><%= product.name %></h5>
                         <div class="star">
                             <% for (let i = 0; i < product.rating; i++) { %>

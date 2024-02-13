@@ -3,7 +3,7 @@ const { user, product } = require("../../models/databaseschema");
 const serviceID = "VAc66fc21c45c044d1ab1ccdfac90eab3c";
 // const serviceID ="MG97f0b3d1d7e90d4569dfcea3323b08dc"
 const accountID = "AC27dfaf6dc082030c3200209807da96fc";
-const authToken = "a48db1c74efb1558d40dbdd261135508";
+const authToken = "342ec8950109dbcc43494e64689f300f";
 const client = require("twilio")(accountID, authToken);
 
 exports.userhomeget = async (req, res) => {
@@ -29,7 +29,17 @@ if(findperson){
 
     if(check){
 req.session.email = email
-res.redirect("/userhome")
+
+if(findperson.verified == true){
+
+res.status(200).redirect("/userhome")
+
+}
+const cell =findperson.phone 
+res.status(200).redirect(`/signup/otp/${cell}`)
+
+
+
     }else{
 
       req.flash('error1'," incorrect login details ")
@@ -86,13 +96,13 @@ exports.signuppost = async (req, res) => {
  const p =   await newuser.save();
 console.log(p)
 if (p){
-    await client.verify.v2
-      .services(serviceID)
-      .verifications.create({
-        to: `+91${phone}`,
-        channel: "sms",
-      })
-      .catch((err) => console.log(err));
+    // await client.verify.v2
+    //   .services(serviceID)
+    //   .verifications.create({
+    //     to: `+91${phone}`,
+    //     channel: "sms",
+    //   })
+    //   .catch((err) => console.log(err));
 
     res.redirect(`/signup/otp/${phone}`)}
   } catch (err) {
@@ -105,6 +115,20 @@ if (p){
 exports.otpget = async (req, res) => {
   try {
     const phone = req.params.id;
+
+
+    await client.verify.v2
+    .services(serviceID)
+    .verifications.create({
+      to: `+91${phone}`,
+      channel: "sms",
+    })
+    .catch((err) => console.log(err));
+
+
+
+
+
     // console.log(phone)
     res.render("user/otp", { message: phone, error: req.flash("error") });
   } catch {}
@@ -152,6 +176,26 @@ exports.otppost = async (req, res) => {
 exports.menget = async (req,res)=>{
 
 res.render("user/men")
+
+
+}
+ 
+exports.womenget =async (req,res)=>{
+
+
+
+res.status(200).render("user/women")
+
+
+
+}
+
+exports.profileget = async(req,res)=>{
+
+
+
+res.render("user/profile",{person:"", person1:"", addresses:""})
+
 
 
 }

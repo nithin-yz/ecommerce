@@ -80,3 +80,53 @@ return res.json({sucess:true})
     res.send("error")
 }
 }
+
+exports.showproductget = async (req,res)=>{
+
+try{
+
+    let prod = await product.find()
+res.status(200).render("admin/showproduct",{product:prod})
+
+
+}catch{
+
+
+
+}
+
+
+
+
+}
+
+
+exports.deleteproduct =async(req,res)=>{
+
+try{
+
+    console.log(req.params)
+    const {id} =req.params
+    console.log(id)
+    const finder = await product.findById(id)
+    if(finder){
+        console.log("true")
+        // return res.send("true")
+        return res.json({success:true})}
+        else{
+return res.json({success:false})
+            
+        }
+
+}catch(err){
+console.log(err)
+
+
+}
+
+
+
+
+
+
+}

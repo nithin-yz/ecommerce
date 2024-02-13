@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/admin/userlistshow.css">
+</head>
+<style>
+
+table{
+
+    width:75%;
+    margin-left: 50px;
+}
+
+.size td {
+
+height:50px;
+width:50px;
+box-sizing: content-box;
+}
+h1{
+    margin-left: 29%;
+/* text-align: center; */
+    
+}
+
+
+
+</style>
+<body>
+    <header class="admin-header">
+        <div class="admin-logo">
+          <img src="/images/admin/logo.png" alt="Admin Logo">
+        </div>
+        <nav class="admin-nav">
+          <ul>
+            <li><a href="/adminhome">Home</a></li>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </nav>
+    </header>
+    <h1>Product List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>NO</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Newprice</th> <!-- Added "Phone Number" column -->
+                <th>Delete</th> <!-- Added column for delete button/icon -->
+            </tr>
+        </thead>
+        <tbody>
+            <% var i = 0 %>
+            <% product.forEach(function(user) { %>
+            <tr class="size">
+                <%  i++ %>
+                <td><%= i %></td>
+                <td><img style="width:70px"  src="/uploads/<%=user.image1 %>" alt="" srcset="" ></td>
+                <td><%= user.productname %></td>
+                <td><%= user.price%></td>
+                <td><%= user.newprice %></td> <!-- Added "Phone Number" cell -->
+                <td>
+                    <!-- Delete button/icon -->
+                    <button onclick="deleteuser('<%= user._id %>')">Delete</button>
+                    <!-- <button onclick="edituser('<%= user._id %>')">Edit</button> -->
+                    <!-- You can replace the button with an icon if desired -->
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    
+    <!-- JavaScript function to handle user deletion -->
+  <script src="/script/deleteproduct.js"></script>
+  <!-- <script src="/script/edituser.js"></script> -->
+</body>
+</html>

@@ -89,6 +89,24 @@ ref:"product"
 
 })
 
+const userprofile = 
+mongoose.Schema({
+address:{type:String},
+landmark:{type:String},
+locality:{type:String},
+pin:{type:String},
+ref:{type:mongoose.Types.ObjectId}
+
+
+})
+
+
+
+
+
+
+
+
 
 
 
