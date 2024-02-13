@@ -2,12 +2,12 @@ const bar = document.getElementById("bar");
 const nav = document.getElementById("navbar");
 const close = document.getElementById("close");
 if (bar) {
-  bar.addEventListener("click", () => {
+  bar.addEventListener("focus", () => {
     nav.classList.add("active");
   });
 }
 if (close) {
-    close.addEventListener("click", () => {
+    close.addEventListener("focus", () => {
       nav.classList.remove("active");
     });
   }

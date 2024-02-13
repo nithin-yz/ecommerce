@@ -83,7 +83,7 @@
                    <a href="/userhome/usershowproduct/<%=product._id%>"><img src="/uploads/<%= product.image1 %>" alt="<%= product.name %>"></a> 
                     <div class="des">
                         <span><s><%=  product.price %></s></span>
-                        <h5><%= product.name %></h5>
+                        <h5><%= product.productname %></h5>
                         <div class="star">
                             <% for (let i = 0; i < product.rating; i++) { %>
                                 <i class="fa-solid fa-star"></i>
@@ -151,6 +151,6 @@
         <!-- Your footer section content -->
     </footer>
 
-    <script src="../../public/script/userhome.js"></script>
+    <script src="/script/userhome.js"></script>
 </body>
 </html>
