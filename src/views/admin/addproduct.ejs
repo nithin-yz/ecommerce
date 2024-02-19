@@ -33,12 +33,29 @@
 
       <label for="category">category</label>
 
-      <select id="category" , name="category">
-        <option value="MEN">Men</option>
-        <option value="Woman">Woman</option>
-        <option value="Kids">Kids</option>
+      <select id="category" , name="category" class="category">
+        <option value =""></option>
+        <% if(categories){ %>
+
+   <% categories.forEach(function (eacher){ %>
+
+<option value="<%=eacher.category %>"><%=eacher.category%></option>
+
+
+
+  <%}) %>
+<% } %>
+ 
         <!-- Add more options as needed -->
       </select>
+
+
+      <label for="subcategory">subcategory</label>
+
+      <select id="subcategory" class="subcategory" , name="subcategory">
+           <!-- Add more options as needed -->
+      </select>
+
       <!-- <input type="text" id="category" name="category" required /> -->
 
       <label for="description">Description:</label>
@@ -55,12 +72,13 @@
       <input type="text" id="price" name="price" required />
 
       <label for="newprice">new price</label>
-      <input type="text" id="price" name="newprice" required />
+      <input type="text" id="newprice" name="newprice" required />
 
-      <label for="newprice">stock</label>
+      <label for="stock">stock</label>
       <input type="text" id="stock" name="stock" required />
 
       <button type="submit">Add Product</button>
     </form>
+    <script src="/script/addproduct.js"></script>
   </body>
 </html>

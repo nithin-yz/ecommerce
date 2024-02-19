@@ -34,14 +34,14 @@ emaillab.style.color="red"
 phone.onblur =()=>{
 
 if(!(phoneNumberRegex.test(phone.value))){
-
+console.log("hi")
 phonelab.textContent="invalid phone number"
 phonelab.style.color="red"
 
 }else{
 
-    emaillab.innerText="Phone"
-    emaillab.style.color="white"
+    phonelab.innerText="Phone"
+    phonelab.style.color="white"
 }
 
 
@@ -49,7 +49,7 @@ phonelab.style.color="red"
 
 password.onblur =()=>{
 if(!passwordRegex.test(password.value)){
-
+console.log("true")
 passlab.textContent="Password must contain @Aa1"
 passlab.style.color="red"
 

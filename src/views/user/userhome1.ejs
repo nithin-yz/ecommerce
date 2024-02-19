@@ -20,11 +20,27 @@
                     <input type="text" name="searchbar" id="search">
                     <i class="fa-solid fa-magnifying-glass" id="icon"></i>
                 </li>
-                <li><a class="active" href="#" style="text-decoration: none;">Home</a></li>
+                <li><a class="active" href="/userhome" style="text-decoration: none;">Home</a></li>
                 <li><a href="./sub-pages/shop.html">Category</a></li>
                 <li><a href="/userhome/men">men</a></li>
                 <li><a href="/userhome/women">women</a></li>
-                <li><a href="/userhome/account">Account</a></li>
+
+           
+<%if (user1.length>0)  {  %>
+
+    
+             
+                <li><a href="/userhome/account/<%=user1[0]._id%>">Account</a></li>
+
+<%  }  else {%> 
+
+    <li><a href="/userhome/account/">Account</a></li>
+
+
+<%}     %>       
+
+
+
                 <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li> <!-- Heart icon for wishlist -->
                 <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li> <!-- Existing cart symbol -->
                 <li><a href="#">logout</a></li>

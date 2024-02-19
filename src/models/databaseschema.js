@@ -23,9 +23,12 @@ const productschema = mongoose.Schema({
   
 
   category: { type: String, required: true },
+  subcategory:{type:String, required:true},
 
   price: { type: Number, required: true },
   newprice: { type: Number,required:true },
+  stock: {type:Number, required:true}
+
 });
 
 const cartscheme = mongoose.Schema({
@@ -89,13 +92,26 @@ ref:"product"
 
 })
 
-const userprofile = 
+const userprofileschema = 
 mongoose.Schema({
 address:{type:String},
 landmark:{type:String},
 locality:{type:String},
 pin:{type:String},
 ref:{type:mongoose.Types.ObjectId}
+
+
+})
+
+const categoryschema = mongoose.Schema({
+
+category:{type:String}
+,
+subcategory:{type:Array,
+  required :true
+
+
+},
 
 
 })
@@ -116,4 +132,6 @@ user = mongoose.model("User", userschema, "User");
 product = mongoose.model("product", productschema, "product");
 cart = mongoose.model("cart", cartscheme,"cart");
 wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
-module.exports = { user, product,cart,wishlist };
+userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
+category = mongoose.model("category", categoryschema, "category")
+module.exports = { user, product,cart,wishlist, userprofile ,category};

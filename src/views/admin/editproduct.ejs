@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="/css/admin/editproduct.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="admin-logo">
+            <img src="/images/admin/logo.png" alt="Admin Logo">
+        </div>
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="/adminhome">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Edit Product</h1>
+
+    <div class="edit-product-container">
+        <div class="product-details">
+            <form id="editProductForm"action="/adminhome/edit/?productid=<%=product.id%>" method="POST" enctype="multipart/form-data">
+                <label for="product">Product Name:</label>
+                <input type="text" id="product" name="productname" required value="<%= product.productname %>">
+
+                <label for="category">Category:</label>
+                <select id="category" name="category" class="category">
+                 <option value="<%=product.category%>"><%=product.category%></option>
+                </select>
+
+                <label for="subcategory">Subcategory:</label>
+                <select id="subcategory" class="subcategory" name="subcategory">
+                    <option value="<%=product.subcategory%>"><%=product.subcategory%></option>
+
+                </select>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required><%= product.description %></textarea>
+
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" required value="<%=product.price %>">
+
+                <label for="newprice">New Price:</label>
+                <input type="text" id="newprice" name="newprice" required value="<%=product.newprice %>">
+
+                <label for="stock">Stock:</label>
+                <input type="text" id="stock" name="stock" required value="<%=product.stock %>">
+
+                <label for="image">Product Image:</label>
+                <div class="product-images">
+                  <img src="/uploads/<%=product.image1 %>" alt="" srcset="">
+                  <img src="/uploads/<%=product.image2 %>" alt="" srcset="">
+                  <img src="/uploads/<%=product.image3 %>" alt="" srcset="">
+                </div>
+
+
+           
+                <label for="newImages">Upload New Images:</label>
+
+                <img id="preview1" src="" alt="" style="max-width: 100px; max-height: 100px;">
+                <img id="preview2" src="" alt="" style="max-width: 100px; max-height: 100px;">
+                <img id="preview3" src="" alt="" style="max-width: 100px; max-height: 100px;">
+
+                <input type="file" id="newImages"  value="<%=product.image1%>" name="image1" accept="image/*" onchange="previewImage(event, 'preview1')">
+                <input type="file" id="newImages" name="image2" accept="image/*" onchange="previewImage(event, 'preview2')">
+                <input type="file" id="newImages" name="image3" accept="image/*" onchange="previewImage(event, 'preview3')">
+           
+                <button type="submit">Update Product</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+    <script src="/script/editproduct.js"></script>
+    
+   
+<script>
+
+</script>
+</body>
+</html>

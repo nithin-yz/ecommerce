@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/admin/userlistshow.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    
+
+    
 </head>
 <style>
 
@@ -30,7 +36,7 @@ h1{
 
 </style>
 <body>
-    <header class="admin-header">
+    <header class="admin-header" style="background-color: lightblue;">
         <div class="admin-logo">
           <img src="/images/admin/logo.png" alt="Admin Logo">
         </div>
@@ -53,6 +59,7 @@ h1{
                 <th>Price</th>
                 <th>Newprice</th> <!-- Added "Phone Number" column -->
                 <th>Delete</th> <!-- Added column for delete button/icon -->
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -68,9 +75,16 @@ h1{
                 <td>
                     <!-- Delete button/icon -->
                     <button onclick="deleteuser('<%= user._id %>')">Delete</button>
-                    <!-- <button onclick="edituser('<%= user._id %>')">Edit</button> -->
-                    <!-- You can replace the button with an icon if desired -->
+                   
                 </td>
+                <td>
+                 
+                    <button onclick="editproduct('<%= user._id %>')">
+                        <i class="fas fa-edit"></i> 
+                    </button>
+                   
+                </td>
+                
             </tr>
             <% }); %>
         </tbody>
@@ -78,6 +92,9 @@ h1{
     
     <!-- JavaScript function to handle user deletion -->
   <script src="/script/deleteproduct.js"></script>
-  <!-- <script src="/script/edituser.js"></script> -->
+  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 </body>
 </html>

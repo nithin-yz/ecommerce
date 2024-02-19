@@ -7,8 +7,8 @@
 
 /* Admin header styling */
 .admin-header {
-  background-color: green;
-  color: #fff;
+  background-color: lightblue;
+  color: black;
   padding: 0px 47px;
   display: flex;
   justify-content: space-between;
@@ -29,6 +29,7 @@
 .admin-nav ul li {
   display: inline-block;
   margin-left: 20px;
+  
 }
 
 .admin-nav ul li:first-child {
@@ -36,7 +37,7 @@
 }
 
 .admin-nav ul li a {
-  color: #fff;
+  color:black;
   text-decoration: none;
 }
 
@@ -68,6 +69,7 @@ label {
   display: block;
   margin-bottom: 8px;
   color: #333;
+  margin-top: 10px;
 }
 
 input,
@@ -92,4 +94,13 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+
+.category, .subcategory{
+
+
+width:100%;
+height:35px;
+
+
 }

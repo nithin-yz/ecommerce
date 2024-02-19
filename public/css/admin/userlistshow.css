@@ -36,12 +36,14 @@
   }
   
   .admin-nav ul li a {
-    color: #fff;
+    /* color: #fff; */
     text-decoration: none;
+    color: #000;
   }
   
   .admin-nav ul li a:hover {
     text-decoration: underline;
+    color:red;
   }
   body {
     font-family: "Arial", sans-serif;

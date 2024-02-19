@@ -1,0 +1,164 @@
+/* Existing CSS styles */
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.add-form,
+.added-items {
+    width: 45%;
+}
+
+.add-form form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-form h2,
+.added-items h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.add-form label,
+.added-items label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.add-form input[type="text"],
+.add-form select,
+.added-items .name {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.add-form button,
+.added-items button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.added-items {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.items-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.category,
+.subcategory {
+    margin-bottom: 20px;
+}
+
+.category .name,
+.subcategory .name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.delete-category,
+.delete-subcategory {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #dc3545;
+}
+
+.delete-category:hover,
+.delete-subcategory:hover {
+    color: #c82333;
+}
+
+/* New styles for categories */
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Each column will be at least 300px wide */
+    grid-gap: 20px; /* Add gap between grid items */
+}
+
+.category {
+    width: 100%; /* Each category takes full width of its grid cell */
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.subcategories {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.subcategory {
+    margin-bottom: 5px;
+    font-size: 14px; /* Adjust the font size for subcategories */
+    width: 100%; /* Ensure subcategories take full width */
+}
+
+/* Additional styles */
+.added-items {
+    width: 45%; /* Adjust the width of the second div */
+    margin-left: 20px; /* Add margin to separate the two divs */
+}
+
+.delete-subcategory {
+    font-size: 14px; /* Adjust the size of the delete button */
+    padding: 5px 10px; /* Adjust the padding of the delete button */
+}
+
+/* New styles for delete buttons */
+.delete-sub {
+    background-color: #28a745; /* Green background color */
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Adjust the padding of the delete button */
+    border-radius: 3px; /* Add some border radius */
+    cursor: pointer;
+    font-size: 12px; /* Adjust the font size of the delete button */
+    margin-left: 5px; /* Add some margin to separate the delete button */
+}
+
+.delete-sub:hover {
+    background-color: #218838; /* Darker green color on hover */
+}
+
+/* Additional styles */
+.subcategory {
+    display: flex;
+    justify-content: center; /* Center subcategories horizontally */
+    align-items: center; /* Center subcategories vertically */
+}
+
+#sub2 {
+    width: 4px;
+    height: 4px;
+    font-size: 10px;
+    background-color: #218838;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,134 @@
+/* editproduct.css */
+
+/* Reset default margin and padding */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Apply styles to the header */
+.admin-header {
+    background-color:lightblue;
+    color: black;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a{
+
+ color:black;
+text-decoration: none;
+}
+
+a:hover{
+color:red;
+    text-decoration: line;
+}
+
+.admin-header img {
+    height: 40px;
+}
+
+.admin-nav ul  {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.admin-nav ul li:last-child {
+    margin-right: 0;
+}
+
+/* Style the edit product container */
+.edit-product-container {
+    display: flex;
+    flex-direction: column; /* Added to stack items vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Adjusted to min-height for centering */
+}
+
+/* Style the product details form */
+.product-details {
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.product-details label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-details input[type="text"],
+.product-details textarea,
+.product-details select,
+.product-details button,
+.product-details input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.product-details button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.product-details button:hover {
+    background-color: #45a049;
+}
+
+/* Style the product images section */
+.product-images {
+    margin-bottom: 20px;
+    display: flex;
+  width: 100px;
+}
+
+.product-images img {
+   
+   
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px; /* Add some space between images */
+
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .edit-product-container {
+        padding: 0 20px;
+    }
+
+    .product-details {
+        width: 100%;
+    }
+}
+
+h1{
+    display: flex;
+  justify-content: center;
+}
+.admin-logo img{
+
+    width: 74px;
+    height:65px;
+}

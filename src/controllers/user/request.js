@@ -1,17 +1,26 @@
 const bcrypt = require("bcrypt");
-const { user, product } = require("../../models/databaseschema");
+const { user, product, userprofile } = require("../../models/databaseschema");
 const serviceID = "VAc66fc21c45c044d1ab1ccdfac90eab3c";
 // const serviceID ="MG97f0b3d1d7e90d4569dfcea3323b08dc"
 const accountID = "AC27dfaf6dc082030c3200209807da96fc";
 const authToken = "342ec8950109dbcc43494e64689f300f";
 const client = require("twilio")(accountID, authToken);
+const mongoose = require("mongoose");
+
 
 exports.userhomeget = async (req, res) => {
   try {
     const p = await product.find()
-    res.render("user/userhome1", {products:p});
+
+    res.render("user/userhome1", {products:p, user1:req.flash("details")});
+
+
+
+
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+
+
   }
 };
 
@@ -32,7 +41,14 @@ req.session.email = email
 
 if(findperson.verified == true){
 
-res.status(200).redirect("/userhome")
+  const userfinder = await user.findOne({email:email})
+ 
+
+  req.flash("details",userfinder)
+
+
+
+return res.status(200).redirect('/userhome')
 
 }
 const cell =findperson.phone 
@@ -55,7 +71,7 @@ req.flash('error1',"user doesnt exist please signup ")
 
 }catch(err){
 
-console.log(err)
+// console.log(err)
 
 
 }
@@ -192,10 +208,74 @@ res.status(200).render("user/women")
 
 exports.profileget = async(req,res)=>{
 
-
-
-res.render("user/profile",{person:"", person1:"", addresses:""})
+const id =  req.params.id
+const person = await user.findById(id)
+const userid = new mongoose.Types.ObjectId(id)
+const address1 = await user.aggregate([
+  {$match:{_id:userid}},
+  {$lookup:{from:'userprofile', localField:"_id",foreignField:"ref", as:"address"}}])
+// console.log(address1[0].address)
+const address = address1[0].address
+res.render("user/profile",{person, address, person1:"",alert:""})
 
 
 
 }
+
+exports.cartget = async(req,res)=>{
+
+  res.render("user/cart")
+}
+
+
+exports.profilepost = async(req,res)=>{
+try{
+  const id = req.params.id
+const {address,pin,locality,landmark} = req.body
+const obid = new mongoose.Types.ObjectId(id)
+
+
+collection = await userprofile.find({ref:id})
+
+if (!(collection.length>=3)){
+
+
+const profile = new userprofile ({
+
+  address,
+  pin,
+  locality,
+  landmark,
+  ref:obid
+
+})
+
+
+
+await profile.save()
+
+
+const findarray =await userprofile.find({ref:id})
+
+
+res.redirect(`/userhome/account/${id}`)
+}else{
+
+// alert("you already have 3 addresses in your list")
+res.redirect(`/userhome/account/${id}?alert=exceeded the limit of adding address`)
+
+}    }
+
+
+
+
+
+catch(error){
+
+// console.log(error)
+
+
+
+}
+}
+

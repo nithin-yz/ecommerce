@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/css/user/userhome/header.css">
     <link rel="shortcut icon" href="/images/userhome/logo.png" type="image/.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link rel="stylesheet" href="./css/responsiveHome.css">
+    <link rel="stylesheet" href="/css/user/userhome/responsiveHome.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+   
     <style>
         /* CSS for the forms */
         .main-container {
@@ -83,8 +84,42 @@
             border: none;
             border-top: 1px solid #ccc;
         }
+        input[readonly] {
+    cursor: not-allowed; 
+}
+
+.alertMessage {
+    background-color: #45A049; /* Red background color */
+    color: white; /* White text color */
+    padding: 15px; /* Padding */
+    margin-bottom: 20px; /* Bottom margin */
+    border-radius: 5px; /* Rounded corners */
+    display: none; /* Hidden by default */
+    text-align: center;
+}
+
+.alertMessage.show {
+    display: block; /* Show the alert */
+}
+
+/* You can add more styles as needed */
+
+.delete-btn {
+
+    border:none;
+    background: wheat;
+}
+
+
+
     </style>
+
+
+
+
 </head>
+
+
 <body>
     <section id="header">
         <a href="#"><img class ="logo"src="/images/userhome/logo.png" alt="logo" class="logo" style="width: 80px; height: 82px;"></a>
@@ -107,15 +142,20 @@
     </section>
 
     <div class="main-container">
-        <form action="" method="POST" id="profile-form">
+        <form action="#" method="POST" id="profile-form">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<%= person.username %>" required>
-            
+            <input type="text" id="username" name="username" value="<%= person.username %>" readonly>
+        
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= person.email %>" required>
+            <input type="email" id="email" name="email" value="<%= person.email %>" readonly>
             
             <label for="password">Phone Number:</label>
-            <input type="tel" id="password" name="phonenumber" value="<%= person.phonenumber %>" required>
+            <input type="tel" id="password" name="phonenumber" value="<%= person.phone %>" readonly>
+
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" placeholder="houseno street">
+            
             
             <label for="locality">Locality:</label>
             <input type="text" id="locality" name="locality" value="<%= person1 ? person1.locality : null %>">
@@ -126,20 +166,32 @@
             <label for="pin">Pin:</label>
             <input type="text" id="pin" name="pin" value="<%= person1 ? person1.pin : null %>">
             
-            <button type="submit">Save Profile</button>
+            <button type="submit">Save</button>
         </form>
 
         <div class="address">
-            <% if (addresses && addresses.length > 0) { %>
+            <% if (address && address.length > 0) { %>
+                <%let i=0 %>
                 <h2>Addresses found</h2>
-                <% addresses.forEach(function(address) { %>
-                    <label>Address: <%= address %></label>
+                <% address.forEach(function(address) { %>
+                    <% i++%>
+                    <span id="<%=address._id %>"><%=i%>: <%= address.address+","+address.landmark+","+address.locality+","+address.pin%> <br>
+                    <button style="margin-left: 720px;" class="delete-btn" addressid ="<%= address._id %>"> <i class="fa-solid fa-trash"></i></button>
                     <hr> <!-- Add a horizontal line between addresses -->
+                </span>
                 <% }); %>
             <% } else { %>
                 <h2>No Addresses found</h2>
             <% } %>
+            <div id="alertMessage" class="alertMessage <%= alert ? 'show' : 'hidden' %>">
+                <%= alert %>
+            </div>
         </div>
     </div>
+    
+  
+
 </body>
 </html>
+<script src="/script/alertmessageforadress.js"></script>
+<script src="/script/deleteaddress.js"></script>
