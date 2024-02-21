@@ -116,6 +116,46 @@ subcategory:{type:Array,
 
 })
 
+const bannerSchema = new mongoose.Schema({
+  bannername: {
+      type: String,
+      required: true
+  },
+  bannerimage: {
+      type: String, // Assuming you're storing image URLs
+      required: true
+  },
+  bannercontent: {
+      type: String,
+      required: true
+  }
+});
+
+const couponSchema = new mongoose.Schema({
+  code: {
+      type: String,
+      required: true,
+      unique: true
+  },
+  expiryDateTime: {
+      type: Date,
+      required: true
+  },
+  addedAt: {
+      type: Date,
+      default: Date.now
+  },
+  priceAbove: {
+      type: Number,
+      required: true,
+      min: 0
+  },
+  offerPrice: {
+      type: Number,
+      required: true,
+      min: 0
+  }
+});
 
 
 
@@ -127,11 +167,12 @@ subcategory:{type:Array,
 
 
 
-
-user = mongoose.model("User", userschema, "User");
-product = mongoose.model("product", productschema, "product");
-cart = mongoose.model("cart", cartscheme,"cart");
-wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
-userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
-category = mongoose.model("category", categoryschema, "category")
-module.exports = { user, product,cart,wishlist, userprofile ,category};
+const Coupon = mongoose.model('Coupon', couponSchema,'Coupon')
+const user = mongoose.model("User", userschema, "User");
+const product = mongoose.model("product", productschema, "product");
+const cart = mongoose.model("cart", cartscheme,"cart");
+const wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
+const userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
+const category = mongoose.model("category", categoryschema, "category")
+const banner =  mongoose.model("banner", bannerSchema, "banner")
+module.exports = { user, product,cart,wishlist, userprofile ,category,banner};

@@ -10,7 +10,22 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload =multer({storage:storage})
+const bannerstorage = multer.diskStorage({
+destination :function(req,file,cb) {
+    cb(null,'public/uploadbanner');
+},
+filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+}
+})
 
-module.exports = upload;
+
+const upload =multer({storage:storage})
+const uploadbanner =multer({storage :bannerstorage})
+
+
+
+
+
+module.exports = {upload,uploadbanner};
 

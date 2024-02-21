@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { user, product, userprofile } = require("../../models/databaseschema");
+const { user, product, userprofile,banner} = require("../../models/databaseschema");
 const serviceID = "VAc66fc21c45c044d1ab1ccdfac90eab3c";
 // const serviceID ="MG97f0b3d1d7e90d4569dfcea3323b08dc"
 const accountID = "AC27dfaf6dc082030c3200209807da96fc";
@@ -11,8 +11,9 @@ const mongoose = require("mongoose");
 exports.userhomeget = async (req, res) => {
   try {
     const p = await product.find()
+const banner1 = await banner.find()
 
-    res.render("user/userhome1", {products:p, user1:req.flash("details")});
+    res.render("user/userhome1", {products:p, user1:req.flash("details"),banner1});
 
 
 

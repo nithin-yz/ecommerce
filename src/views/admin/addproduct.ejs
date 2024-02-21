@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel</title>
     <link rel="stylesheet" href="/css/admin/addproducts.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </head>
   <body>
     <header class="admin-header">
@@ -27,6 +28,7 @@
       action="/adminhome/addproduct"
       method="POST"
       enctype="multipart/form-data"
+      id="uploadForm"
     >
       <label for="product">Product Name:</label>
       <input type="text" id="product" name="productname" required />

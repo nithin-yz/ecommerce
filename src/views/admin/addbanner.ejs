@@ -1,0 +1,90 @@
+<!-- index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Banner</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="/css/admin/addbanner.css">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="banner-form" style="line-height: 35px; height: 605px;">
+            <div class="banner">
+                <h1>Upload Banner</h1>
+            </div>
+            <form id="uploadForm" action="/adminhome/addbanner" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="bannerName">Banner Name:</label>
+                    <input type="text" id="bannerName" name="bannername" required>
+                </div>
+                <div class="form-group">
+                    <label for="bannerImage">Choose Banner Image:</label>
+                    <input type="file" id="bannerImage" name="bannerimage" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="bannerContent">Banner Content:</label>
+                    <textarea id="bannerContent" name="bannercontent" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Upload Banner</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="banner-list">
+            <h2>Existing Banners</h2>
+            <div id="existingBanners">
+                <% banners.forEach(function(banner) { %>
+                    <div class="banner-item" data-banner-id="<%= banner._id %>">
+                        <img src="/uploadbanner/<%=banner.bannerimage %>" alt="Banner Image">
+                        <p class="banner-name">Name: <%= banner.bannername %></p>
+                        <p class="banner-content">Content: <%= banner.bannercontent %></p>
+                        <div class="banner-options">
+                            <button onclick="editBanner('<%=banner._id%>')">Edit</button>
+
+
+                            <button onclick="deleteBanner('<%= banner._id %>')">Delete</button>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <!-- overlay form -->
+    <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close-button" onclick="closeOverlay()">X</span>
+            <h2>Edit Banner</h2>
+            <!-- Edit banner form -->
+            <form id="editBannerForm">
+                <div class="form-group" style="width:286px;height:64px; border-radius: 10px;">
+                    <label for="editBannerName">Banner Name:</label>
+                        <input type="text" id="editBannerName" name="editBannerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBannerContent">Banner Content:</label>
+                        <textarea id="editBannerContent" name="editBannerContent" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editImageContent">Banner Image:</label>
+                        <input type=file id ="editImageContent" name="editImageContent" required>
+                    </div>
+                    <input type="hidden" id="bannerIdInput" name="bannerId">
+
+                    <div class="form-group" >
+                        <button type="button" onclick="saveBanner()">Save</button>
+                        <button type="button" onclick="closeOverlay()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    <script src="/script/addbanner.js"></script>
+        
+    </body>
+    </html>

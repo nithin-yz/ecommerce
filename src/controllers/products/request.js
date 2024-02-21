@@ -92,7 +92,8 @@ res.sendStatus(204)
 
   }
 
-  exports.deletesubcategory =async(req,res)=>{
+  exports.
+  deletesubcategory =async(req,res)=>{
    try{ const obid= req.body.id
     const subcat = req.body.subcategory
 

@@ -1,12 +1,12 @@
 const express = require("express");
 const multer = require('multer')
-const upload = require("../middlewares/multer")
+const {upload, uploadbanner }= require("../middlewares/multer")
 const route = express.Router();
 
 const {loginget} = require("../controllers/common/request")
 const{signupget} =  require("../controllers/common/request")
 const {userhomeget,signuppost,otpget,otppost,loginpost,menget,womenget,profileget,cartget,profilepost} = require("../controllers/user/request")
-const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, } = require("../controllers/admin/request");
+const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, addbannerget,addbannerpost, deletebannerget,bannerupdatepost} = require("../controllers/admin/request");
 const { usershowproducts,addcategoryget, addcategorypost, addsubcategorypost,deletecategory,deletesubcategory,editaproductget,editaproductpost} = require("../controllers/products/request");
 route.get(["/","/login"], loginget)
 route.get("/signup", signupget)
@@ -37,7 +37,11 @@ route.post("/delete/category",deletecategory)
 route.post("/delete/subcategory",deletesubcategory)
 route.get("/adminhome/edit/", editaproductget)
 route.post("/adminhome/edit/" ,upload.fields([{name:'image1'},{name:'image2'}, {name:'image3'}]),editaproductpost)
+route.get("/adminhome/addbanner",addbannerget)
 
+route.post("/adminhome/addbanner", uploadbanner.single('bannerimage'), addbannerpost);
+route.get("/adminhome/deletebanner/",deletebannerget)
+route.post('/adminhome/updatebanner', uploadbanner.single('imagefile'),bannerupdatepost)
 
 
 

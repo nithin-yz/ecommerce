@@ -1,4 +1,6 @@
-const {user,product,userprofile, category}= require("../../models/databaseschema")
+const {user,product,userprofile, category,banner}= require("../../models/databaseschema")
+const fs = require('fs');
+const path = require('path')
 
 
 exports.adminget =async (req,res)=>{
@@ -53,7 +55,7 @@ subcategory
 })
 
 await newproduct.save()
-res.send("product saved sucessfully")
+res.redirect("/adminhome")
 
 }
 
@@ -188,10 +190,92 @@ console.log("error happend somewhere whe taking subcategory")
 }
 
 
+exports.addbannerget = async(req,res)=>{
+const banners = await banner.find()
+res.render("admin/addbanner",{banners})
 
 
 
 
+}
+
+exports.addbannerpost = async(req, res) => {
+    try {
+
+        const bannername = req.body.bannername;
+        const bannercontent = req.body.bannercontent;
+        const bannerimage = req.file.filename;
+        
+        // Create new banner
+        const newbanner = new banner({ bannername, bannerimage, bannercontent });
+  
+        await newbanner.save();
+        
+       
+        res.redirect("/adminhome/addbanner");
+    } catch (err) {
+        
+        console.log(err); // Redirect to admin home page even if an error occurs
+    }
+};
+ 
 
 
 
+exports.deletebannerget = async(req,res)=>{
+
+const id = req.query.id
+
+const  finder  = await banner.findByIdAndDelete(id)
+console.log(finder)
+
+const filePath = path.join(__dirname, '..','..','..','public' ,'uploadbanner',  finder.bannerimage); 
+console.log(filePath)
+
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error('Error deleting file:', err);
+            // return res.status(500).json({ error: "Internal server error" });
+        }
+        console.log('File deleted successfully');
+    });
+
+
+
+if (finder){
+
+
+    res.json({"ok":"true"})
+}else{
+
+    res.json({"ok":"false"})
+
+}
+
+
+}
+
+exports.bannerupdatepost = async (req, res) => {
+    try {
+        
+        const id = req.body.obid;
+        const bannername = req.body.bannername;
+        const bannercontent = req.body.bannercontent;
+        let bannerimage;
+
+        if (req.file && req.file.filename) {
+            bannerimage = req.file.filename;
+          
+            await banner.findByIdAndUpdate(id, { bannername, bannerimage, bannercontent });
+        } else {
+            await banner.findByIdAndUpdate(id, { bannername, bannercontent });
+        }
+
+        // Send a JSON response indicating success
+        res.status(200).json({ success: true, message: "Banner updated successfully" });
+    } catch (error) {
+        console.error("Error updating banner:", error);
+        // Send a JSON response indicating failure
+        res.status(500).json({ success: false, error: "An error occurred while updating the banner" });
+    }
+};
