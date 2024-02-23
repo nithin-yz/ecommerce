@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
       setTimeout(function() {
           // Proceed with the form submission
           form.submit();
-      }, 3000);
+      }, 1000);
       
   });
 });

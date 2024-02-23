@@ -30,6 +30,12 @@
       enctype="multipart/form-data"
       id="uploadForm"
     >
+    <%if(error){ %>
+
+      <p style="color:red"><%=String(error).toUpperCase()%></p>
+      
+      
+          <% } %>
       <label for="product">Product Name:</label>
       <input type="text" id="product" name="productname" required />
 
@@ -80,7 +86,9 @@
       <input type="text" id="stock" name="stock" required />
 
       <button type="submit">Add Product</button>
+     
+            <script src="/script/addproduct.js"></script>
     </form>
-    <script src="/script/addproduct.js"></script>
+  
   </body>
 </html>

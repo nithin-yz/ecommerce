@@ -28,36 +28,55 @@ const subcategories = categories.reduce(function(acc, element) {
 
 
 
-    res.render("admin/addproduct", {error:"", categories,})
+    res.render("admin/addproduct", {error:req.flash("error"), categories,})
 }
 
-exports.addproductpost = async(req,res)=>{
-
-    const {productname,price,description,category,newprice,stock,subcategory} =req.body
-
-const image1 = req.files['image1'][0].filename;
-const image2 = req.files['image2'][0].filename;
-const image3 = req.files['image3'][0].filename;
-
-const newproduct = new product ({
-
-productname,
-price,
-description,
-image1,image2,image3,
-category,
-price,
-newprice,
-stock,
-subcategory
 
 
-})
 
-await newproduct.save()
-res.redirect("/adminhome")
 
-}
+
+exports.addproductpost = async(req, res) => {
+  let imagePath1, imagePath2, imagePath3;
+
+  try {
+    const { productname, price, description, category, newprice, stock, subcategory } = req.body;
+
+    const image1 = req.files['image1'][0].filename;
+    const image2 = req.files['image2'][0].filename;
+    const image3 = req.files['image3'][0].filename;
+
+    imagePath1 = path.join(__dirname, '..', '..', '..', "public", "uploads", image1);
+    imagePath2 = path.join(__dirname, '..', '..', '..', "public", "uploads", image2);
+    imagePath3 = path.join(__dirname, '..', '..', '..', "public", "uploads", image3);
+
+    const newproduct = new product({
+      productname,
+      price,
+      description,
+      image1,
+      image2,
+      image3,
+      category,
+      newprice,
+      stock,
+      subcategory
+    });
+
+    await newproduct.save();
+    res.redirect("/adminhome");
+  } catch (error) {
+  
+
+    if (fs.existsSync(imagePath1)) fs.unlinkSync(imagePath1);
+    if (fs.existsSync(imagePath2)) fs.unlinkSync(imagePath2);
+    if (fs.existsSync(imagePath3)) fs.unlinkSync(imagePath3);
+
+    req.flash("error", "Please fill all details");
+    res.redirect("/adminhome/addproduct");
+  }
+};
+
 
 exports.userlistget = async(req,res)=>{
 
@@ -119,7 +138,15 @@ try{
     console.log(id)
     const finder = await product.findByIdAndDelete(id)
     if(finder){  
-     
+
+        const imagePath1 = path.join(__dirname, '..', '..', '..', "public", "uploads", finder.image1);
+        const imagePath2 = path.join(__dirname, '..', '..', '..', "public", "uploads", finder.image2);
+        const imagePath3 = path.join(__dirname, '..', '..', '..', "public", "uploads", finder.image3);
+        
+     fs.unlinkSync(imagePath1);
+    fs.unlinkSync(imagePath2);
+    fs.unlinkSync(imagePath3);
+        
         console.log("true")
         // return res.send("true")
          res.json({success:true})}

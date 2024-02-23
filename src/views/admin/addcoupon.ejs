@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupons</title>
+    <link rel="stylesheet" href="/css/admin/addcoupon.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <div class="add-coupon">
+            <h1>Add Coupon</h1>
+            <form id="couponForm" action="#" method="POST">
+                <div>
+                    <label for="code">Coupon Code:</label>
+                    <input type="text" id="code" name="code" required>
+                </div>
+                <div>
+                    <label for="expiryDateTime">Expiry Date and Time:</label>
+                    <input type="datetime-local" id="expiryDateTime" name="expirydatetime" required>
+                </div>
+                <div>
+                    <label for="priceAbove">Price Above:</label>
+                    <input type="number" id="priceAbove" name="priceabove" min="0" required>
+                </div>
+                <div>
+                    <label for="offerPrice">Offer Price:</label>
+                    <input type="number" id="offerPrice" name="offerprice" min="0" required>
+                </div>
+                <button type="submit">Add Coupon</button>
+            </form>
+        </div>
+        
+        <!-- Edit Coupon Form -->
+        <div id="editCouponForm" style="display: none;">
+            <h2>Edit Coupon</h2>
+            <form id="editCouponFormInner">
+                <!-- Form fields for editing coupon details -->
+                
+                <label for="editCode">Coupon Code:</label>
+                <input type="text" id="editCode" name="Code" required>
+                <label for="editExpiryDateTime">Expiry Date and Time:</label>
+                <input type="datetime-local" id="editExpiryDateTime" name="expirydatetime" required>
+                <label for="editPriceAbove">
+                    
+                    
+                    
+                    Price Above:</label>
+                <input type="number" id="editPriceAbove" name="priceabove" min="0" required>
+                <label for="editOfferPrice">Offer Price:</label>
+                <input type="number" id="editOfferPrice" name="offerprice" min="0" required>
+               <div style="display:flex">
+                
+           
+             <button type="submit" class="wanted" buttonid="">Save Changes</button>
+
+             <button class ="cancel"type="button" onclick="cancelEdit()">Cancel</button>
+            </div>
+            </form>
+        </div>
+        
+        <!-- Coupon List -->
+        <div class="coupon-list">
+            <h1>Added Coupons</h1>
+            <div class="coupons-container">
+                <% coupons.forEach(function(coupon) { %>
+                    <div class="coupon-item" id="<%=coupon._id %>">
+
+                        <span><strong>Coupon Code:</strong> <%= coupon.code %></span>
+                        
+                        <%
+                        const expiryDate = new Date(coupon.expirydatetime);
+                        const hours = expiryDate.getHours();
+                        const minutes = expiryDate.getMinutes();
+                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                        const formattedHours = hours % 12 || 12;
+                        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                        const formattedTime = formattedHours + ':' + formattedMinutes + ampm;
+                    %>
+
+<span><strong>Expiry Time:</strong> <%= expiryDate.toDateString() %> <%= formattedTime %></span>
+                        <span><strong>Price Above:</strong> <%= coupon.priceabove %></span>
+                        <span><strong>Offer Price:</strong> <%= coupon.offerprice %></span>
+                        <div class="coupon-options">
+                            <button onclick="editCoupon(<%= JSON.stringify(coupon) %>)">Edit</button>
+
+                            
+                           
+
+
+
+                            <button onclick="deleteCoupon('<%= coupon._id %>')">Delete</button>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/script/editcoupon.js"></script>
+
+<script>
+   
+
+
+
+
+
+</script>
+    
+</body>
+</html>

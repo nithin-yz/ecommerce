@@ -1,5 +1,5 @@
 
-const {product, category}= require("../../models/databaseschema")
+const {product, category,coupon}= require("../../models/databaseschema")
 
 exports.usershowproducts = async(req,res)=>{
 
@@ -181,9 +181,56 @@ exports.editaproductget= async(req,res)=>{
       }
   };
   
-     
+     exports.addcouponget = async (req,res)=>{
+const coupons = await coupon.find()
+
+res.render("admin/addcoupon" ,{coupons})
+
+     }
   
-    
+    exports.addcouponpost = async(req,res)=>{
+
+console.log(req.body)
+
+const {expirydatetime,priceabove,offerprice,code}=req.body
+
+const newcoupon = new coupon ({
+  expirydatetime,priceabove,offerprice,code})
+
+await newcoupon.save()
+
+res.redirect("/adminhome/addcoupon")
+    }
   
 
+exports.updatecoupon =async(req,res)=>{
+try{
+const id = req.params.id
 
+const datas = req.body
+console.log(datas)
+
+await coupon.findByIdAndUpdate(id,datas)
+
+res.sendStatus(200)
+
+}catch(err){
+
+
+  console.log(err)
+}
+}
+
+exports.  deletecoupon = async(req,res)=>{
+try{
+  const id = req.query.id
+  console.log(id)
+await coupon.findOneAndDelete(id)
+res.sendStatus(200)
+}catch(err){
+
+
+console.log(err)
+
+}
+}

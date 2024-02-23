@@ -86,7 +86,12 @@ req.flash('error1',"user doesnt exist please signup ")
 
 
 
+exports.wishlistget = async(req,res)=>{
 
+res.render("user/wishlist")
+
+
+}
 
 
 

@@ -135,22 +135,22 @@ const couponSchema = new mongoose.Schema({
   code: {
       type: String,
       required: true,
-      unique: true
+     
   },
-  expiryDateTime: {
+  expirydatetime: {
       type: Date,
       required: true
   },
-  addedAt: {
+  addedate: {
       type: Date,
       default: Date.now
   },
-  priceAbove: {
+  priceabove: {
       type: Number,
       required: true,
       min: 0
   },
-  offerPrice: {
+  offerprice: {
       type: Number,
       required: true,
       min: 0
@@ -167,7 +167,7 @@ const couponSchema = new mongoose.Schema({
 
 
 
-const Coupon = mongoose.model('Coupon', couponSchema,'Coupon')
+const coupon = mongoose.model('Coupon', couponSchema,'Coupon')
 const user = mongoose.model("User", userschema, "User");
 const product = mongoose.model("product", productschema, "product");
 const cart = mongoose.model("cart", cartscheme,"cart");
@@ -175,4 +175,4 @@ const wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
 const userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
 const category = mongoose.model("category", categoryschema, "category")
 const banner =  mongoose.model("banner", bannerSchema, "banner")
-module.exports = { user, product,cart,wishlist, userprofile ,category,banner};
+module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon};
