@@ -7,6 +7,13 @@ function previewImage(event, previewId) {
         preview.src = reader.result;
     }
 
+
+
+
+
+
+     
+
     if (file) {
         reader.readAsDataURL(file);
     } else {

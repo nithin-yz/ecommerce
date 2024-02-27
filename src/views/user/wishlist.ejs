@@ -3,96 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BESTBUY</title>
-    <link rel="shortcut icon" href="./../../public/images/userhome/logo_black .png" type="image/x-icon">
+    <title>My Wishlist</title>
     <link rel="stylesheet" href="/css/user/userhome/style.css">
-    <link rel="shortcut icon" href="./assets/icon.png" type="image/.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link rel="stylesheet" href="./css/responsiveHome.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <link rel="stylesheet" href="/css/user/wishlist/wishlist.css"> <!-- Link to the separate CSS file -->
 </head>
 <body>
-              <section id="header">
-             
-                <a href="#"><img class ="logo"src="/images/userhome/logo.png" alt="logo" class="logo" style="width: 80px; height: 82px;"></a>
-                <div>
-                    <ul id="navbar">
-                        <li class="search-bar">
-                            <input type="text" name="searchbar" id="search">
-                            <i class="fa-solid fa-magnifying-glass" id="icon"></i>
-                        </li>
-                        <li><a class="active" href="/index.html" style="text-decoration: none;">Home</a></li>
-                        <li><a href="./sub-pages/shop.html">Category</a></li>
-                        <li><a href="/userhome/men">men</a></li>
-                        <li><a href="/userhome/women">women</a></li>
-                        <li><a href="/userhome/account">Account</a></li>
-                        <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
-                        <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
-                        <li><a href="#">logout</a></li>
-                    </ul>
-</div>
-</section>
+    <!-- Header section -->
+    <section id="header">
+        <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" class="logo" style="width: 80px; height: 82px;"></a>
+        <div>
+            <ul id="navbar">
+                <li class="search-bar">
+                    <input type="text" name="searchbar" id="search">
+                    <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+                </li>
+                <li><a class="active" href="/index.html" style="text-decoration: none;">Home</a></li>
+                <li><a href="./sub-pages/shop.html">Category</a></li>
+                <li><a href="/userhome/men">men</a></li>
+                <li><a href="/userhome/women">women</a></li>
+                <li><a href="/userhome/account">Account</a></li>
+                <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
+                <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                <li><a href="#">logout</a></li>
+            </ul>
+        </div>
+    </section>
 
+    <!-- Wishlist section -->
     <h1>My Wishlist</h1>
-    <ul>
+    <div class="wishlist-container">
         <% wishlist.forEach(item => { %>
-            <li>
-                <h3><%= item.product.name %></h3> <!-- Assuming 'product' is populated in the wishlist -->
-                <p><%= item.product.description %></p>
-                <p>Price: <%= item.product.price %></p>
-                <button class="removeFromWishlist" data-product-id="<%= item.product._id %>">Remove</button>
-                <button class="addToCart" data-product-id="<%= item.product._id %>">Add to Cart</button>
-            </li>
+            <div class="wishlist-item">
+                <!-- Product details -->
+                <h3><%= item.productname %></h3>
+                <p><%= item.description %></p>
+                <img src="/uploads/<%= item.image1 %>" alt="Product Image">
+                <p>Price: <%= item.price %></p>
+                <!-- Add to cart and remove buttons -->
+                <button class="removeFromWishlist" data-product-id="<%= item._id %>">Remove</button>
+                <button class="addToCart" data-product-id="<%= item._id %>">Add to Cart</button>
+            </div>
         <% }) %>
-    </ul>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const removeFromWishlistButtons = document.querySelectorAll('.removeFromWishlist');
-            const addToCartButtons = document.querySelectorAll('.addToCart');
 
-            removeFromWishlistButtons.forEach(button => {
-                button.addEventListener('click', async () => {
-                    const productId = button.dataset.productId;
-                    try {
-                        const response = await fetch('/wishlist/remove', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ productId })
-                        });
-                        const data = await response.json();
-                        alert(data); // Show success message
-                        // Optionally, you can remove the item from the DOM without reloading the page
-                        button.closest('li').remove();
-                    } catch (err) {
-                        console.error('Error:', err);
-                        alert('Error removing from wishlist');
-                    }
-                });
-            });
+    <script src="/script/wishlister.js"></script>
 
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', async () => {
-                    const productId = button.dataset.productId;
-                    try {
-                        const response = await fetch('/cart/add', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ productId })
-                        });
-                        const data = await response.json();
-                        alert(data); // Show success message
-                    } catch (err) {
-                        console.error('Error:', err);
-                        alert('Error adding to cart');
-                    }
-                });
-            });
-        });
-    </script>
+    <!-- Other scripts if needed -->
 </body>
 </html>

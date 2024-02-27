@@ -4,184 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BESTBUY</title>
-    <link rel="shortcut icon" href="./../../public/images/userhome/logo_black .png" type="image/x-icon">
+    <link rel="shortcut icon" href="./../../public/images/userhome/logo_black.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/user/userhome/style.css">
     <link rel="shortcut icon" href="/images/signup/logo.png" type="image/.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="/css/responsiveHome.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
-
-
-  <link rel="stylesheet" href="/css/user/usercart/style.css">
-  <link rel="stylesheet" href="/css/user/usercart/responsiveHome.css">
-  <link rel="stylesheet" href="/css/user/usercart/blog.css" >
-  <link rel="stylesheet" href="/css/user/usercart/shop.css" >
-  <link rel="stylesheet" href="/css/user/usercart/about.css" >
-  <link rel="stylesheet" href="/css/user/usercart/contact.css">
-  <link rel="stylesheet" href="/css/user/usercart/cart.css" >
-
-
-
-
+    <link rel="stylesheet" href="/css/user/usercart/style.css">
+    <link rel="stylesheet" href="/css/user/usercart/responsiveHome.css">
+    <link rel="stylesheet" href="/css/user/usercart/blog.css">
+    <link rel="stylesheet" href="/css/user/usercart/shop.css">
+    <link rel="stylesheet" href="/css/user/usercart/about.css">
+    <link rel="stylesheet" href="/css/user/usercart/contact.css">
+    <link rel="stylesheet" href="/css/user/usercart/cart.css">
 </head>
 <body>
-              <section id="header">
-             
-                <a href="#"><img class ="logo"src="/images/userhome/logo.png" alt="logo" class="logo" style="width: 80px; height: 82px;"></a>
-                <div>
-                    <ul id="navbar">
-                        <li class="search-bar">
-                            <input type="text" name="searchbar" id="search">
-                            <i class="fa-solid fa-magnifying-glass" id="icon"></i>
-                        </li>
-                        <li><a class="active" href="/index.html" style="text-decoration: none;">Home</a></li>
-                        <li><a href="./sub-pages/shop.html">Category</a></li>
-                        <li><a href="/userhome/men">men</a></li>
-                        <li><a href="/userhome/women">women</a></li>
-                        <li><a href="/userhome/account">Account</a></li>
-                        <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
-                        <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
-                        <li><a href="#">logout</a></li>
-                    </ul>
-</div>
-</section> 
-<!-- <section id="page-header" class="about-header">
-    <h2>#let's_talk</h2>
-    <p>LEAVE A MESSAGE,We love to hear from you!</p>
-  </section> -->
+<section id="header">
+    <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" style="width: 80px; height: 82px;"></a>
+    <div>
+        <ul id="navbar">
+            <li class="search-bar">
+                <input type="text" name="searchbar" id="search">
+                <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+            </li>
+            <li><a class="active" href="/userhome" style="text-decoration: none;">Home</a></li>
+            <li><a href="./sub-pages/shop.html">Category</a></li>
+            <li><a href="/userhome/men">men</a></li>
+            <li><a href="/userhome/women">women</a></li>
+            <li><a href="/userhome/account">Account</a></li>
+            <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
+            <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <li><a href="#">logout</a></li>
+        </ul>
+    </div>
+</section>
 
-
-
-  <section id="cart" class="section-p1">
+<% if (cart && cart.items && cart.items.length > 0) { %>
+<section id="cart" class="section-p1">
     <table width="100%">
-      <thead>
-        <tr>
-          <td>REMOVE</td>
-          <td>IMAGES</td>
-          <td>PRODUCTS</td>
-          <td>PRICE</td>
-          <td>QUANTITY</td>
-          <td>SUBTOTAL</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <a href="#"><i class="fa-regular fa-circle-xmark"></i></a>
-          </td>
-          <td><img src="../assets/products/f1.jpg" alt="P-1" /></td>
-          <td>Cartoon Astronaut T-shirts</td>
-          <td>$118.19</td>
-          <td><input type="number" value="1" /></td>
-          <td>$118.19</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#"><i class="fa-regular fa-circle-xmark"></i></a>
-          </td>
-          <td><img src="../assets/products/f2.jpg" alt="P-1" /></td>
-          <td>Cartoon Astronaut T-shirts</td>
-          <td>$118.19</td>
-          <td><input type="number" value="1" /></td>
-          <td>$118.19</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#"><i class="fa-regular fa-circle-xmark"></i></a>
-          </td>
-          <td><img src="../assets/products/f3.jpg" alt="P-1" /></td>
-          <td>Cartoon Astronaut T-shirts</td>
-          <td>$118.19</td>
-          <td><input type="number" value="1" /></td>
-          <td>$118.19</td>
-        </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <td>REMOVE</td>
+                <td>IMAGES</td>
+                <td>PRODUCTS</td>
+                <td>PRICE</td>
+                <td>QUANTITY</td>
+                <td>SUBTOTAL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% cart.items.forEach(item => { %>
+                
+                    <tr>
+                        <td><i class="fa-regular fa-circle-xmark remove-item-icon" data-index="<%= item._id %>"></i></td>
+
+                        <td><img src="/uploads/<%= item.product.image1 %>" alt="<%= "product.name" %>" /></td>
+                        <td><%= item.product.productname %></td>
+                        <td>$<%= item.price %></td>
+                        <td><input type="number" value="<%= item.quantity %>" /></td>
+                        <td>$<%= (item.price * item.quantity)    %></td>
+                    </tr>
+              
+            <% }); %>
+        </tbody>
     </table>
-  </section>
-  <section id="cart-add" class="section-p1">
+</section>
+<% } else { %>
+    <p>Your cart is empty.</p>
+<% } %>
+
+<section id="cart-add" class="section-p1">
     <div id="coupon">
-      <h3>Apply Coupon</h3>
-      <div>
-        <input type="text" placeholder="Enter Your Coupon Code" />
-        <button class="normal">Apply</button>
-      </div>
+        <h3>Apply Coupon</h3>
+        <div>
+            <input type="text" placeholder="Enter Your Coupon Code" />
+            <button class="normal">Apply</button>
+        </div>
     </div>
     <div id="sub-total">
-      <h3>Cart Totals</h3>
-      <table>
-        <tr>
-          <td>Cart Subtotal</td>
-          <td>$ 335</td>
-        </tr>
-        <tr>
-          <td>Shipping</td>
-          <td>Free</td>
-        </tr>
-        <tr>
-          <td><strong>Total</strong></td>
-          <td><strong>$ 335</strong></td>
-        </tr>
-      </table>
-      <button class="normal">Proceed to checkout</button>
+        <h3>Cart Totals</h3>
+        <table>
+            <tr>
+                <td>Cart Subtotal</td>
+                <td>$ <%= cart.totalprice.toFixed(2) %></td>
+            </tr>
+            <tr>
+                <td>Shipping</td>
+                <td>Free</td>
+            </tr>
+
+<tr>
+    <td>Discount</td>
+    <td></td>
+
+
+</tr>
+
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>$ <%= cart.totalprice.toFixed(2) %></strong></td>
+            </tr>
+        </table>
+        <button class="normal">Proceed to checkout</button>
     </div>
-  </section>
-  <footer class="section-p1">
+</section>
+
+<footer class="section-p1">
     <div class="col">
-      <img src="../assets/logo.png" alt="logo" class="logoS" />
-      <h4>Contact</h4>
-      <p>
-        <strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco
-      </p>
-      <p><strong>Phone:</strong>+01 2222 3665 / (+91) 01 2345 6763</p>
-      <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
-      <div class="follow">
-        <h4>Follow us</h4>
-        <div class="icon">
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-instagram"></i>
-          <i class="fa-brands fa-linkedin"></i>
-          <i class="fa-brands fa-twitter"></i>
+        <img src="../assets/logo.png" alt="logo" class="logoS" />
+        <h4>Contact</h4>
+        <p>
+            <strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco
+        </p>
+        <p><strong>Phone:</strong>+01 2222 3665 / (+91) 01 2345 6763</p>
+        <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
+        <div class="follow">
+            <h4>Follow us</h4>
+            <div class="icon">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-linkedin"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
         </div>
-      </div>
     </div>
     <div class="col">
-      <h4>About</h4>
-      <a href="#">About Us</a>
-      <a href="#">Delivery Information</a>
-      <a href="#">Privacy Poilcy</a>
-      <a href="#">Terms & Condition</a>
-      <a href="#">Contact Us</a>
+        <h4>About</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Condition</a>
+        <a href="#">Contact Us</a>
     </div>
     <div class="col">
-      <h4>My Account</h4>
-      <a href="#">Sign In</a>
-      <a href="#">View Cart</a>
-      <a href="#">My WishList</a>
-      <a href="#">Track My Order</a>
-      <a href="#">Help</a>
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My WishList</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a>
     </div>
     <div class="col install">
-      <h4>Install App</h4>
-      <p>From App Store or Google Play</p>
-      <div class="row">
-        <img src="../assets/pay/app.jpg" alt="app" />
-        <img src="../assets/pay/play.jpg" alt="play" />
-      </div>
-      <p>Secured Payment Gateways</p>
-      <img src="../assets/pay/pay.png" alt="pay" />
+        <h4>Install App</h4>
+        <p>From App Store or Google Play</p>
+        <div class="row">
+            <img src="../assets/pay/app.jpg" alt="app" />
+            <img src="../assets/pay/play.jpg" alt="play" />
+        </div>
+        <p>Secured Payment Gateways</p>
+        <img src="../assets/pay/pay.png" alt="pay" />
     </div>
     <div class="copyright">
-      <p>2023 , Tejas Nasre - HTML CSS JS Ecommerce Template</p>
+        <p>2023 , Tejas Nasre - HTML CSS JS Ecommerce Template</p>
     </div>
-  </footer>
-  <script src="/script/responsivehome.js"></script>
+</footer>
 
-
-
-
-
-
-
-
+<script src="/script/responsivehome.js"></script>
+<script src="/script/removecart.js"></script>
 </body>
 </html>
