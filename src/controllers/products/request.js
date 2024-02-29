@@ -5,12 +5,16 @@ exports.usershowproducts = async(req,res)=>{
 
 
 try{
+
+  
   const id  =req.params.id
 
 const finder = await product.findById(id)
 console.log(finder)
 
-    res.render("user/showproduct", {element:finder})
+    res.render("user/showproduct", {product:finder})
+
+
 
 }
 catch (err){

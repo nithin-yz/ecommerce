@@ -1,0 +1,225 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'PT Sans', sans-serif;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    width: 100%;
+  }
+  
+  #header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 80px;
+    background-color: #E3E6F3;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 86px;
+  }
+  
+  #navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #navbar li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+  }
+  
+  #navbar li a {
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    transition: all 0.3s ease;
+  }
+  
+  #navbar li a:hover,
+  #navbar li a.active {
+    color: #088178;
+  }
+  
+  #navbar li a:hover::after,
+  #navbar li a.active::after {
+    content: "";
+    width: 48%;
+    height: 2px;
+    background-color: #088178;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+  }
+  
+  /* CSS for Left Side Filter Options */
+  #left-side-filter {
+    width: 10%;
+    padding: 20px;
+    background-color: #30303036;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+  
+  .filter-option {
+    margin-bottom: 20px;
+  }
+  
+  .filter-option h3 {
+    margin-bottom: 10px;
+    font-size: 10px;
+  }
+  
+  .slider {
+    width: 100%;
+  }
+  
+  /* CSS for Categories */
+  #categories {
+    float: left;
+    width: 20%;
+    padding: 20px;
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+  }
+  
+  #categories h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  
+  #categories ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #categories ul li {
+    margin-bottom: 10px;
+  }
+  
+  #categories ul li a {
+    text-decoration: none;
+    color: #fff; /* White text color */
+    font-size: 16px;
+  }
+  
+  #categories ul li a:hover {
+    color: #f0f0f0; /* Light gray text color on hover */
+  }
+  
+  /* CSS for Minimum Maximum Working Input */
+  #min-max-input {
+    width: 74px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 10px;
+  }
+  
+  #min-max-input input[type="number"] {
+    width: 85px;
+    padding: 10px;
+    margin-bottom: 10px;
+    
+  }
+  
+  #min-max-input input[type="submit"] {
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  #min-max-input input[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue background color on hover */
+  }
+  
+  /* Footer Styles */
+  footer {
+    margin-top: 650px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #041e42;
+    color: #FFFFFFff;
+    padding: 40px 80px;
+  }
+  
+  footer .col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  footer h4 {
+    font-size: 14px;
+    padding-bottom: 20px;
+  }
+  
+  footer p {
+    font-size: 13px;
+    padding-bottom: 8px;
+  }
+  
+  footer a {
+    font-size: 13px;
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 13px;
+  }
+  
+  footer .follow {
+    margin-top: 20px;
+  }
+  
+  footer .follow i {
+    color: #465b52;
+    padding-right: 4px;
+    cursor: pointer;
+  }
+  
+  footer .install .row img {
+    border: 1px solid #088178;
+    border-radius: 6px;
+  }
+  
+  footer .install img {
+    margin: 10px 0 15px 0;
+  }
+  
+  footer .follow i:hover,
+  footer a:hover {
+    color: #088178;
+  }
+  
+  footer .copyright {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .logoS{
+
+    width:100px;
+    height:100px;
+  }
+
+  .filterpart{
+
+    font-size: 15px;
+    margin-bottom: 12px;
+  }

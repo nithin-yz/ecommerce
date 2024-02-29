@@ -4,36 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../assets/icon.png" type="image/.png">
-    <title>BESTBUY</title>
-    <link rel="shortcut icon" href="/images/userhome/logo_black .png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <link rel="shortcut icon" href="/images/admin/icon.png" type="image/.png">
+    <title>Your product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="/css/user/showproduct/style.css">
-    <link rel="stylesheet" href="/css/user/showproduct/responsiveHome.cs">
-    <link rel="stylesheet" href="/css/user/showproduct/shop.css">
-    <link rel="stylesheet" href="/css/user/showproduct/sproduct.css">
+    <link rel="stylesheet" href="/css/user/useroneproduct/style.css">
+    <link rel="stylesheet" href="/css/user/useroneproduct/responsiveHome.css">
+    <link rel="stylesheet" href="/css/user/useroneproduct/shop.css">
+    <link rel="stylesheet" href="/css/user/useroneproduct/sproduct.css">
 </head>
 
 <body>
-    <section id="header" >
-        <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" style="width: 80px; height: 82px;"></a>
+    <section id="header">
+        <a href="/userhome"><img src="/images/userhome/logo.png" style="width:80px; height:82px;" alt="logo" class="logo"></a>
         <div>
-            <ul id="navbar">
-                <li class="search-bar">
-                    <input type="text" name="searchbar" id="search">
-                    <i class="fa-solid fa-magnifying-glass" id="icon"></i>
-                </li>
-                <li><a class="active" href="#" style="text-decoration: none;">Home</a></li>
-                <li><a href="./sub-pages/shop.html">Category</a></li>
-                <li><a href="/userhome/men">men</a></li>
-                <li><a href="/userhome/women">women</a></li>
-                <li><a href="/userhome/account">Account</a></li>
-                <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li> <!-- Heart icon for wishlist -->
-                <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li> <!-- Existing cart symbol -->
-                <li><a href="#">logout</a></li>
-            </ul>
+            <div>
+                <ul id="navbar">
+                    <li class="search-bar">
+                        <input type="text" name="searchbar" id="search">
+                        <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+                    </li>
+                    <li><a class="active" href="/userhome" style="text-decoration: none;">Home</a></li>
+                    <li><a href="./sub-pages/shop.html">Category</a></li>
+                    <li><a href="/userhome/men">men</a></li>
+                    <li><a href="/userhome/women">women</a></li>
+                    <li><a href="/userhome/account">Account</a></li>
+                    <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
+                    <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                    <li><a href="#">logout</a></li>
+                </ul>
         </div>
         <div id="mobile">
 
@@ -43,35 +41,29 @@
     </section>
     <section id="prodetails" class="section-p1">
         <div class="single-pro-img">
-            <img src="/uploads/<%=element.image1%>" alt="P-1" width="100%" id="mainImg">
+            <img src="/uploads/<%=product.image1%>" alt="P-1" width="100%" id="mainImg">
             <div class="small-img-group">
                 <div class="small-img-col">
-                    <img src="/uploads/<%=element.image2%>" width="100%" alt="P-1" class="small-img">
+                    <img src="/uploads/<%=product.image2%>" width="100%" alt="P-1" class="small-img">
                 </div>
                 <div class="small-img-col">
-                    <img src="/uploads/<%=element.image3%>" width="100%" alt="P-2" class="small-img">
+                    <img src="/uploads/<%=product.image3%>" width="100%" alt="P-2" class="small-img">
                 </div>
                 <div class="small-img-col">
-                    <img src="/uploads/<%=element.image1%>" width="100%" alt="P-3" class="small-img">
+                    <img src="/uploads/<%=product.image1%>" width="100%" alt="P-3" class="small-img">
                 </div>
-                <div class="small-img-col">
-                    <!-- <img src="../assets/products/f4.jpg" width="100%" alt="P-4" class="small-img"> -->
-                </div>
+                <!-- <div class="small-img-col">
+                    <img src="../assets/products/f4.jpg" width="100%" alt="P-4" class="small-img">
+                </div> -->
             </div>
         </div>
         <div class="single-pro-details">
             <h5>Home / T-Shirt</h5>
-            <h4>Man's Fashion T-Shirt</h4>
-            <h2>$139.00</h2>
-            <select>
-                <option>Select Size</option>
-                <option>XL</option>
-                <option>XXL</option>
-                <option>Small</option>
-                <option>Large</option>
-            </select>
-            <input type="number" value="1">
-            <button class="normal">Add to cart</button>
+            <h4><%=product.productname %></h4>
+            <h2><%=product.newprice%></h2>
+          
+            <input type="number" value="1" readonly>
+            <button class="normal" onclick="addcart('<%=product._id%>')">Add to cart</button>
             <h4>Product Details</h4>
             <span>This stylish men's fashion t-shirt boasts a modern and sleek design, perfect for the contemporary
                 urban wardrobe.The unique graphic print on the front adds an eye-catching element to elevate any casual
@@ -146,7 +138,6 @@
                     <h4>$78</h4>
                 </div>
                 <a href="#" class="cart"><i class="fa-solid fa-cart-shopping"></i></a>
-                <a href="#" class="wishlist"><i class="fa-regular fa-heart"></i></i></a>
             </div>
         </div>
         </div>
@@ -208,8 +199,11 @@
             <p>2023 , Tejas Nasre - HTML CSS JS Ecommerce Template</p>
         </div>
     </footer>
+    
     <script src="/script/usershowproduct.js"></script>
-    <script src="../js/responsiveHome.js"></script>
+    <script src="/script/userhome.js"></script>
+
+    <script src ="/script/wishlist.js"></script>
 </body>
 
 </html>

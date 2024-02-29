@@ -14,6 +14,7 @@ exports.userhomeget = async (req, res) => {
       const user = req.session.user;
       const userId = user ? user._id : null; 
       const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+     
       const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
       
       res.render("user/userhome1", {
@@ -238,9 +239,43 @@ exports.otppost = async (req, res) => {
   }
 };
 
-exports.menget = async (req,res)=>{
+exports.allproductget = async (req,res)=>{
 
-res.render("user/men")
+
+
+const regex = new RegExp("men", 'i'); // Case-insensitive search
+const p = await product.find({ $or: [{ category: regex },{ description: regex }] });
+
+const banner1 = await banner.find();
+      const user = req.session.user;
+      const userId = user ? user._id : null; 
+      const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+  
+
+      const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
+
+
+
+
+
+
+
+res.render("user/allproducts",{
+
+  products: p,
+  user1: user,
+  banner1: banner1,
+  userwishlist: userwishlist ? userwishlist.products : [],
+  Emptywishlist: Emptywishlist
+
+
+})
+
+
+
+
+
+
 
 
 }
@@ -474,7 +509,7 @@ exports.addcartget = async (req, res) => {
           const finder = await user.findOne({ email: req.session.email });
         
           const userId = finder._id;
-          console.log(userId)
+          
           const findProduct = await product.findById(id);
          
           const alreadyExistCart = await cart.findOne({ userref: userId });
@@ -490,7 +525,13 @@ console.log(alreadyExistCart)
               await usersCart.save();
               return res.sendStatus(200);
           } else {
-              const alreadyProduct = alreadyExistCart.items.find(item => item.product==id);
+              const alreadyProduct = alreadyExistCart.items.find(item =>{ 
+                
+            
+               return item.product.toString()==id
+              
+              
+              });
 
               if (alreadyProduct) {
                   alreadyProduct.quantity += 1;
@@ -513,7 +554,8 @@ console.log(alreadyExistCart)
   }
 };
 
-exports.cartremovalget = async(req,res)=>{
+exports.
+cartremovalget = async(req,res)=>{
 try{
   if(req.session.email){
   const userfinder = await user.findOne({email:req.session.email})
@@ -575,4 +617,90 @@ res.sendStatus(400)
 console.log(err)
 
 }
+}
+
+
+
+
+exports.updatecartquantity =async(req,res)=>{
+
+  try {
+    if (req.session.email) {
+        const finder = await user.findOne({ email: req.session.email });
+        const userid = finder._id;
+        const productid = req.body.index;
+        const quant = req.body.quantity;
+
+        const usercart = await cart.findOne({ userref: userid });
+
+        const cartItemIndex = usercart.items.findIndex(ele => ele._id == productid);
+
+        if (cartItemIndex !== -1) {
+            // Update quantity
+            usercart.items[cartItemIndex].quantity = quant;
+
+            // Calculate total quantity and total price
+            let totalquantity1 = 0;
+            let totalprice1 = 0;
+
+            for (const ele of usercart.items) {
+                const productfinder = await product.findOne({ _id: ele.product });
+                const productprice = productfinder.newprice;
+
+                ele.price = productprice;
+
+                totalquantity1 += ele.quantity;
+                totalprice1 += ele.price * ele.quantity;
+            }
+
+            usercart.totalquantity = totalquantity1;
+            usercart.totalprice = totalprice1;
+
+            // Save changes
+            await usercart.save();
+
+        res.sendStatus(200)
+        } else {
+          res.sendStatus(400)
+            console.log('Product not found in user cart.');
+        }
+    }
+} catch (err) {
+    console.log(err);
+}
+
+}
+
+exports.searchandget =async(req,res)=>{
+
+console.log(req.query)
+const  query =req.query.query
+const regex = new RegExp(query, 'i'); // Case-insensitive search
+const p = await product.find({ $or: [{ productname: regex },{ description: regex },{category:regex}] });
+
+const banner1 = await banner.find();
+      const user = req.session.user;
+      const userId = user ? user._id : null; 
+      const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+  
+
+      const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
+
+
+
+
+
+
+
+res.render("user/allproducts",{
+
+  products: p,
+  user1: user,
+  banner1: banner1,
+  userwishlist: userwishlist ? userwishlist.products : [],
+  Emptywishlist: Emptywishlist
+
+
+})
+
 }

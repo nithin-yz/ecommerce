@@ -54,17 +54,25 @@
         </thead>
         <tbody>
             <% cart.items.forEach(item => { %>
-                
-                    <tr>
-                        <td><i class="fa-regular fa-circle-xmark remove-item-icon" data-index="<%= item._id %>"></i></td>
+                <tr data-index="<%= item._id %>">
+                    <td><i class="fa-regular fa-circle-xmark remove-item-icon" data-index="<%= item._id %>"></i></td>
 
-                        <td><img src="/uploads/<%= item.product.image1 %>" alt="<%= "product.name" %>" /></td>
-                        <td><%= item.product.productname %></td>
-                        <td>$<%= item.price %></td>
-                        <td><input type="number" value="<%= item.quantity %>" /></td>
-                        <td>$<%= (item.price * item.quantity)    %></td>
-                    </tr>
-              
+                    <td><img src="/uploads/<%= item.product.image1 %>" alt="<%= "product.name" %>" /></td>
+                    <td><%= item.product.productname %></td>
+                    <td class="price-cell">$<%= item.price %></td>
+                    <td>
+                       
+                       
+
+      <input type="number" value="<%= item.quantity %>" id="inputField" class="quantity-input" data-id="<%= item._id %>" min="1" />
+</td>
+                   
+    
+    
+    </td>
+
+                    <td class="subtotal-cell">$<%= (item.price * item.quantity) %></td>
+                </tr>
             <% }); %>
         </tbody>
     </table>
@@ -86,7 +94,7 @@
         <table>
             <tr>
                 <td>Cart Subtotal</td>
-                <td>$ <%= cart.totalprice.toFixed(2) %></td>
+                <td id="cart-subtotal">$ <%= cart.totalprice.toFixed(2) %></td>
             </tr>
             <tr>
                 <td>Shipping</td>
@@ -102,7 +110,7 @@
 
             <tr>
                 <td><strong>Total</strong></td>
-                <td><strong>$ <%= cart.totalprice.toFixed(2) %></strong></td>
+                <td id="cart-total"><strong>$ <%= cart.totalprice.toFixed(2) %></strong></td>
             </tr>
         </table>
         <button class="normal">Proceed to checkout</button>
@@ -111,7 +119,7 @@
 
 <footer class="section-p1">
     <div class="col">
-        <img src="../assets/logo.png" alt="logo" class="logoS" />
+        <img src="/images/signup/logo.png" alt="logo" class="logoS" />
         <h4>Contact</h4>
         <p>
             <strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco
@@ -148,11 +156,11 @@
         <h4>Install App</h4>
         <p>From App Store or Google Play</p>
         <div class="row">
-            <img src="../assets/pay/app.jpg" alt="app" />
-            <img src="../assets/pay/play.jpg" alt="play" />
+            <img src="/images/userhome/app.jpg" alt="app" />
+            <img src="/images/userhome/play.jpg" alt="play" />
         </div>
         <p>Secured Payment Gateways</p>
-        <img src="../assets/pay/pay.png" alt="pay" />
+        <img src="/images/userhome//pay.png" alt="pay" />
     </div>
     <div class="copyright">
         <p>2023 , Tejas Nasre - HTML CSS JS Ecommerce Template</p>
@@ -161,5 +169,6 @@
 
 <script src="/script/responsivehome.js"></script>
 <script src="/script/removecart.js"></script>
+
 </body>
 </html>
