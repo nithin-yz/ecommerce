@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evara - Checkout Page</title>
+    
+    <!-- Meta Description -->
+    <meta name="description" content="Discover luxury at Evara! Explore exquisite home decor & lifestyle essentials. Elevate your space with timeless elegance. Shop now!">
+    
+    <!-- Keywords -->
+    <meta name="keywords" content="Luxury Home Decor, Premium Lifestyle Essentials, Elegant Furnishings, Stylish Homeware, Exclusive Interior Accessories, Chic Decor Accents, Unique Home Furnishings">
+
+    <!-- Robots Meta Tag -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- OG (Open Graph) Tags -->
+    <meta property="og:title" content="Evara - Unleashing Elegance in Every Purchase | Premium Home Decor & Lifestyle Essentials">
+    <meta property="og:description" content="Discover luxury at Evara! Explore exquisite home decor & lifestyle essentials. Elevate your space with timeless elegance. Shop now!">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:title" content="Evara - Unleashing Elegance in Every Purchase | Premium Home Decor & Lifestyle Essentials">
+    <meta name="twitter:description" content="Discover luxury at Evara! Explore exquisite home decor & lifestyle essentials. Elevate your space with timeless elegance. Shop now!">
+    <!-- =================================================================
+                             Link Custom CSS File
+    ================================================================== -->
+    <link rel="stylesheet" href="/css/user/checkout/checkout.css">
+
+    <!-- =================================================================
+                             Link Favicon
+    ================================================================== -->
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+
+    <!-- =================================================================
+                             SWIPER JS CDN
+    ================================================================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- =================================================================
+                             Remix Icon CDN
+    ================================================================== -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/remixicon@3.7.0/fonts/remixicon.css" rel="stylesheet"> -->
+
+    <link rel="shortcut icon" href="/images/userhome/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/user/userhome/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/user/userhome/header.css">
+
+    
+</head>
+
+<body>
+    <section id="header">
+        <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" style="width: 80px; height: 82px;"></a>
+        <div>
+            <ul id="navbar">
+                <li class="search-bar">
+                    <input type="text" name="searchbar" id="searchbar">
+                    <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+                </li>
+                <li><a class="active" href="/userhome" style="text-decoration: none;">Home</a></li>
+                <li><a href="./sub-pages/shop.html">Category</a></li>
+                <li><a href="/userhome/men">men</a></li>
+                <li><a href="/userhome/women">women</a></li>
+
+           
+
+
+    
+             
+                <li><a href="/userhome/account/">Account</a></li>
+
+
+
+     
+
+
+
+                <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li> <!-- Heart icon for wishlist -->
+                <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li> <!-- Existing cart symbol -->
+                <li><a href="/userhome/logout">logout</a></li>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="./sub-pages/cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+            <i id="bar" class="fa-solid fa-bars"></i>
+        </div>
+    </section>
+
+   
+  
+    <!-- ================================================ HEADER ================================================ -->
+
+
+    <!-- ================================================ MAIN ================================================ -->
+    <main class="main">
+        <!-- ================================================ BREADCRUMB ================================================ -->
+
+
+        <!-- ================================================ CHECKOUT ================================================ -->
+        <section class="checkout section-lg">
+            <div class="checkout-container container grid">
+                <div class="checkout-group">
+                    <h3 class="section-title1">Billing Details</h3>
+                
+                    <form action="" class="form grid">
+                        <div class="dropdown">
+                           
+                            <div class="dropdown-content" id="addressDropdown">
+
+                                <select id="addressSelect" class="form-input">
+                                    <option value>Select Address</option>
+                                    <% addresses.forEach((address) => { %>
+                                        <option value="<%=address.address+" "+address.landmark+" "+address.locality+" "+address.pin%>"><%=address.address+" "+address.landmark+" "+address.locality+" "+address.pin%></option>
+                                    <% }); %>
+                                </select>
+
+                            <a href="/userhome/account/<%=userid%>"><h3 style="margin-top:12px;
+                                margin-left: 281px;">Add new address</h3></a>
+                            </div>
+                        </div>
+                        
+                        <!-- Other input fields for Name, City, Country, etc. -->
+                       
+                
+                        <div id="coupon">
+                            <h3 class="couponhead">Apply Coupon</h3>
+                            <div>
+
+
+                                <input class="coupont" type="text" placeholder=" Enter Your Coupon Code" />
+                                <button class="normalt" onclick="applycoupon(event)">Apply</button>
+                            </div>
+
+<div style="display: flex; flex-direction: column;">
+    <h3>
+
+Available Coupons
+
+</h3>
+
+
+
+<%coupons.forEach((coup)=>{%>
+
+<span style="color:blue">couponcode:<%=coup.code%> coupon applicable above:<%=coup.priceabove%></span>
+
+
+
+
+<%})%>
+
+
+
+
+</div>
+
+
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="checkout-group">
+                    <h3 class="section-title">Cart Totals</h3>
+                    <table class="order-table">
+                        <tr>
+                            <th>Image</th>
+                            <th colspan="">Products</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr> <%cart.items.forEach((ele) => {%>
+
+
+                          
+                            <td><img src="/uploads/<%=ele.product.image1%>" alt="" class="order-img"></td>
+                            <td>
+                                <h3 class="table-title"><%=ele.product.productname%></h3>
+                                <p class="table-quantity"><%=ele.product.quantity%></p>
+                            </td>
+                            <td><span class="table-price"><%=ele.product.newprice*ele.quantity %></span></td>
+                        </tr>
+                    
+                        <% }) %>
+                        <tr>
+                            <td><span class="order-subtitle">Subtotal</span></td>
+                            <td colspan="2"><span class="table-price"><%=cart.totalprice%></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="order-subtitle">Shipping</span></td>
+                            <td colspan="2"><span class="table-price">Free </span></td>
+                        </tr>
+
+                        <tr>
+                            <td><span class="discount">discount</span></td>
+                            <td colspan="2"><span class="table-discount"></span></td>
+
+
+
+                        </tr>
+                        <tr>
+                            <td><span class="order-subtitle">Total</span></td>
+                            <td colspan="2"><span class="order-grand-total"><%=cart.totalprice%></span></td>
+                        </tr>
+                      
+                    </table>
+
+                    <div class="payment-methods">
+                        <h3 class="checkout-title payment-title">Payment</h3>
+                        <div class="payment-option flexitem">
+                            <input type="radio" value="upi" name="radio" class="payment-input">
+                            <label for="" class="payment-label">UPI / Razorpay</label>
+                        </div>
+                        <!-- <div class="payment-option flexitem">
+                            <input type="radio" name="radio" class="payment-input">
+                            <label for="" class="payment-label">Credit Card / Debit Card</label>
+                        </div> -->
+                        <div class="payment-option flexitem">
+                            <input type="radio" name="radio" value="cash-on-delivery" class="payment-input">
+                            <label for="" class="payment-label">Cash-On-Delivery</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-md" id="placeOrderBtn">Place Order</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================ NEWSLETTER ================================================ -->
+       
+    </main>
+
+    <!-- ================================================ FOOTER ================================================ -->
+    <footer class="section-p1">
+        <div class="col">
+            <img src="/images/userhome/logo.png" alt="logo" class="logoS" style="width:150px; height:150px;">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco</p>
+            <p><strong>Phone:</strong>+01 2222 3665 / (+91) 01 2345 6763</p>
+            <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-linkedin"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Poilcy</a>
+            <a href="#">Terms & Condition</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account </h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My WishList</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="/images/userhome/app.jpg" alt="app">
+                <img src="/images/userhome/play.jpg" alt="play">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="/images/userhome/pay.png" alt="pay">
+        </div>
+        <div class="copyright">
+            <p>2024 , Ecommerce Project</p>
+        </div>
+        <!-- Your footer section content -->
+    </footer>
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
+    <!-- =================================================================
+                             Link Custom JS File
+    ================================================================== -->
+   
+    <script src="/script/applycoupon.js"></script>
+
+</body>
+
+</html>

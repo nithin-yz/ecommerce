@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BestBuy</title>
+    <!-- <link rel="shortcut icon" href="#" type="image/x-icon" /> -->
+    <!-- Bootstrap css cdn link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <!-- end of Bootstrap css cdn link -->
+    <!-- Style css -->
+    <link rel="stylesheet" href="/css/user/orders/orders.css" />
+
+    <link rel="shortcut icon" href="/images/userhome/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/user/userhome/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/user/userhome/header.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <!-- end of Style css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10:1/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10:1/dist/sweetalert2.min.js"></script>
+
+  </head>
+  <body>
+    <!-- header -->
+    <section id="header">
+        <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" style="width: 80px; height: 82px;"></a>
+        <div>
+            <ul id="navbar">
+                <li class="search-bar">
+                    <input type="text" name="searchbar" id="searchbar">
+                    <i class="fa-solid fa-magnifying-glass" id="icon"></i>
+                </li>
+                <li><a class="active" href="/userhome" style="text-decoration: none;">Home</a></li>
+                <!-- <li><a href="./sub-pages/shop.html">Category</a></li> -->
+
+                <li class="dropdown">
+                    <a href="#">Category</a>
+                    <!-- <div class="dropdown-content">
+                        <ul>
+                            <li><a href="#">Category 1</a></li>
+                            <li><a href="#">Category 2</a></li>
+                            
+                        </ul>
+                    </div> -->
+                </li>
+                
+                <li><a href="/userhome/men">men</a></li>
+                <li><a href="/userhome/women">women</a></li>
+
+           
+<%if (user1)  {  %>
+
+    
+             
+                <li><a href="/userhome/account/<%=user1._id%>">Account</a></li>
+
+
+<%  }  else {%> 
+
+    <li><a href="/login
+        
+        ">Account</a></li>
+
+
+<%}     %>       
+
+
+
+                <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li> <!-- Heart icon for wishlist -->
+                <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li> <!-- Existing cart symbol -->
+                <li><a href="/userhome/orders"><i class="fa-light fa-bags-shopping" style="color: #004080;"></i></a>               </li>
+                <li><a href="/userhome/logout">logout</a></li>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="./sub-pages/cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+            <i id="bar" class="fa-solid fa-bars"></i>
+        </div>
+    </section>
+    <!-- end of header -->
+
+    <!-- main -->
+    <main>
+      <div class="container-fluid main">
+        <div class="row mainContainer">
+          <div class="col-12">
+            <div class="cartHead">
+              <div class="d-flex align-items-center gap-2">
+                <h2 class="m-0 p-0">Orders</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 20 15" fill="none">
+                  <path d="M3 7H17V11C17 12.8856 17 13.8284 16.4142 14.4142C15.8284 15 14.8856 15 13 15H7C5.11438 15 4.17157 15 3.58579 14.4142C3 13.8284 3 12.8856 3 11V7Z" fill="black"/>
+                  <path d="M0.815301 3.8153L3 6L7 2L4.58869 0.392459C4.23591 0.157275 3.77317 0.170119 3.43399 0.424509L0.922408 2.30819C0.435568 2.67332 0.384992 3.38499 0.815301 3.8153Z" fill="black"/>
+                  <path d="M19.1847 3.8153L17 6L13 2L15.4113 0.392459C15.7641 0.157275 16.2268 0.170119 16.566 0.424509L19.0776 2.30819C19.5644 2.67332 19.615 3.38499 19.1847 3.8153Z" fill="black"/>
+                  <path d="M16 6V7H4V6L7 3H13L16 6Z" fill="black" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="cartBody d-flex">
+              <div class="col-12 oneSection">
+ 
+ <% order.forEach(ele=>{ %>               
+                <div class="cartItems d-flex w-100 justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style=" display: flex; gap: 10px;">
+                        <%ele.products.forEach(item=>{  %>
+                            
+                    <img style="width:84px; height: 84px;" src="/uploads/<%=item.product.image1  %>" alt="">
+                    <div class="textOrder d-flex flex-column gap-2">
+
+                      
+                      <h2 class="m-0"><%=item.product.productname%>     </h2>
+                      <p class="m-0">Price<span>: <%=item.price %></span></p>
+                      <p class="m-0">Qty: <%=item.quantity%></p>
+                    </div>
+                      <%  }) %>
+
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center gap-2 prices">
+                        <div class="lPrice marginRes">
+                            <p class="m-0"><%=ele.totalamount%></p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="statusCircle"></div>
+                            <p class="statusOrder me-3" data-order="<%=ele._id %>"><%=ele.status%></p>
+                        </div>
+                        <% if (ele.status !== "cancelled" && ele.status !=="delievered" )  {  %>
+                         
+                            <button class="cancelBtn margin" data-order="<%=ele._id %>"  onclick="cancelOrder('<%= ele._id %>')"   >Cancel</button>
+                          
+                      <% } %>
+                    </div>
+                </div>
+            </div>
+                <%})%>
+                
+             
+                
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="/script/ordercancel.js"></script>
+  </body>
+</html>
+
+
+
+

@@ -26,7 +26,9 @@
                 <li><a href="/userhome/account">Account</a></li>
                 <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
                 <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                <li><a href="/userhome/orders"><i class="fa-light fa-bags-shopping" style="color: #004080;"></i></a>               </li>
                 <li><a href="#">logout</a></li>
+
             </ul>
         </div>
     </section>
@@ -43,7 +45,7 @@
                 <p>Price: <%= item.price %></p>
                 <!-- Add to cart and remove buttons -->
                 <button class="removeFromWishlist" data-product-id="<%= item._id %>">Remove</button>
-                <button class="addToCart" data-product-id="<%= item._id %>">Add to Cart</button>
+                <button class="addToCart" onclick="cart('<%=item._id%>')" data-product-id="<%= item._id %>">Add to Cart</button>
             </div>
         <% }) %>
     </div>

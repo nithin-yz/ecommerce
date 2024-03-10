@@ -1,0 +1,28 @@
+<!-- verify_email.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <link rel="stylesheet" href="/css/user/verifyemail/verifyemail.css">
+</head>
+<body>
+    <h1>Email Verification</h1>
+    <form  id="verificationForm" action="/user/emailverify" method="POST">
+        <h3>otp has sucessfully send to Your email</h3>
+        <label for="email">your email:</label>
+        <input type="email" style="cursor:not-allowed;" id="email" name="email" value="<%=email %>" required readonly >
+        
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+
+        <button type="submit">Verify</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="/script/emailverify.js"></script>
+</body>
+</html>

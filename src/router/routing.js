@@ -5,7 +5,9 @@ const route = express.Router();
 
 const {loginget} = require("../controllers/common/request")
 const{signupget} =  require("../controllers/common/request")
-const {userhomeget,signuppost,otpget,otppost,loginpost,allproductget,womenget,profileget,cartget,profilepost,wishlistget,wishlistaddpost,logoutget, wishlistremoval,cartgetlag,addcartget,cartremovalget,updatecartquantity,searchandget} = require("../controllers/user/request")
+const {userhomeget,signuppost,otpget,otppost,loginpost,allproductget,womenget,profileget,cartget,profilepost,wishlistget,wishlistaddpost,logoutget, wishlistremoval,cartgetlag,addcartget,cartremovalget,updatecartquantity
+    ,searchandget,checkoutget,couponcodeapply,placeorderpost,
+    emailverifyget,emailverifypost,userordersget,razorpayget,razorpaypost,cancelorderpost} = require("../controllers/user/request")
 const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, addbannerget,addbannerpost, deletebannerget,bannerupdatepost} = require("../controllers/admin/request");
 const { usershowproducts,addcategoryget, addcategorypost, addsubcategorypost,deletecategory,deletesubcategory,editaproductget,editaproductpost,addcouponget,addcouponpost, updatecoupon,deletecoupon,} = require("../controllers/products/request");
 route.get(["/","/login"], loginget)
@@ -62,7 +64,15 @@ route.get('/userhome/cart/add/:id',addcartget)
 route.get('/userhome/removecartitem/:cartid',cartremovalget)
 route.post('/userhome/cart/update/quantity',updatecartquantity)
 route.get('/userhome/search/' ,searchandget)
-
+route.get('/userhome/checkout', checkoutget)
+route.get('/checkout/applycoupon',couponcodeapply)
+route.post('/checkout/placeorder',placeorderpost)
+route.get("/user/emailverify", emailverifyget)
+route.post("/user/emailverify",emailverifypost)
+route.get("/userhome/orders", userordersget)
+route.get("/payment/razorpay",razorpayget)
+route.post("/payment/razorpay",razorpaypost)
+route.post("/user/cancelorder",cancelorderpost)
 
 
 

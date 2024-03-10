@@ -26,3 +26,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+async function cart (id) {
+    const element = id
+    console.log(element)
+    fetch(`/userhome/cart/add/${id}`,{
+       method:'get' 
+    })
+    
+    .then(res=>{
+    
+    console.log(res)
+    if(res.ok){
+    
+        console.log("worked")
+    
+    
+   
+    
+    
+    
+    } else{
+        
+        window.location.href = '/login'
+    }
+    
+    
+    })
+    
+    
+    
+    }

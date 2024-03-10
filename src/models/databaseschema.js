@@ -160,6 +160,57 @@ const couponSchema = new mongoose.Schema({
 
 
 
+const orderSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  products: [{
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'product',
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  }],
+  address: {
+    type: String,
+    required: true
+  },
+  paymentMethod: {
+    type: String,
+    enum: ['cash-on-delivery', 'upi'],
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'shipped', 'delivered'],
+    default: 'pending'
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  totalamount:{
+    type:Number,
+    required:true
+  }
+});
+
+
+const Order = mongoose.model('Orders', orderSchema);
+
+
+
+
 
 
 
@@ -175,4 +226,4 @@ const wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
 const userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
 const category = mongoose.model("category", categoryschema, "category")
 const banner =  mongoose.model("banner", bannerSchema, "banner")
-module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon};
+module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon,Order};

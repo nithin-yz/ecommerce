@@ -1,11 +1,23 @@
 const bcrypt = require("bcrypt");
-const { user, product, userprofile,banner,wishlist,cart} = require("../../models/databaseschema");
+const { user, product, userprofile,banner,wishlist,cart,coupon,Order} = require("../../models/databaseschema");
 const serviceID = "VAc66fc21c45c044d1ab1ccdfac90eab3c";
+const nodemailer = require('nodemailer');
+const stripe = require('stripe')('sk_test_51OrheASGiZWYvo9CNSo8xkhnXoNOzVtFdgLCqeqOnlBIU61C8wiAd7fCJWUoAv53D79oxWcaCtNixlYafFPsTtjD00fYKUxytn');
+const publishkey ='pk_test_51OrheASGiZWYvo9CambCngbBzQKXXOJ2PysL8Y499qnWqFEhSNjNdPafQJ3rG8Zq01muBD8iSWu0crCwVGfGIwlr00ZlzDU1ro'
+const secretkey= 'sk_test_51OrheASGiZWYvo9CNSo8xkhnXoNOzVtFdgLCqeqOnlBIU61C8wiAd7fCJWUoAv53D79oxWcaCtNixlYafFPsTtjD00fYKUxytn'
 // const serviceID ="MG97f0b3d1d7e90d4569dfcea3323b08dc"
 const accountID = "AC27dfaf6dc082030c3200209807da96fc";
 const authToken = "342ec8950109dbcc43494e64689f300f";
 const client = require("twilio")(accountID, authToken);
 const mongoose = require("mongoose");
+const e = require("connect-flash");
+
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+
+
+
 
 exports.userhomeget = async (req, res) => {
   try {
@@ -673,7 +685,7 @@ exports.updatecartquantity =async(req,res)=>{
 
 exports.searchandget =async(req,res)=>{
 
-console.log(req.query)
+// console.log(req.query)
 const  query =req.query.query
 const regex = new RegExp(query, 'i'); // Case-insensitive search
 const p = await product.find({ $or: [{ productname: regex },{ description: regex },{category:regex}] });
@@ -704,3 +716,367 @@ res.render("user/allproducts",{
 })
 
 }
+
+exports.checkoutget =async(req,res)=>{
+
+try{
+if(req.session.email) {
+const finder = await user.findOne({email:req.session.email})
+const id = finder._id
+// console.log(id)
+const addresses = await userprofile.find({ref:id})
+
+const usercart = await cart.findOne({ userref: id }).populate('items.product')
+const coupons = await coupon.find()
+// console.log(coupons)
+  res.render("user/checkout", {cart:usercart,addresses,userid:id,coupons})
+}else{
+
+  res.redirect("/login")
+}
+
+}catch(error){
+
+
+console.log(error)
+
+
+}
+
+}
+
+exports.couponcodeapply =async(req,res)=>{
+console.log("hai")
+console.log(req.query)
+
+if(req.session.email){
+const finder = await user.findOne({email:req.session.email})  
+
+const usercart = await cart.findOne({userref:finder._id})
+console.log(usercart)
+
+const Code  =req.query.code
+
+const coupons = await coupon.find()
+console.log(coupons)
+const checker = coupons.find( (ele)=>{
+
+return ele.code ==Code
+
+
+}
+  
+  
+  
+  )
+
+  console.log(checker)
+if(checker){
+
+const discount = checker.offerprice
+const amountcheck= checker.priceabove
+
+console.log(discount, amountcheck)
+
+console.log(usercart.totalprice)
+
+if(usercart.totalprice > amountcheck ) usercart.totalprice = usercart.totalprice -discount
+
+usercart.save()
+
+res.status(200).json({discount})
+
+}else{
+
+  res.status(400).json({ invalidcoupon: "invalidcoupon" });
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+exports.placeorderpost= async (req, res) => {
+  try {
+
+    if (req.session.email) {
+    // console.log(req.body)
+    const {address,paymentMethod} =req.body
+    // const { userId, products, address, paymentMethod } = req.body;
+
+    const finder = await user.findOne({email:req.session.email})
+    const userid =finder._id
+    const usercart = await cart.findOne({userref:userid})
+    const productsarray = usercart.items
+const totalamount =usercart.totalprice
+
+    // console.log(usercart)
+
+
+  
+    const newOrder = new Order({
+      user: userid, // Reference to the user who placed the order
+      
+      products: productsarray,
+      address: address,
+      paymentMethod: paymentMethod,
+      totalamount
+    })
+
+
+req.session.order = newOrder
+
+
+return res.status(200).json(paymentMethod)
+
+  }
+  else{
+return res.redirect("/login")
+
+  }
+    // Save the order to the database
+    // await newOrder.save();
+
+    // Return success response
+    // return res.status(200).json({ success: true, message: 'Order placed successfully!', orderId: orderId });
+  } catch (error) {
+    console.error('Error placing order:', error);
+    return res.status(500).json({ success: false, message: 'Failed to place order. Please try again later.' });
+  }
+};
+
+
+
+exports.emailverifyget = async (req, res) => {
+    if (req.session.email) {
+        const email = req.session.email;
+        
+        // Generate OTP
+        const otp = generateOTP();
+console.log(otp)
+        // Store OTP in session (you might want to use a more secure storage)
+        req.session.otp = otp;
+
+        // Create a Nodemailer transporter
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: "tomshift22@gmail.com",
+                pass: 'iiuk hazo paht ejte   '
+            }
+        });
+
+        // Set up email data
+        let mailOptions = {
+            from: 'tomshift22@gmail.com',
+            to: email,
+            subject: 'Email Verification OTP',
+            text: `Your OTP for email verification is: ${otp}`
+        };
+
+        // Send the email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                res.send('Error sending email.');
+            } else {
+                // console.log('Email sent: ' + info.response);
+                res.render("user/verifyemail", { email: email });
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
+};
+
+
+exports.emailverifypost =async(req,res)=>{
+
+
+try{
+
+  if(req.session.email){
+  const { email, otp } = req.body;
+
+ 
+  const storedOTP = req.session.otp; 
+  console.log(typeof(otp),typeof(storedOTP))
+ console.log(Number(otp) === storedOTP)
+  if (Number(otp) === storedOTP) {
+     
+      delete req.session.otp;
+
+      const orders= req.session.order
+
+// console.log(orders)
+const neworder = new Order (orders)
+const userid =  await user.findOne({email:req.session.email})
+// console.log(userid)
+const usercart = await cart.findOne({ userref:userid._id});
+if (usercart){  
+
+  await cart.deleteOne({ userref: userid._id })
+
+}
+
+await   neworder.save()
+delete req.session.order
+      res.json({ success: true });
+
+
+
+  } else {
+      
+      res.json({ success: false });
+  }
+}else{
+
+res.redirect("/login")
+
+}
+}
+
+catch(error){
+
+console.log(error)
+
+}
+
+
+}
+
+exports.userordersget = async(req,res)=>{
+
+try{
+if(req.session.email){
+const user1 = await user.findOne({email:req.session.email})
+
+const order = await Order.find({ user: user1._id }).populate('products.product');
+// console.log(order[0].products)
+res.render("user/orders",{user1:user1?user1 :null,order:order?order:null})
+
+}else{
+
+res.redirect("/login")
+
+}
+}
+catch(error){
+
+console.log(error)
+
+
+}
+
+
+
+
+
+
+}
+
+const YOUR_DOMAIN = "http://127.0.0.1:8580"
+exports.razorpayget =async(req,res)=>{
+  
+  if (req.session.email&&req.session.order){
+const amount = req.session.order.totalamount
+console.log(amount)
+  res.render("user/stripepayment" ,{key:publishkey,amount})
+}
+else{
+  res.redirect("/login")
+}
+}
+
+
+
+
+
+
+exports.razorpaypost = async (req, res) => {
+
+  try {
+    
+    stripe.customers.create({
+      email:req.body.stripeEmail,
+      source:req.body.stripeToken,
+      name: 'Gautam Sharma',
+      address : {
+      line1: '23 Mountain Valley New Delhi',
+      postal_code: '110092',
+      city: 'New Del',
+      state: 'washington',
+      country: 'USA'
+      }
+      }).then((customer) => {
+        return stripe.charges.create({
+        amount:7000,
+        description: 'Web Development Product',
+        currency: 'USD',
+        customer: customer.id
+        })
+        })
+        .then((charge) => {
+          console.log(charge)
+        res.send("Success")
+
+
+        }).catch((err) => {
+          res.render("user/ordersucess")
+          })
+
+
+          const orders= req.session.order
+
+          // console.log(orders)
+          const neworder = new Order (orders)
+          const userid =  await user.findOne({email:req.session.email})
+          console.log(userid)
+          const usercart = await cart.findOne({ userref:userid._id});
+          if (usercart){  
+          
+            await cart.deleteOne({ userref: userid._id })
+          
+          }
+await neworder.save()
+// return res.redirect("/userhome/orders")
+
+
+  } catch (error) {
+    console.error('Payment failed:', error);
+    res.status(500).send('Payment failed!');
+  }
+}
+
+
+
+
+
+exports.cancelorderpost = async (req, res) => {
+  const orderId = req.body.orderId;
+
+  try {
+      const updatedOrder = await Order.findByIdAndUpdate(orderId, { status: 'cancelled' }, { new: true });
+
+      if (updatedOrder) {
+          console.log("hi");
+          return res.status(200) .json({ message: 'Order updated successfully' });
+      } else {
+          return res.status(404).json({ error: 'Order not found' });
+      }
+  } catch (error) {
+      console.error('Error cancelling order:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+
+

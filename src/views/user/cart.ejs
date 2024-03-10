@@ -18,6 +18,23 @@
     <link rel="stylesheet" href="/css/user/usercart/contact.css">
     <link rel="stylesheet" href="/css/user/usercart/cart.css">
 </head>
+
+<style>
+.emptycart{
+margin-top: 147px;
+  /* margin-left: 698px;     */
+  font-size: 72px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 178px;
+}
+
+
+
+
+
+</style>
 <body>
 <section id="header">
     <a href="#"><img class="logo" src="/images/userhome/logo.png" alt="logo" style="width: 80px; height: 82px;"></a>
@@ -34,6 +51,7 @@
             <li><a href="/userhome/account">Account</a></li>
             <li><a href="/userhome/wishlist"><i class="fa-solid fa-heart"></i></a></li>
             <li class="lg-bag"><a href="/userhome/cart"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <li><a href="/userhome/orders"><i class="fa-light fa-bags-shopping" style="color: #004080;"></i></a>               </li>
             <li><a href="#">logout</a></li>
         </ul>
     </div>
@@ -77,18 +95,9 @@
         </tbody>
     </table>
 </section>
-<% } else { %>
-    <p>Your cart is empty.</p>
-<% } %>
 
 <section id="cart-add" class="section-p1">
-    <div id="coupon">
-        <h3>Apply Coupon</h3>
-        <div>
-            <input type="text" placeholder="Enter Your Coupon Code" />
-            <button class="normal">Apply</button>
-        </div>
-    </div>
+    
     <div id="sub-total">
         <h3>Cart Totals</h3>
         <table>
@@ -100,22 +109,27 @@
                 <td>Shipping</td>
                 <td>Free</td>
             </tr>
-
-<tr>
-    <td>Discount</td>
-    <td></td>
-
-
-</tr>
-
+            
+            <tr>
+                <td>Discount</td>
+                <td></td>
+                
+                
+            </tr>
+            
             <tr>
                 <td><strong>Total</strong></td>
                 <td id="cart-total"><strong>$ <%= cart.totalprice.toFixed(2) %></strong></td>
             </tr>
         </table>
-        <button class="normal">Proceed to checkout</button>
+        <a href="/userhome/checkout/">  <button class="normal">Proceed to checkout</button></a>
     </div>
 </section>
+<% } else { %>
+    <div class="emptycart">
+    <p>Your cart is empty.</p>
+</div>
+<% } %>
 
 <footer class="section-p1">
     <div class="col">
