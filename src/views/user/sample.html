@@ -14,9 +14,8 @@
     />
     <!-- end of Bootstrap css cdn link -->
     <!-- Style css -->
-    <link rel="stylesheet" href="/css/user/orders/orderoneshow.css" />
-    <link rel="stylesheet" href="/css/user/userhome/header.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    <link rel="stylesheet" href="../../../public/css/user/orders/orderoneshow.css" />
+    <link rel="stylesheet" href="../../../public/css/user/userhome/header.css">
     <!-- end of Style css -->
   </head>
   <body>
@@ -84,7 +83,7 @@
             <div class="cartHead">
               <div class="d-flex align-items-center gap-2">
                 <h2 class="m-0 p-0">Order Details</h2>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="15 " viewBox="0 0 20 15" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 20 15" fill="none">
                   <path d="M3 7H17V11C17 12.8856 17 13.8284 16.4142 14.4142C15.8284 15 14.8856 15 13 15H7C5.11438 15 4.17157 15 3.58579 14.4142C3 13.8284 3 12.8856 3 11V7Z" fill="black"/>
                   <path d="M0.815301 3.8153L3 6L7 2L4.58869 0.392459C4.23591 0.157275 3.77317 0.170119 3.43399 0.424509L0.922408 2.30819C0.435568 2.67332 0.384992 3.38499 0.815301 3.8153Z" fill="black"/>
                   <path d="M19.1847 3.8153L17 6L13 2L15.4113 0.392459C15.7641 0.157275 16.2268 0.170119 16.566 0.424509L19.0776 2.30819C19.5644 2.67332 19.615 3.38499 19.1847 3.8153Z" fill="black"/>
@@ -94,45 +93,25 @@
             </div>
             <div class="cartBody">
               <div class="ODhead">
-                <p>Order ID - <%=order._id%></p>
+                <p>Order ID - OD428508037018935100</p>
               </div>
-              
               <div class="d-flex ODhead gap-3 justify-content-between align-items-center">
-                <%order.products.forEach((ele)=>{%>
                 <div>
-                    
-
-
-
-                   
-    
-                  <h2 class="m-0 p-0 text-capitalize"><%=ele.productname%></h2>
-                  <!-- <p class="m-0 p-0 text-capitalize">Black</p> -->
+                  <h2 class="m-0 p-0 text-capitalize">LAPCARE DCX-A101 2 FAN Cooling Pad</h2>
+                  <p class="m-0 p-0 text-capitalize">Black</p>
                   <div class="d-flex align-items-baseline price gap-2 mt-2">
-                    <p>price:<%=ele.price%></p>
-                    <p>quantity:<%=ele.quantity%></p>
-
-            
+                    <p>₹704</p>
+                    <p>57% OFF</p>
                   </div>
                 </div>
                 <div class="imgOrder">
-                  <img src="/uploads/<%=ele.product.image1%>" alt="">
+                  <img src="./images/cartImg/1a.png" alt="">
                 </div>
-                <%  }) %>
               </div>
               <div class="ODhead pt-4 pb-4">
                 <div class="d-flex gap-3 align-items-center">
-                    <p class="dot done"></p>
-                    <p id="oText">Ordered Confirmed, <span id="formattedDate"></span></p>
-                </div>
-                <div class="lineParent position-relative">
-                    <div class="line position-relative doneLine">
-
-                    </div>
-                </div>
-                <div class="d-flex gap-3 align-items-center">
-                  <p class="dot done middle"></p>
-                  <p id="oText" class="shipped">Shipped</p>
+                  <p class="dot done"></p>
+                  <p id="oText">Ordered Confirmed, Jul 01, 2023</p>
                 </div>
                 <div class="lineParent position-relative">
                     <div class="line position-relative doneLine">
@@ -141,16 +120,25 @@
                 </div>
                 <div class="d-flex gap-3 align-items-center">
                   <p class="dot done"></p>
-                  <p id="oText " class="delivered">Delivered</p>
+                  <p id="oText">Shipped</p>
+                </div>
+                <div class="lineParent position-relative">
+                    <div class="line position-relative doneLine">
+
+                    </div>
+                </div>
+                <div class="d-flex gap-3 align-items-center">
+                  <p class="dot done"></p>
+                  <p id="oText">Delivered</p>
                 </div>
               </div>
               <div class="ODhead sDetails">
                 <p>Shipping Details</p>
               </div>
               <div class="ODhead pt-3 pb-3 SDetails">
-                <h2 class="text-capitalize"><%=user1.username%></h2>
-                <p class="text-capitalize"><%=order.address%></p>
-                <p><%=user1.phone%></p>
+                <h2 class="text-capitalize">Priyanjith</h2>
+                <p class="text-capitalize">Nedinalil 1234, Jailroad, Kozhikode, Kozhikode, Kerala - 673004</p>
+                <p>Phone: 9188336166</p>
               </div>
               <div class="ODhead sDetails">
                 <p>Price Details</p>
@@ -158,14 +146,14 @@
               <div class="orderContent">
                 <div class="sTotal d-flex justify-content-between align-items-center">
                   <p class="commonText m-0 p-0">Subtotal</p>
-                  <p class="commonSub m-0 p-0" id="sTotal">$<%=order.totalamount%></p>
+                  <p class="commonSub m-0 p-0" id="sTotal">₹27,598</p>
                 </div>
 
                 <div class="ship d-flex justify-content-between align-items-center">
                   <p class="commonText m-0 p-0">Shipping</p>
                   <p class="commonSub m-0 p-0" id="free">FREE</p>
                 </div>
-<!-- 
+
                 <div class="ship d-flex justify-content-between align-items-center">
                   <p class="commonText m-0 p-0">Discount</p>
                   <p class="commonSub m-0 p-0" id="dPrice">-19,600</p>
@@ -174,12 +162,12 @@
                 <div class="ship d-flex justify-content-between align-items-center">
                   <p class="commonText m-0 p-0">Coupon Discount</p>
                   <p class="commonSub m-0 p-0" id="cDPrice">0</p>
-                </div> -->
+                </div>
               </div>
               <div class="Last">
                 <div class="commonText tPrice d-flex justify-content-between align-items-center">
                   <p class="m-0 p-0">Total</p>
-                  <p class="m-0 p-0" id="tPrice">$<%=order.totalamount%></p>
+                  <p class="m-0 p-0" id="tPrice">₹7,998</p>
                 </div>
               </div>
               <a href="/userOrderDownloadInvoice/:productId/:orderId" class="text-dark fw-bolder">
@@ -217,66 +205,26 @@
       </div>
     </main>
     <!-- end of main -->
-<script>
 
-var timestamp = "<%=order.createdAt%>";
-
-    // Parse the timestamp
-    var dateObj = new Date(timestamp);
-
-    // Extract date components
-    var year = dateObj.getFullYear();
-    var month = dateObj.getMonth() + 1; // Months are 0-based, so adding 1
-    var day = dateObj.getDate();
-
-    // Format the date
-    var formattedDate = + (day < 10 ? "0" + day : day)+"-" + (month < 10 ? "0" + month : month) + "-" + year 
-
-    // Display the formatted date
-    document.getElementById("formattedDate").textContent = formattedDate; 
-
-
-    const status1 = "<%=order.status%>"
-    var shippedElement = document.querySelector(".shipped");
-    var deliveredElement = document.querySelector(".delivered");
-    var middle = document.querySelector(".middle")
-
-    if (status1 === "cancelled") {
-          
-            document.getElementById("oText").style.color = "red";
-           
-            var shippedElement = document.querySelector(".shipped");
-            if (shippedElement) {
-                shippedElement.remove();
-            }
-            if (deliveredElement) {
-                deliveredElement.style.color = "red";
-                deliveredElement.textContent = "Cancelled";
-            }
-        } else if (status1=== "shipped") {
-            shippedElement.remove();
-            middle.remove()
-            deliveredElement.textContent = "shipped";
-
-        }else if(status1=="pending") {
-            console.log("podA")
-            shippedElement.remove();
-            middle.remove()
-            deliveredElement.textContent = "pending(on progress)";
-        }
-            
-            else {
-           console.log("hey")
-            deliveredElement.textContent = "Delivered"
-            // document.querySelector(".delivered").style.color = "blue";
-        }
-    
-    
-</script>
     <!-- footer -->
    
     <!-- end of footer -->
 
-  
+    <!-- custom js -->
+    <script src="./js/userOrderSummaryPage.js"></script>
+    <!-- end of custom js -->
+    <!-- fontawesome -->a
+    <script
+      src="https://kit.fontawesome.com/23d1247997.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- end of fontawesome -->
+    <!-- Bootstrap script file -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <!--end of Bootstrap script file -->
   </body>
 </html>

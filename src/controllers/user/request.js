@@ -1078,5 +1078,26 @@ exports.cancelorderpost = async (req, res) => {
 
 
 
+exports.ordergetdetails =async(req,res)=>{
+try{
+  if (req.session.email) {
+    const user1 =await user.findOne({email:req.session.email})
+  const orderid = req.query.orderid
+const userorder = await Order.findOne({_id:orderid}).populate('products.product')
+// console.log(userorder.products)
+  res.render("user/orderoneshow",{user1:user1?user1:null, order:userorder})
+  }
+else{
 
+  res.redirect("/login")
+}
+
+
+
+}catch(err){
+
+console.log(err)
+
+}
+}
 

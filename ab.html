@@ -7,20 +7,16 @@
       content="width=device-width,initial-scale=1,maximum-scale=1"
     />
     <title>Admin Dashboard | Keyframe Effects</title>
-    <link rel="stylesheet" href="/css/admin/adminhome.css" />
-    <link rel="stylesheet" href="/css/admin/graph.css">
+    <link rel="stylesheet" href="./public/css/admin/adminhome.css" />
     <link
       rel="stylesheet"
-      href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"/>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
+      href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"
+    />
     <style>
-      .grapharea {
-    width: 100%;
-    height: 300px; /* Adjust the height as needed */
-  }
+      .grapharea{
+        width: 100%;
+        height: 400px;
+      }
   </style>
 
 
@@ -195,132 +191,85 @@
                 </div>
               </div>
             </div>
-          </main>
-<div class="graphs">
             <div class="grapharea">
                 <div class="line-chart">
-                  <h1 style="
-                    color: #FFAFAF;
-                    margin-left: 88px;
-                    margin-top: 15px"
-                  >Users Graph</h1>
-                  <div class="aspect-ratio" style="max-width: 640px;">
-                    <canvas id="chart" width="400" height="300" style="margin-left:28px;"></canvas>
-                  </div>
-                  
+                    <div class="aspect-ratio">
+                      <canvas id="chart"></canvas>
+                    </div>
                   </div>
             </div>
-            <div id="doughnutChart" class="chart1"></div>
-
-          </div>
-
-
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-
-
-
-
-
-            
-            <script src="/script/graph.js"></script>
-            
             <script>
+                var chart    = document.getElementById('chart').getContext('2d'),
+          gradient = chart.createLinearGradient(0, 0, 0, 450);
+          
+          gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
+          gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
+gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
 
 
-// var data;
-
-document.addEventListener("DOMContentLoaded", async function() {
-    let response;
-    try {
-        // Fetch user signup data when the document is loaded using Axios
-        response = await axios.get("/admin/users/signupdata");
-        // Extract the data from the response
-        // data = response.data;
-        // Process the retrieved data and update the graph
-        // updateGraph(data);
-        // console.log(data);
-       
-    } catch (error) {
-        console.log("Error fetching user signup data:", error);
-    }
-
-    // Now you can access the response outside of the try block
-    console.log(response);
-
-    var chart = document.getElementById('chart').getContext('2d'),
-        gradient = chart.createLinearGradient(0, 0, 0, 450);
-
-    gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
-    gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
-    gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
-    
-    const months = response.data.map(ele => ele.month);
-const count = response.data.map(ele => ele.count);
-    var data = {
-        labels: months,
-        datasets: [{
-            label: 'Custom Label Name',
-            backgroundColor: gradient,
-            pointBackgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: '#911215',
-            data: count
-        }]
-    };
+var data  = {
+    labels: [ 'January', 'February', 'March', 'April', 'May', 'June' ],
+    datasets: [{
+			label: 'Custom Label Name',
+			backgroundColor: gradient,
+			pointBackgroundColor: 'white',
+			borderWidth: 1,
+			borderColor: '#911215',
+			data: [50, 55, 80, 81, 54, 50]
+    }]
+};
 
 
+var options = {
+	responsive: true,
+	maintainAspectRatio: true,
+	animation: {
+		easing: 'easeInOutQuad',
+		duration: 520
+	},
+	scales: {
+		xAxes: [{
+			gridLines: {
+				color: 'rgba(200, 200, 200, 0.05)',
+				lineWidth: 1
+			}
+		}],
+		yAxes: [{
+			gridLines: {
+				color: 'rgba(200, 200, 200, 0.08)',
+				lineWidth: 1
+			}
+		}]
+	},
+	elements: {
+		line: {
+			tension: 0.4
+		}
+	},
+	legend: {
+		display: false
+	},
+	point: {
+		backgroundColor: 'white'
+	},
+	tooltips: {
+		titleFontFamily: 'Open Sans',
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		titleFontColor: 'red',
+		caretSize: 5,
+		cornerRadius: 2,
+		xPadding: 10,
+		yPadding: 10
+	}
+};
 
-console.log(months,count);
-    var options = {
-        responsive: true,
-        maintainAspectRatio: true,
-        animation: {
-            easing: 'easeInOutQuad',
-            duration: 520
-        },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    color: 'rgba(200, 200, 200, 0.05)',
-                    lineWidth: 1
-                }
-            }],
-            yAxes: [{
-                gridLines: {
-                    color: 'rgba(200, 200, 200, 0.08)',
-                    lineWidth: 1
-                }
-            }]
-        },
-        elements: {
-            line: {
-                tension: 0.4
-            }
-        },
-        legend: {
-            display: false
-        },
-        point: {
-            backgroundColor: 'white'
-        },
-        tooltips: {
-            titleFontFamily: 'Open Sans',
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            titleFontColor: 'red',
-            caretSize: 5,
-            cornerRadius: 2,
-            xPadding: 10,
-            yPadding: 10
-        }
-    };
 
-    var chartInstance = new Chart(chart, {
-        type: 'line',
-        data: data,
-        options: options
-    });
+var chartInstance = new Chart(chart, {
+    type: 'line',
+    data: data,
+		options: options
 });
-
-</script>
-</body>
+            </script>
+  </body>
 </html>

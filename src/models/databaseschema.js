@@ -192,7 +192,7 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'shipped', 'delivered'],
+    enum: ['pending',  'shipped', 'delivered'],
     default: 'pending'
   },
   createdAt: {
@@ -226,4 +226,4 @@ const wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
 const userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
 const category = mongoose.model("category", categoryschema, "category")
 const banner =  mongoose.model("banner", bannerSchema, "banner")
-module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon,Order};
+module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon, Order};
