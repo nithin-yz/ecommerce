@@ -7,14 +7,14 @@ const {loginget} = require("../controllers/common/request")
 const{signupget} =  require("../controllers/common/request")
 const {userhomeget,signuppost,otpget,otppost,loginpost,allproductget,womenget,profileget,cartget,profilepost,wishlistget,wishlistaddpost,logoutget, wishlistremoval,cartgetlag,addcartget,cartremovalget,updatecartquantity
     ,searchandget,checkoutget,couponcodeapply,placeorderpost,
-    emailverifyget,emailverifypost,userordersget,razorpayget,razorpaypost,cancelorderpost,ordergetdetails} = require("../controllers/user/request")
-const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, addbannerget,addbannerpost, deletebannerget,bannerupdatepost,updateorderstatus,userordersfullget, signupdataget,productgraphget} = require("../controllers/admin/request");
+    emailverifyget,emailverifypost,userordersget,razorpayget,razorpaypost,cancelorderpost,ordergetdetails,forgotpasswordget,forgotpasswordpost,forgotpasswordotppost,updatepasswordpost} = require("../controllers/user/request")
+const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, addbannerget,addbannerpost, deletebannerget,bannerupdatepost,updateorderstatus,userordersfullget, signupdataget,productgraphget,updateuserstatuspost} = require("../controllers/admin/request");
 const { usershowproducts,addcategoryget, addcategorypost, addsubcategorypost,deletecategory,deletesubcategory,editaproductget,editaproductpost,addcouponget,addcouponpost, updatecoupon,deletecoupon,} = require("../controllers/products/request");
 route.get(["/","/login"], loginget)
 route.get("/signup", signupget)
 route.get("/userhome", userhomeget)
 route.post("/signup",signuppost)
- route.get(["/signup/otp/:id", "/signup/otp", "/signup/otp/resend/:id"], otpget)
+ route.get("/signup/otp/:id", otpget)
 route.post(["/signup/otp/:id",  ], otppost), 
 route.post("/login",loginpost)
 route.get("/userhome/men", allproductget)
@@ -79,7 +79,11 @@ route.post("/admin/update/orderstatus", updateorderstatus)
 
 route.get("/admin/users/signupdata",signupdataget)
 route.get("/admin/users/productdata",productgraphget)
-
+route.post("/admin/updateuserstatus",updateuserstatuspost)
+route.get("/user/forgotpassword", forgotpasswordget)
+route.post("/user/forgotpassword",forgotpasswordpost)
+route.post("/user/forgotpassword/otp",forgotpasswordotppost)
+route.post("/user/forgotpassword/update", updatepasswordpost)
 
 
 

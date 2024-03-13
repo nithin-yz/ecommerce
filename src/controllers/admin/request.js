@@ -381,4 +381,20 @@ exports.productgraphget=async(req,res)=>{
     }
 }
 
+exports.updateuserstatuspost = async (req, res) => {
+  const { userId, status } = req.body;
+
+  const user1 = await user.findOne({ _id: userId });
+  if (!user1) {
+      return res.status(404).json({ success: false, message: "User not found." });
+  } else {
+      if (user1.status === "active") {
+          user1.status = "block";
+      } else {
+          user1.status = "active";
+      }
+      await user1.save();
+      return res.status(200).json({ success: true, message: "User status updated successfully." });
+  }
+}
 

@@ -84,10 +84,12 @@ button.white {
   border: 1px solid white;
   outline: none;
   transition: all 0.3s ease;
+
 }
 
 body {
   width: 100%;
+ 
 }
 
 #header {
@@ -273,9 +275,10 @@ body {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   flex-wrap: wrap;
+  gap: 33px;
 }
 
 #product1 .pro {
@@ -593,4 +596,10 @@ footer .copyright {
   font-size:21px;
 
 }
+#searchbar,#search {
 
+
+  width: 356px;
+  border-radius: 80px;
+  height: 32px;
+}

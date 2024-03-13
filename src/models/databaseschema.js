@@ -8,6 +8,14 @@ const userschema = mongoose.Schema({
   role: { type: String, default: "user" },
 
   verified: { type: Boolean, default: false },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  status:{type:String,
+  default:"active"}
+  
 });
 
 const productschema = mongoose.Schema({
@@ -27,7 +35,11 @@ const productschema = mongoose.Schema({
 
   price: { type: Number, required: true },
   newprice: { type: Number,required:true },
-  stock: {type:Number, required:true}
+  stock: {type:Number, required:true},
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 
 });
 

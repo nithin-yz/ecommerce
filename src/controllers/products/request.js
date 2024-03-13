@@ -1,4 +1,6 @@
 
+const fs = require('fs')
+const path= require('path')
 const {product, category,coupon}= require("../../models/databaseschema")
 
 exports.usershowproducts = async(req,res)=>{
@@ -131,19 +133,42 @@ exports.editaproductget= async(req,res)=>{
   
 
 
-  exports.editaproductpost = async (req, res) => {
-    
+
+exports.editaproductpost = async (req, res) => {
     try {
-      // Find the product by ID and update it
-      
-      
-      
-      
-      const productid = req.query.productid;
-  
-      const existingProduct = await product.findById(productid)
-      
-      if (req.body.productname) existingProduct.productname = req.body.productname;
+        // Find the product by ID and update it
+        const productid = req.query.productid;
+        const existingProduct = await product.findById(productid);
+
+        if (!existingProduct) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        // Define a function to delete old images
+        const deleteOldImages = async (imageName) => {
+            try {
+              
+              await fs.unlink(path.join(__dirname, "../../../public/uploads", imageName));
+
+                console.log(`Deleted old image: ${imageName}`);
+            } catch (error) {
+                console.error(`Error deleting old image ${imageName}:`, error);
+            }
+        };
+
+        // Remove existing images from the folder only if new images are uploaded
+        if (existingProduct.image1 && req.files['image1'] && req.files['image1'].length > 0) {
+            await deleteOldImages(existingProduct.image1);
+        }
+        if (existingProduct.image2 && req.files['image2'] && req.files['image2'].length > 0) {
+            await deleteOldImages(existingProduct.image2);
+        }
+        if (existingProduct.image3 && req.files['image3'] && req.files['image3'].length > 0) {
+            await deleteOldImages(existingProduct.image3);
+        }
+
+        // Update product with new data
+        if (req.body.productname) existingProduct.productname = req.body.productname;
         if (req.body.price) existingProduct.price = req.body.price;
         if (req.body.description) existingProduct.description = req.body.description;
         if (req.body.category) existingProduct.category = req.body.category;
@@ -151,9 +176,7 @@ exports.editaproductget= async(req,res)=>{
         if (req.body.stock) existingProduct.stock = req.body.stock;
         if (req.body.subcategory) existingProduct.subcategory = req.body.subcategory;
 
-          
-
-          if (req.files['image1'] && req.files['image1'].length > 0) {
+        if (req.files['image1'] && req.files['image1'].length > 0) {
             existingProduct.image1 = req.files['image1'][0].filename;
         }
         if (req.files['image2'] && req.files['image2'].length > 0) {
@@ -165,26 +188,25 @@ exports.editaproductget= async(req,res)=>{
 
         const updatedProduct = await existingProduct.save();
 
+        if (!updatedProduct) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        res.redirect("/adminhome/showproduct");
+    } catch (error) {
+        // Handle any errors
+        console.error("Error updating product:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
 
   
-          if (!updatedProduct) {
-              return res.status(404).json({ error: "Product not found" });
-          }
-  
 
 
-          
-          
-          res.redirect("/adminhome/showproduct")
 
-         
-      } catch (error) {
-          // Handle any errors
-          console.error("Error updating product:", error);
-          res.status(500).json({ error: "Internal server error" });
-      }
-  };
-  
+
+
+
      exports.addcouponget = async (req,res)=>{
 const coupons = await coupon.find()
 

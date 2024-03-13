@@ -99,6 +99,17 @@
         </div>
     </section>
 
+
+
+    <section id="banner1" class="section-m1">
+        <div class="banner-box" id="bannerContainer" style="width:100%; height:505px;margin-left:67px">
+            
+        </div>
+    </section>
+
+
+
+
     <section id="hero"> 
         <h4>Trade-In-Offer</h4>
         <h2>Super Value Deals</h2>
@@ -109,6 +120,15 @@
         <!-- Your hero section content -->
     </section>
 
+
+
+
+
+</div>
+
+
+   
+   
     <section id="feature" class="section-p1">
         <!-- Your feature section content -->
         <div class="fe-box">
@@ -136,6 +156,10 @@
             <h6>24/7 Support</h6>
         </div>
     </section>
+
+
+
+
 
     <section id="product1" class="section-p1">
         <!-- <h2>Featured Products</h2>
@@ -264,9 +288,41 @@
         </div>
         <!-- Your footer section content -->
     </footer>
-
+ 
     <script src="/script/userhome.js"></script>
 
     <script src ="/script/wishlist.js"></script>
+    
+    <script>
+        // Array of banner images
+        const bannerImages = [
+            <% banner1.forEach((banner) => { %>
+                "/uploadbanner/<%= banner.bannerimage %>",
+            <% }); %>
+        ];
+    
+        const bannerContainer = document.getElementById('bannerContainer');
+        let currentBannerIndex = 0;
+    
+        // Function to change the banner image
+        function changeBanner() {
+            bannerContainer.style.background = `url('${bannerImages[currentBannerIndex]}')`;
+            currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
+        }
+    
+        // Change the banner every 5 seconds (5000 milliseconds)
+        setInterval(changeBanner, 4000);
+    
+        // Initial call to display the first banner
+        changeBanner();
+    </script>
+    
+
+
+
+
+
+
+
 </body>
 </html>

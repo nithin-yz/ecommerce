@@ -88,3 +88,11 @@ body {
   bottom: -4px;
   left: 20px;
 }
+
+#searchbar {
+
+
+  width: 356px;
+  border-radius: 80px;
+  height: 32px;
+}

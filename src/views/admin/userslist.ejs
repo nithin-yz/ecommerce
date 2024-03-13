@@ -6,19 +6,81 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/admin/userlistshow.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
     <header class="admin-header" style="background-color: lightblue; color:black">
         <div class="admin-logo">
-          <img src="/images/admin/logo.png" alt="Admin Logo">
+            <img src="/images/admin/logo.png" alt="Admin Logo">
         </div>
         <nav class="admin-nav" style="color:black;">
-          <ul>
-            <li><a href="/adminhome">Home</a></li>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Logout</a></li>
-          </ul>
+            <ul>
+                <li><a href="/adminhome">Home</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
         </nav>
     </header>
     <h1>User List</h1>
@@ -29,8 +91,9 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Phone Number</th> <!-- Added "Phone Number" column -->
-                <th>Delete</th> <!-- Added column for delete button/icon -->
+                <th>Phone Number</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -42,18 +105,21 @@
                 <td><%= user.username %></td>
                 <td><%= user.email %></td>
                 <td><%= user.role %></td>
-                <td><%= user.phone %></td> <!-- Added "Phone Number" cell -->
+                <td><%= user.phone %></td>
+                <td><%= user.status %></td>
                 <td>
-                    <!-- Delete button/icon -->
-                    <button onclick="deleteuser('<%= user._id %>')">Delete</button>
-                    <!-- You can replace the button with an icon if desired -->
+                    <!-- Sliding block/unblock button -->
+                    <label class="switch">
+                        <input type="checkbox" onchange="toggleUserStatus(this, '<%= user._id %>')" <% if (user.status === 'block') { %> checked <% } %> >
+                        <span class="slider round"></span>
+                    </label>
                 </td>
             </tr>
             <% }); %>
         </tbody>
     </table>
     
-    <!-- JavaScript function to handle user deletion -->
-  <script src="/script/deleteuser.js"></script>
+    <!-- JavaScript function to handle user status toggling -->
+    <script src="/script/toggleuserstatus.js"></script>
 </body>
 </html>

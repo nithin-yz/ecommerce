@@ -14,7 +14,7 @@ let emptyelement = document.querySelector('.coupont')
         console.log(data)
         // Check if the coupon is applicable
         if (data.discount) {
-            console.log("hai")
+            
             const discountAmount = data.discount; // Get the discount amount from the response
             
             // Update the total amount displayed on the frontend
@@ -60,15 +60,15 @@ placeOrderBtn.addEventListener('click', async () => {
     console.log(selectedAddress)
 
     const paymentMethod = document.querySelector('input[name="radio"]:checked');
-    console.log(paymentMethod.value)
+    // console.log(paymentMethod.value)
     if (!selectedAddress) {
         alert('Please select an address.');
         return;
-    }
-    if (!paymentMethod) {
+    }else if (!paymentMethod) {
+        console.log("hi")
         alert('Please select a payment method.');
         return;
-    }
+    }else{
 
     try {
          fetch('/checkout/placeorder', {
@@ -101,6 +101,7 @@ placeOrderBtn.addEventListener('click', async () => {
     } catch (error) {  
         console.log('Error placing order:', error);
     }
+}
 });
 
 

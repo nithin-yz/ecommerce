@@ -41,7 +41,7 @@
                 <!-- Form fields for editing coupon details -->
                 
                 <label for="editCode">Coupon Code:</label>
-                <input type="text" id="editCode" name="Code" required>
+                <input type="text" id="editCode" name="code" required>
                 <label for="editExpiryDateTime">Expiry Date and Time:</label>
                 <input type="datetime-local" id="editExpiryDateTime" name="expirydatetime" required>
                 <label for="editPriceAbove">
@@ -85,7 +85,7 @@
                         <span><strong>Price Above:</strong> <%= coupon.priceabove %></span>
                         <span><strong>Offer Price:</strong> <%= coupon.offerprice %></span>
                         <div class="coupon-options">
-                            <button onclick="editCoupon(<%= JSON.stringify(coupon) %>)">Edit</button>
+                            <button onclick="editCoupon('<%= JSON.stringify(coupon) %>')">Edit</button>
 
                             
                            

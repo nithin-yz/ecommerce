@@ -64,7 +64,7 @@ exports.userhomeget = async (req, res) => {
     const updatedProductsArray = userwishlist.products.filter(prodId => prodId.toString() !== productId); // Ensure matching using string representation
 
    
-    userwishlist.products = updatedProductsArray;
+    userwishlist.products = updatedProductsArray;s
     await userwishlist.save()
 
     return res.sendStatus(200)
@@ -109,8 +109,22 @@ exports.loginpost = async (req, res) => {
               if (findperson.verified) {
                   // const userwishlist = await wishlist.findOne({ user: findperson._id });
                   req.session.user = findperson;
+
+
+if(findperson.status=="active"){
+
+ return res.status(200).redirect('/userhome');
+
+}else{
+  req.flash('error1', "you are temporarly blocked");
+  return res.redirect("/login");
+
+
+}
+
+
                   // req.session.userwishlist = userwishlist ? userwishlist.products : [];
-                  return res.status(200).redirect('/userhome');
+                  
               } else {
                   const cell = findperson.phone;
                   return res.status(200).redirect(`/signup/otp/${cell}`);
@@ -174,15 +188,11 @@ exports.signuppost = async (req, res) => {
  const p =   await newuser.save();
 
 if (p){
-    // await client.verify.v2
-    //   .services(serviceID)
-    //   .verifications.create({
-    //     to: `+91${phone}`,
-    //     channel: "sms",
-    //   })
-    //   .catch((err) => console.log(err));
+  
 
-    res.redirect(`/signup/otp/${phone}`)}
+    res.redirect(`/signup/otp/${email}`)
+  
+  }
   } catch (err) {
     console.log(err);
     res.flash('error', 'you are not signed yet')
@@ -192,114 +202,186 @@ if (p){
 
 exports.otpget = async (req, res) => {
   try {
-    const phone = req.params.id;
+    const email = req.params.id;
 
-
-    await client.verify.v2
-    .services(serviceID)
-    .verifications.create({
-      to: `+91${phone}`,
-      channel: "sms",
-    })
-    .catch((err) => console.log(err));
-
-
+    const otp = generateOTP();
+    console.log(otp)
+            // Store OTP in session (you might want to use a more secure storage)
+            req.session.otp = otp;
+            req.session.email=email
+    
+            // Create a Nodemailer transporter
+            let transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: "tomshift22@gmail.com",
+                    pass: 'fblj qvtl mnsj yodt '
+                }
+            });
+    
+            // Set up email data
+            let mailOptions = {
+                from: 'tomshift22@gmail.com',
+                to: email,
+                subject: 'Email Verification OTP',
+                text: `Your OTP for email verification is: ${otp}`
+            };
+    
+            // Send the email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                    res.send('Error sending email.');
+                } else {
+                    console.log("hlo")
+                    res.render("user/otp",{message:email,error:req.flash("error")})
+                }
+            });
+   
 
 
 
     // console.log(phone)
-    res.render("user/otp", { message: phone, error: req.flash("error") });
-  } catch {}
+  
+  } catch (err)
+  {
+
+console.log(err)
+
+  }
 };
 
 exports.otppost = async (req, res) => {
-  const phone = req.params.id;
+ 
   const { otp } = req.body;
+  const sendotp =req.session.otp
+  const email = req.session.email
   try {
-    const re = await client.verify.v2.services(serviceID)
-      .verificationChecks.create({
-        to: `+91${phone}`,
-        code: otp,
-      });
-
-    console.log("response under");
-    console.log(re);
-
-    const { status, valid } = re;
-    console.log(status, valid);
+    
 
   
 
-    if (status == "approved" && valid == true) {
-      let changing = await user.findOne({ phone: phone })
-      await user.updateOne({phone},{$set:{
+    if (otp==sendotp) {
+      let changing = await user.findOne({ email: email })
+      await user.updateOne({email},{$set:{
         verified:true}})
-                                                          
+                
+        
+        delete req.session.email
+        delete req.session.otp
       res.redirect("/login");
-    } else if (status == 403) {
-      req.flash("error", "number is not registered with twilio");
-      res.redirect(`/signup/otp`);
     } else {
       console.log("hai");
       req.flash("error", "otp is incorrect");
-      res.redirect(`/signup/otp`);
+      res.redirect(`/signup/otp/${email}`);
     }
   } catch (err) {
     console.log(err);
     req.flash("error", "number is not registered with twilio");
-    res.redirect(`/signup/otp`);
+    res.redirect(`/signup/otp/${email}`);
   }
 };
 
-exports.allproductget = async (req,res)=>{
+exports.allproductget = async (req, res) => {
+  try {
+    const query = req.query.query;
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice;
 
+    // Constructing the query object
+    let queryObj = {};
 
+    // Adding price range filters if provided
+    if (minPrice && maxPrice) {
+      queryObj.newPrice = { $gte: minPrice, $lte: maxPrice };
+    } else if (minPrice) {
+      queryObj.newPrice = { $gte: minPrice };
+    } else if (maxPrice) {
+      queryObj.newPrice = { $lte: maxPrice };
+    }
 
-const regex = new RegExp("men", 'i'); // Case-insensitive search
-const p = await product.find({ $or: [{ category: regex },{ description: regex }] });
+    // If query is provided, add it to the search
+    if (query) {
+      const regex = new RegExp(query, 'i');
+      queryObj.$or = [
+        { productname: regex },
+        { description: regex },
+        { category: regex }
+      ];
+    }
 
-const banner1 = await banner.find();
-      const user = req.session.user;
-      const userId = user ? user._id : null; 
-      const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
-  
+    const p = await product.find(queryObj);
+    console.log(p)
+    const banner1 = await banner.find();
+    const user = req.session.user;
+    const userId = user ? user._id : null;
+    const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+    const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
 
-      const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
-
-
-
-
-
-
-
-res.render("user/allproducts",{
-
-  products: p,
-  user1: user,
-  banner1: banner1,
-  userwishlist: userwishlist ? userwishlist.products : [],
-  Emptywishlist: Emptywishlist
-
-
-})
-
-
-
-
-
-
-
-
+    res.render("user/allproducts", {
+      products: p,
+      user1: user,
+      banner1: banner1,
+      userwishlist: userwishlist ? userwishlist.products : [],
+      Emptywishlist: Emptywishlist
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("An error occurred while rendering the all products page.");
+  }
 }
- 
+
+
+
+
+
 exports.womenget =async (req,res)=>{
+  try {
+    const query = req.query.query;
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice;
 
+    // Constructing the query object
+    let queryObj = {};
 
+    // Adding price range filters if provided
+    if (minPrice && maxPrice) {
+      queryObj.newPrice = { $gte: minPrice, $lte: maxPrice };
+    } else if (minPrice) {
+      queryObj.newPrice = { $gte: minPrice };
+    } else if (maxPrice) {
+      queryObj.newPrice = { $lte: maxPrice };
+    }
 
-res.status(200).render("user/women")
+    // If query is provided, add it to the search
+    if (query) {
+      const regex = new RegExp(query, 'i');
+      queryObj.$or = [
+        { productname: regex },
+        { description: regex },
+        { category: regex }
+      ];
+    }
 
+    const p = await product.find(queryObj);
+    console.log(p)
+    const banner1 = await banner.find();
+    const user = req.session.user;
+    const userId = user ? user._id : null;
+    const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+    const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
 
-
+    res.render("user/allproducts", {
+      products: p,
+      user1: user,
+      banner1: banner1,
+      userwishlist: userwishlist ? userwishlist.products : [],
+      Emptywishlist: Emptywishlist
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("An error occurred while rendering the all products page.");
+  }
 }
 
 exports.profileget = async(req,res)=>{
@@ -683,39 +765,62 @@ exports.updatecartquantity =async(req,res)=>{
 
 }
 
-exports.searchandget =async(req,res)=>{
+exports.searchandget = async (req, res) => {
+  try {
+      const query = req.query.query;
+      const minPrice = req.query.minPrice;
+      const maxPrice = req.query.maxPrice;
 
-// console.log(req.query)
-const  query =req.query.query
-const regex = new RegExp(query, 'i'); // Case-insensitive search
-const p = await product.find({ $or: [{ productname: regex },{ description: regex },{category:regex}] });
+      let queryObj = {};
 
-const banner1 = await banner.find();
+      if (minPrice && maxPrice) {
+          queryObj.newprice = { $gte: minPrice, $lte: maxPrice };
+      } else if (minPrice) {
+          queryObj.newprice = { $gte: minPrice };
+      } else if (maxPrice) {
+          queryObj.newprice = { $lte: maxPrice };
+      }
+      
+
+      if (query) {
+          queryObj.$or = [
+              { productname: new RegExp(query, 'i') },
+              { description: new RegExp(query, 'i') },
+              { category: new RegExp(query, 'i') }
+          ];
+      }
+
+      const p = await product.find(queryObj);
+
+      console.log(p)
+      const banner1 = await banner.find();
       const user = req.session.user;
-      const userId = user ? user._id : null; 
+      const userId = user ? user._id : null;
       const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
-  
-
       const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
 
+      res.render("user/allproducts", {
+          products: p,
+          user1: user,
+          banner1: banner1,
+          userwishlist: userwishlist ? userwishlist.products : [],
+          Emptywishlist: Emptywishlist
+      });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send("An error occurred while fetching and rendering products.");
+  }
+};
 
 
 
 
 
 
-res.render("user/allproducts",{
-
-  products: p,
-  user1: user,
-  banner1: banner1,
-  userwishlist: userwishlist ? userwishlist.products : [],
-  Emptywishlist: Emptywishlist
 
 
-})
 
-}
+
 
 exports.checkoutget =async(req,res)=>{
 
@@ -780,11 +885,25 @@ console.log(discount, amountcheck)
 
 console.log(usercart.totalprice)
 
-if(usercart.totalprice > amountcheck ) usercart.totalprice = usercart.totalprice -discount
+console.log(typeof(usercart.totalprice))
+console.log(typeof(amountcheck))
 
-usercart.save()
+if(usercart.totalprice > amountcheck ) {
+  console.log("worked")
+  usercart.totalprice = usercart.totalprice -discount
 
-res.status(200).json({discount})
+  usercart.save()
+
+  res.status(200).json({discount})
+
+
+}else{
+
+  res.status(400).json({ invalidcoupon: "not applicable" })
+
+}
+
+
 
 }else{
 
@@ -868,7 +987,7 @@ console.log(otp)
             service: 'Gmail',
             auth: {
                 user: "tomshift22@gmail.com",
-                pass: 'iiuk hazo paht ejte   '
+                pass: 'fblj qvtl mnsj yodt '
             }
         });
 
@@ -1101,3 +1220,121 @@ console.log(err)
 }
 }
 
+let otpSent = false;
+let passwordUpdated = false; 
+
+
+exports.forgotpasswordget =async(req,res)=>{
+  res.render('user/forgotpassword', { otpSent, passwordUpdated, error: req.flash('error') })
+
+
+
+
+}
+exports.forgotpasswordpost =async(req,res)=>{
+const email = req.body.email
+
+const finder = await user.findOne({email:email})
+
+
+if(finder){
+  const otp = generateOTP();
+  console.log(otp)
+          // Store OTP in session (you might want to use a more secure storage)
+          req.session.otp = otp;
+          req.session.email=email
+  
+          // Create a Nodemailer transporter
+          let transporter = nodemailer.createTransport({
+              service: 'Gmail',
+              auth: {
+                  user: "tomshift22@gmail.com",
+                  pass: 'fblj qvtl mnsj yodt '
+              }
+          });
+  
+          // Set up email data
+          let mailOptions = {
+              from: 'tomshift22@gmail.com',
+              to: email,
+              subject: 'Email Verification OTP',
+              text: `Your OTP for email verification is: ${otp}`
+          };
+  
+          // Send the email
+          transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  console.log(error);
+                  res.send('Error sending email.');
+              } else {
+                  
+              otpSent = true;
+              }
+          })
+
+          otpSent = true;
+
+
+
+
+
+
+  req.flash("error","otp send to ur "+email)
+  res.redirect('/user/forgotpassword')
+
+}else{
+
+  req.flash("error","no emails were found")
+  res.redirect('/user/forgotpassword')
+
+
+}
+
+
+
+
+}
+
+exports.forgotpasswordotppost=async(req,res)=>{
+
+console.log(req.body)
+if(req.body.otp==req.session.otp){
+
+  passwordUpdated = true
+delete req.session.otp
+res.redirect("/user/forgotpassword")
+}
+else{
+  passwordUpdated = false
+
+  res.redirect("/user/forgotpassword")
+}
+
+}
+
+exports.updatepasswordpost =async(req,res)=>{
+console.log(req.session)
+
+const{newPassword, confirmPassword} = req.body
+const email =req.session.email
+
+if(newPassword==confirmPassword){
+
+const finder = await user.findOne({email:email})
+const encrypt = await bcrypt.hash(newPassword, 10)
+finder.password=encrypt
+
+finder.save()
+delete req.session.email
+res.redirect("/login")
+
+}else{
+req.flash("error","password doesnt match")
+  res.redirect("/user/forgotpassword")
+
+}
+
+
+
+
+}
