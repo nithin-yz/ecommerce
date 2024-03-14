@@ -8,7 +8,7 @@ const{signupget} =  require("../controllers/common/request")
 const {userhomeget,signuppost,otpget,otppost,loginpost,allproductget,womenget,profileget,cartget,profilepost,wishlistget,wishlistaddpost,logoutget, wishlistremoval,cartgetlag,addcartget,cartremovalget,updatecartquantity
     ,searchandget,checkoutget,couponcodeapply,placeorderpost,
     emailverifyget,emailverifypost,userordersget,razorpayget,razorpaypost,cancelorderpost,ordergetdetails,forgotpasswordget,forgotpasswordpost,forgotpasswordotppost,updatepasswordpost} = require("../controllers/user/request")
-const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, addbannerget,addbannerpost, deletebannerget,bannerupdatepost,updateorderstatus,userordersfullget, signupdataget,productgraphget,updateuserstatuspost} = require("../controllers/admin/request");
+const {adminget,addproductsget,addproductpost,userlistget,deleteuser,deleteproduct,showproductget,addressdeletepost,subcategoryload, addbannerget,addbannerpost, deletebannerget,bannerupdatepost,updateorderstatus,userordersfullget, signupdataget,productgraphget,updateuserstatuspost,submitreviewpost} = require("../controllers/admin/request");
 const { usershowproducts,addcategoryget, addcategorypost, addsubcategorypost,deletecategory,deletesubcategory,editaproductget,editaproductpost,addcouponget,addcouponpost, updatecoupon,deletecoupon,} = require("../controllers/products/request");
 route.get(["/","/login"], loginget)
 route.get("/signup", signupget)
@@ -84,6 +84,7 @@ route.get("/user/forgotpassword", forgotpasswordget)
 route.post("/user/forgotpassword",forgotpasswordpost)
 route.post("/user/forgotpassword/otp",forgotpasswordotppost)
 route.post("/user/forgotpassword/update", updatepasswordpost)
+route.post("/user/submitreview", submitreviewpost)
 
 
 

@@ -218,18 +218,92 @@ const orderSchema = new mongoose.Schema({
 });
 
 
+const reviewschema = new mongoose.Schema({
+  userid :{
+
+
+    type:mongoose.Schema.Types.ObjectId,
+  ref:'user'
+  
+  },
+review :[{
+
+  product:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'product'
+    },
+
+rating:{
+type:Number,
+
+
+
+},comments:{
+
+type:String
+
+}
+
+
+}
+
+
+
+]
+
+
+
+})
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+const review1= mongoose.model('review',reviewschema,'review')
 const Order = mongoose.model('Orders', orderSchema);
-
-
-
-
-
-
-
-
-
-
-
 const coupon = mongoose.model('Coupon', couponSchema,'Coupon')
 const user = mongoose.model("User", userschema, "User");
 const product = mongoose.model("product", productschema, "product");
@@ -238,4 +312,4 @@ const wishlist = mongoose.model("wishlist",wishscheme,"wishlist")
 const userprofile = mongoose.model("userprofile",userprofileschema,"userprofile")
 const category = mongoose.model("category", categoryschema, "category")
 const banner =  mongoose.model("banner", bannerSchema, "banner")
-module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon, Order};
+module.exports = { user, product,cart,wishlist, userprofile ,category,banner,coupon, Order,review1};

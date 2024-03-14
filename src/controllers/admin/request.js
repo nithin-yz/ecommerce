@@ -4,7 +4,7 @@ const {
   userprofile,
   category,
   banner,
-  Order,
+  Order,review1
 } = require("../../models/databaseschema");
 const fs = require("fs");
 const path = require("path");
@@ -398,3 +398,50 @@ exports.updateuserstatuspost = async (req, res) => {
   }
 }
 
+exports.submitreviewpost =async(req,res)=>{
+
+  if (req.session.email) {
+    console.log("hi")
+    const { productid, description, rating } = req.body;
+  
+    try {
+      const finder = await user.findOne({ email: req.session.email });
+      const userid = finder._id;
+  
+      const userreview = await review1.findOne({ userid: userid });
+  
+      if (userreview) {
+        let productExists = false;
+  
+        for (const ele of userreview.review) {
+          if (ele.product == productid) {
+            productExists = true;
+            return res.status(400).json("Review already submitted");
+          }
+        }
+  
+        if (!productExists) {
+          userreview.review.push({
+            product: productid,
+            rating: rating,
+            comments: description
+          });
+          await userreview.save();
+          return res.status(204).send();
+        }
+      } else {
+        const newuserreview = new review1({
+          userid: userid,
+          review: [{ product: productid, rating: rating, comments: description }]
+        });
+        await newuserreview.save();
+        return res.status(204).send();
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  } 
+ 
+  res.status(400).json({login:"login"});
+}    

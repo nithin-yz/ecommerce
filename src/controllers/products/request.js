@@ -146,7 +146,7 @@ exports.editaproductpost = async (req, res) => {
 
         // Define a function to delete old images
         const deleteOldImages = async (imageName) => {
-            try {
+            try {   
               
               await fs.unlink(path.join(__dirname, "../../../public/uploads", imageName));
 

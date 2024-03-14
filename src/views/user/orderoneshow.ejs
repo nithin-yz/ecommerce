@@ -17,6 +17,74 @@
     <link rel="stylesheet" href="/css/user/orders/orderoneshow.css" />
     <link rel="stylesheet" href="/css/user/userhome/header.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+
+
+<style>
+ 
+#reviewForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white; /* Set background color of form to white */
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 999; /* Set z-index higher than other elements */
+        display: none; /* Hide form by default */
+
+      
+  justify-content: center;
+  width: 467px;
+  gap: 5px;
+
+
+      }
+
+      /* Style form input fields and button */
+      #reviewForm input[type="text"],
+      #reviewForm textarea,
+      #reviewForm input[type="number"],
+      #reviewForm button {
+        margin: 10px;
+        padding: 10px;
+        width: 80%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      #reviewForm button {
+        background-color: green; /* Set button background color to blue */
+        color: white; /* Set button text color to white */
+        cursor: pointer;
+      }
+
+      /* Style links */
+      a {
+        color: white; /* Set link text color to white */
+        text-decoration: none; /* Remove underline from links */
+      }
+
+      a:hover {
+        text-decoration: underline; /* Add underline on hover */
+      }
+
+      .fa-magnifying-glass:before,
+.fa-search:before {
+  content:"\f002";
+  left: 10px;
+  margin-left: -28px;
+}
+  
+
+</style>
+
+
+
+
     <!-- end of Style css -->
   </head>
   <body>
@@ -77,7 +145,7 @@
     <!-- end of header -->
 
     <!-- main -->
-    <main>
+    <main id="background">
       <div class="container-fluid main">
         <div class="row mainContainer">
           <div class="col-12">
@@ -197,86 +265,69 @@
                     </div>
                   </div>
                   <div class="fw-medium fs-5">
-                    >
+                    
                   </div> 
                 </div>
               </a>
-              <a href="/userProductRate/:productId" class="text-dark fw-bolder ">
+             
                 <div class="ODhead sDetails d-flex justify-content-between gap-3">
-                  <div>
-                    Rate and Review this product
-                  </div>
-                  <div class="fw-medium fs-5">
+
+                  <% if(order.status == "delivered") { %>
+                    <a href="" id="rateAndReview" class="text-dark fw-bolder ">  <div id="rateandReview">
+                        Rate and Review this product
+                    </div>
+                  </a>
+                <% } %>
+
+                  <!-- <div class="fw-medium fs-5">
                     >
-                  </div> 
+                  </div>  -->
                 </div>
-              </a>
+             
             </div>
           </div>
         </div>
       </div>
     </main>
+
+    
+
+    <form id="reviewForm">
+      <h1 style="display: flex;justify-content: Center;"><b>Review submit</b></h1>
+      <select name="" id="selectedproduct" style="width:244px;margin-left:13px;margin-top:10px" required>
+        <option value="">select your product </option>
+<%order.products.forEach(ele=>{ %>
+
+<option value=<%=ele.product._id%>><%=ele.product.productname%></option>
+
+<%})%>
+
+
+
+     </select>
+    
+      <textarea name="description" id ="description"placeholder="Review Description" required></textarea>
+      <input  id ="ratingInput" type="number" name="rating" placeholder="Rating (1-5)" min="1" max="5" style="-webkit-appearance: textfield; -moz-appearance: textfield; appearance: textfield; "required />
+
+
+     <div style="display: flex;">
+
+
+     </div> <button id="formbutton"  type="submit">Submit Review</button>
+      <button id="cancelButton" type="button">Cancel</button>
+
+<p id="response">    </p>
+
+    </form>
+    
+
     <!-- end of main -->
-<script>
-
-var timestamp = "<%=order.createdAt%>";
-
-    // Parse the timestamp
-    var dateObj = new Date(timestamp);
-
-    // Extract date components
-    var year = dateObj.getFullYear();
-    var month = dateObj.getMonth() + 1; // Months are 0-based, so adding 1
-    var day = dateObj.getDate();
-
-    // Format the date
-    var formattedDate = + (day < 10 ? "0" + day : day)+"-" + (month < 10 ? "0" + month : month) + "-" + year 
-
-    // Display the formatted date
-    document.getElementById("formattedDate").textContent = formattedDate; 
 
 
-    const status1 = "<%=order.status%>"
-    var shippedElement = document.querySelector(".shipped");
-    var deliveredElement = document.querySelector(".delivered");
-    var middle = document.querySelector(".middle")
-
-    if (status1 === "cancelled") {
-          
-            document.getElementById("oText").style.color = "red";
-           
-            var shippedElement = document.querySelector(".shipped");
-            if (shippedElement) {
-                shippedElement.remove();
-            }
-            if (deliveredElement) {
-                deliveredElement.style.color = "red";
-                deliveredElement.textContent = "Cancelled";
-            }
-        } else if (status1=== "shipped") {
-            shippedElement.remove();
-            middle.remove()
-            deliveredElement.textContent = "shipped";
-
-        }else if(status1=="pending") {
-            console.log("podA")
-            shippedElement.remove();
-            middle.remove()
-            deliveredElement.textContent = "pending(on progress)";
-        }
-            
-            else {
-           console.log("hey")
-            deliveredElement.textContent = "Delivered"
-            // document.querySelector(".delivered").style.color = "blue";
-        }
-    
-    
-</script>
     <!-- footer -->
    
     <!-- end of footer -->
 
-  
+  <script src="/script/review.js"></script>
   </body>
 </html>
