@@ -603,3 +603,14 @@ footer .copyright {
   border-radius: 80px;
   height: 32px;
 }
+#product1 .pro img {
+  width: 100% !important;
+border-radius: 20px!important;
+height: 406px!important;
+}
+
+.pricer{
+
+  color:red;
+  font-size:21px;
+}

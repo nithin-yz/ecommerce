@@ -163,6 +163,7 @@
             <div class="cartBody">
               <div class="ODhead">
                 <p>Order ID - <%=order._id%></p>
+                <P id='orders1' status="<%=order.status%>"></P>
               </div>
               
               <div class="d-flex ODhead gap-3 justify-content-between align-items-center">
@@ -273,6 +274,7 @@
                 <div class="ODhead sDetails d-flex justify-content-between gap-3">
 
                   <% if(order.status == "delivered") { %>
+
                     <a href="" id="rateAndReview" class="text-dark fw-bolder ">  <div id="rateandReview">
                         Rate and Review this product
                     </div>
@@ -319,7 +321,30 @@
 <p id="response">    </p>
 
     </form>
-    
+    <script>
+
+
+var timestamp = '<%=order.createdAt %>'
+console.log(timestamp); // Corrected variable name
+
+// Parse the timestamp
+var dateObj = new Date(timestamp);
+
+// Extract date components
+var year = dateObj.getFullYear();
+var month = dateObj.getMonth() + 1; // Months are 0-based, so adding 1
+var day = dateObj.getDate();
+
+// Format the date
+var formattedDate = (day < 10 ? "0" + day : day) + "-" + (month < 10 ? "0" + month : month) + "-" + year;
+
+// Display the formatted date
+document.getElementById("formattedDate").textContent = formattedDate;
+
+
+
+
+    </script>
 
     <!-- end of main -->
 

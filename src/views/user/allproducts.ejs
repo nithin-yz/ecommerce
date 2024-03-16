@@ -84,7 +84,34 @@ button:hover {
     margin-left: 15px;
 
 }
+.pagination{
 
+
+
+  display: flex;
+  justify-content: center;
+  margin-bottom: 37px;
+}
+
+
+
+.pagination a {
+    color: rgb(247, 173, 37);
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: 1px solid rgb(40, 40, 40);
+    margin: 0 4px;
+    background-color: rgb(20, 20, 20);
+}
+.pagination a.active {
+    background-color: rgb(247, 173, 37);
+    color: black;
+}
+.pagination a:hover:not(.active) {
+    background-color: rgb(34, 34, 34);
+}
 </style>
 
 
@@ -185,7 +212,7 @@ button:hover {
                         <span class="wishlist" id="<%= product._id %>">
                            
                            <% if(Emptywishlist){ %>
-                            <%console.log("true")%>
+                         
 
  
                             <i class="fa-regular fa-heart"  onclick="heart('<%=product._id%>')" ></i>
@@ -235,6 +262,27 @@ button:hover {
             <% }); %>
         </div>
     </section>
+
+
+
+
+
+
+    <div class="pagination">
+        <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>&limit=<%= itemsPerPage %>">&laquo;</a>
+        <% } %>
+           <% for (let i = 1; i <= totalPages; i++) { %>
+             <a href="?page=<%= i %>&limit=<%= itemsPerPage %>"
+              class="<%= (i === currentPage) ? 'active' : '' %>"><%= i %>
+            </a>
+           <% } %>
+        <% if (products.length === itemsPerPage) { %>
+             <a href="?page=<%= currentPage + 1 %>&limit=<%= itemsPerPage %>">&raquo;</a>
+        <% } %>
+      </div>
+
+
 
     <!-- Other sections and content -->
 

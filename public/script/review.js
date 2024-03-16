@@ -1,22 +1,7 @@
 
-var timestamp = "<%=order.createdAt%>";
+    const status1 = document.getElementById('orders1').getAttribute('status')
+console.log(status1)
 
-    // Parse the timestamp
-    var dateObj = new Date(timestamp);
-
-    // Extract date components
-    var year = dateObj.getFullYear();
-    var month = dateObj.getMonth() + 1; // Months are 0-based, so adding 1
-    var day = dateObj.getDate();
-
-    // Format the date
-    var formattedDate = + (day < 10 ? "0" + day : day)+"-" + (month < 10 ? "0" + month : month) + "-" + year 
-
-    // Display the formatted date
-    document.getElementById("formattedDate").textContent = formattedDate; 
-
-
-    const status1 = "<%=order.status%>"
     var shippedElement = document.querySelector(".shipped");
     var deliveredElement = document.querySelector(".delivered");
     var middle = document.querySelector(".middle")
@@ -32,6 +17,8 @@ var timestamp = "<%=order.createdAt%>";
             if (deliveredElement) {
                 deliveredElement.style.color = "red";
                 deliveredElement.textContent = "Cancelled";
+                middle.remove()
+                
             }
         } else if (status1=== "shipped") {
             shippedElement.remove();
@@ -78,7 +65,6 @@ document.getElementById("rateAndReview").addEventListener("click", function(even
 
       document.getElementById("reviewForm").addEventListener("submit", async function(event) {
         event.preventDefault();
-        
         const formData = new URLSearchParams()
     const product= document.getElementById('selectedproduct')
     

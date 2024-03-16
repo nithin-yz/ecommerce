@@ -1,35 +1,45 @@
 
 const fs = require('fs')
 const path= require('path')
-const {product, category,coupon}= require("../../models/databaseschema")
+const mongoose = require('mongoose')
+const {product, category,coupon,review1}= require("../../models/databaseschema")
 
-exports.usershowproducts = async(req,res)=>{
 
-
-try{
 
   
-  const id  =req.params.id
+  
+exports.usershowproducts = async (req, res) => {
+  try {
+    const id = req.params.id;
+     console.log(id)
+    const productId = await product.findById(id);
+    const reviews = await review1.aggregate([
+      { $unwind: "$review" },
+      { $match: { "review.product": new mongoose.Types.ObjectId(id) } }
+    ])
+    const userIds = reviews.map(review => review.userid);
 
-const finder = await product.findById(id)
-console.log(finder)
+    
+    const populatedReviews = await review1.populate(reviews, { path: "userid" });
 
-    res.render("user/showproduct", {product:finder})
+    console.log('Reviews:', populatedReviews);
+  res.render("user/showproduct", {product:productId,review:populatedReviews})
 
-
-
-}
-catch (err){
-
-console.log(err)
-
-}
-
+    
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' }); // Sending error response
+  }
+};
 
 
 
 
-}
+
+
+
+
+
 
 exports.addcategoryget =async(req,res)=>{
 

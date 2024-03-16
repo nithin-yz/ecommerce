@@ -234,11 +234,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     try {
         // Fetch user signup data when the document is loaded using Axios
         response = await axios.get("/admin/users/signupdata");
-        // Extract the data from the response
-        // data = response.data;
-        // Process the retrieved data and update the graph
-        // updateGraph(data);
-        // console.log(data);
+      
        
     } catch (error) {
         console.log("Error fetching user signup data:", error);

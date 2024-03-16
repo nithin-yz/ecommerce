@@ -44,7 +44,7 @@ if(res.ok){
 document.addEventListener('DOMContentLoaded', function() {
     const quantityInputs = document.querySelectorAll('.quantity-input');
     quantityInputs.forEach(input => {
-        input.addEventListener('change', function(event) {
+        input.addEventListener('input', function(event) {
             const index = this.getAttribute('data-id');
             const newQuantity = parseInt(this.value);
 

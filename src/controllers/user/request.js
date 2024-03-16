@@ -22,7 +22,7 @@ const generateOTP = () => {
 
 exports.userhomeget = async (req, res) => {
   try {
-      const p = await product.find();
+      const p = await product.find().sort({ createdAt: -1 }).limit(8)
       const banner1 = await banner.find();
       const user = req.session.user;
       const userId = user ? user._id : null; 
@@ -65,7 +65,7 @@ exports.userhomeget = async (req, res) => {
     const updatedProductsArray = userwishlist.products.filter(prodId => prodId.toString() !== productId); // Ensure matching using string representation
 
    
-    userwishlist.products = updatedProductsArray;s
+    userwishlist.products = updatedProductsArray;
     await userwishlist.save()
 
     return res.sendStatus(200)
@@ -286,6 +286,7 @@ exports.otppost = async (req, res) => {
 exports.allproductget = async (req, res) => {
   try {
     const query = req.query.query;
+    
     const minPrice = req.query.minPrice;
     const maxPrice = req.query.maxPrice;
 
@@ -301,20 +302,44 @@ exports.allproductget = async (req, res) => {
       queryObj.newPrice = { $lte: maxPrice };
     }
 
+
+    
+    
     // If query is provided, add it to the search
     if (query) {
       const regex = new RegExp(query, 'i');
-      queryObj.$or = [
-        { productname: regex },
-        { description: regex },
-        { category: regex }
-      ];
+      console.log(regex)
+      if (query.toLowerCase() === 'men') {
+        queryObj.category = 'MEN'; // Ensure only products with category 'MEN' are included
+      } else if (query.toLowerCase() !== 'allproducts') {
+        queryObj.$or = [
+          { productname: regex },
+          { description: regex },
+          { category: regex }
+        ];
+      }
+      // If the query is 'allproducts', don't add any additional filter
     }
 
-    const p = await product.find(queryObj);
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+
+    const skip = (page - 1) * limit;
+
+    const productsCount =await product.find(queryObj).countDocuments();
+    
+    const totalPages = Math.ceil(productsCount / limit);
+    
+  // const categorypass = req.query.category? new RegExp(req.query.category, 'i'):null
+  // console.log(categorypass)
+    // Retrieve products based on the constructed query
+console.log(queryObj)
+    const p = await product.find({category:'MEN'});
     console.log(p)
     const banner1 = await banner.find();
     const user = req.session.user;
+    
     const userId = user ? user._id : null;
     const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
     const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
@@ -324,15 +349,17 @@ exports.allproductget = async (req, res) => {
       user1: user,
       banner1: banner1,
       userwishlist: userwishlist ? userwishlist.products : [],
-      Emptywishlist: Emptywishlist
+      Emptywishlist: Emptywishlist,
+      currentPage: page,
+      itemsPerPage: limit,
+      totalPages,
+
     });
   } catch (err) {
     console.log(err);
     res.status(500).send("An error occurred while rendering the all products page.");
   }
 }
-
-
 
 
 
@@ -365,19 +392,38 @@ exports.womenget =async (req,res)=>{
     }
 
     const p = await product.find(queryObj);
-    console.log(p)
+    
     const banner1 = await banner.find();
     const user = req.session.user;
     const userId = user ? user._id : null;
     const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
     const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 8;
+
+    const skip = (page - 1) * limit;
+
+    const productsCount =await product.find(queryObj).countDocuments();
+    
+    const totalPages = Math.ceil(productsCount / limit);
+
+
+
+    
+
+
+
+
     res.render("user/allproducts", {
       products: p,
       user1: user,
       banner1: banner1,
       userwishlist: userwishlist ? userwishlist.products : [],
-      Emptywishlist: Emptywishlist
+      Emptywishlist: Emptywishlist,currentPage: page,
+      itemsPerPage: limit,
+      totalPages,
+
     });
   } catch (err) {
     console.log(err);
@@ -766,50 +812,89 @@ exports.updatecartquantity =async(req,res)=>{
 
 }
 
+
+
+
+
+
+
+
+
+
 exports.searchandget = async (req, res) => {
   try {
-      const query = req.query.query;
-      const minPrice = req.query.minPrice;
-      const maxPrice = req.query.maxPrice;
+    const query = req.query.query;
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice;
 
-      let queryObj = {};
+    let queryObj = {};
 
-      if (minPrice && maxPrice) {
-          queryObj.newprice = { $gte: minPrice, $lte: maxPrice };
-      } else if (minPrice) {
-          queryObj.newprice = { $gte: minPrice };
-      } else if (maxPrice) {
-          queryObj.newprice = { $lte: maxPrice };
-      }
-      
+    if (minPrice && maxPrice) {
+      queryObj.newprice = { $gte: minPrice, $lte: maxPrice };
+    } else if (minPrice) {
+      queryObj.newprice = { $gte: minPrice };
+    } else if (maxPrice) {
+      queryObj.newprice = { $lte: maxPrice };
+    }
 
-      if (query) {
-          queryObj.$or = [
-              { productname: new RegExp(query, 'i') },
-              { description: new RegExp(query, 'i') },
-              { category: new RegExp(query, 'i') }
-          ];
-      }
+    if (query && query.toLowerCase() !== 'allproducts') {
+      queryObj.$or = [
+        { productname: new RegExp(query, 'i') },
+        { description: new RegExp(query, 'i') },
+        { category: { $regex: new RegExp('^' + query.toLowerCase(), 'i') } } // Force search term to lowercase before matching
+      ];
+    }
 
-      const p = await product.find(queryObj);
+    // If the query is 'allproducts', don't add any additional filter
+    if (query && query.toLowerCase() === 'allproducts') {
+      queryObj = {};
+    }
 
-      console.log(p)
-      const banner1 = await banner.find();
-      const user = req.session.user;
-      const userId = user ? user._id : null;
-      const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
-      const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
 
-      res.render("user/allproducts", {
-          products: p,
-          user1: user,
-          banner1: banner1,
-          userwishlist: userwishlist ? userwishlist.products : [],
-          Emptywishlist: Emptywishlist
-      });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 8;
+
+    const skip = (page - 1) * limit;
+
+    const productsCount =await product.find(queryObj).countDocuments();
+    
+    const totalPages = Math.ceil(productsCount / limit);
+  
+    // const products = await Product.find().skip(skip).limit(limit);
+
+
+
+
+
+
+
+
+
+    const p = await product.find(queryObj).skip(skip).limit(limit)
+
+    const banner1 = await banner.find();
+    const user = req.session.user;
+    const userId = user ? user._id : null;
+    const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+    const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
+
+    res.render("user/allproducts", {
+      products: p,
+      user1: user,
+      banner1: banner1,
+      userwishlist: userwishlist ? userwishlist.products : [],
+      Emptywishlist: Emptywishlist,
+      currentPage: page,
+      itemsPerPage: limit,
+      totalPages,
+
+
+
+
+    });
   } catch (err) {
-      console.error(err);
-      res.status(500).send("An error occurred while fetching and rendering products.");
+    console.error(err);
+    res.status(500).send("An error occurred while fetching and rendering products.");
   }
 };
 

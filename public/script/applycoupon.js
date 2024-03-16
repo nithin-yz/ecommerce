@@ -1,20 +1,29 @@
-function applycoupon(event) {
-    // Get the coupon code from the input fieldx
 
+
+let couponApplied = false; // Flag to track if coupon has been applied
+
+function applycoupon(event) {
     event.preventDefault();
     
-    let couponCode = document.querySelector('.coupont').value;
-let emptyelement = document.querySelector('.coupont')
+    // Check if a discount has already been applied
+    if (couponApplied) {
+        // Show message that coupon has already been applied
+        document.querySelector('.table-discount').textContent = "Coupon already applied.";
+        return; // Exit function, do not apply coupon again
+    }
     
+    // Get the coupon code from the input field
+    let couponCode = document.querySelector('.coupont').value;
+    let emptyelement = document.querySelector('.coupont');
+
     fetch(`/checkout/applycoupon?code=${couponCode}`, {
         method: 'GET'
-      })
+    })
     .then(response => response.json())
     .then(data => {
-        console.log(data)
+        console.log(data);
         // Check if the coupon is applicable
         if (data.discount) {
-            
             const discountAmount = data.discount; // Get the discount amount from the response
             
             // Update the total amount displayed on the frontend
@@ -27,25 +36,19 @@ let emptyelement = document.querySelector('.coupont')
             
             // Update the discount amount displayed on the frontend
             document.querySelector('.table-discount').innerHTML = discountAmount;
-            emptyelement.value =""
-        } else {
+            emptyelement.value ="";
             
-
+            // Set couponApplied to true since a discount has been applied
+            couponApplied = true;
+        } else {
             document.querySelector('.table-discount').innerHTML = data.invalidcoupon;
-emptyelement.value =""
+            emptyelement.value ="";
         }
     })
-    .catch((error)=>{
-
-
-        console.log( error);
-    })
-       
-        // Handle error
-
-};
-
-
+    .catch((error) => {
+        console.log(error);
+    });
+}
 
 
 //place order route 

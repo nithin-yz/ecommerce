@@ -1,6 +1,9 @@
 
 function editCoupon(coupon) {
    
+    if (typeof coupon === 'string') {
+        coupon = JSON.parse(coupon);
+    }
     const expiryDateTime = new Date(coupon.expirydatetime);
     const year = expiryDateTime.getFullYear();
     const month = String(expiryDateTime.getMonth() + 1).padStart(2, '0');

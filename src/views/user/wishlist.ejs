@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="/css/user/userhome/style.css">
     <link rel="stylesheet" href="/css/user/wishlist/wishlist.css"> 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+
+
+<style>
+
+
+</style>
+
     
 </head>
 <body>
@@ -16,7 +23,7 @@
         <div>
             <ul id="navbar">
                 <li class="search-bar">
-                    <input type="text" name="searchbar" id="search">
+                    <input type="text" name="searchbar" id="searchbar" style="width:336px;border-radius:26px;height:38px;">
                     <i class="fa-solid fa-magnifying-glass" id="icon"></i>
                 </li>
                 <li><a class="active" href="/userhome" style="text-decoration: none;">Home</a></li>
@@ -40,7 +47,7 @@
             <div class="wishlist-item">
                 <!-- Product details -->
                 <h3><%= item.productname %></h3>
-                <p><%= item.description %></p>
+                <!-- <p><%= item.description %></p> -->
                 <img src="/uploads/<%= item.image1 %>" alt="Product Image">
                 <p>Price: <%= item.price %></p>
                 <!-- Add to cart and remove buttons -->
