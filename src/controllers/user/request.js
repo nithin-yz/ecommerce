@@ -11,6 +11,7 @@ const authToken = "342ec8950109dbcc43494e64689f300f";
 const client = require("twilio")(accountID, authToken);
 const mongoose = require("mongoose");
 const e = require("connect-flash");
+const { SigningKeyContextImpl } = require("twilio/lib/rest/api/v2010/account/signingKey");
 
 
 const generateOTP = () => {
@@ -47,9 +48,8 @@ exports.userhomeget = async (req, res) => {
   
   exports.wishlistremoval = async (req, res) => {
       try {
-        console.log("hi")
+    
           if (req.session.email) {
-            console.log("worked")
               const productId = req.params.productid;
   
               // Find the user by email
@@ -105,18 +105,32 @@ exports.loginpost = async (req, res) => {
           const check = await bcrypt.compare(password, findperson.password);
 
           if (check) {
-              req.session.email = email;
+             
 
               if (findperson.verified) {
                   // const userwishlist = await wishlist.findOne({ user: findperson._id });
-                  req.session.user = findperson;
+                  
 
-
-if(findperson.status=="active"){
+if(findperson.status=="active"&& findperson.role=="user"){
+  req.session.email = email;
+  req.session.user = findperson;
 
  return res.status(200).redirect('/userhome');
 
-}else{
+}else if(findperson.status=="active"&& findperson.role=="admin"){
+
+req.session.admin=true
+  return res.status(200).redirect('/adminhome');
+
+
+}
+
+
+
+
+
+
+else{
   req.flash('error1', "you are temporarly blocked");
   return res.redirect("/login");
 
@@ -272,7 +286,7 @@ exports.otppost = async (req, res) => {
         delete req.session.otp
       res.redirect("/login");
     } else {
-      console.log("hai");
+     
       req.flash("error", "otp is incorrect");
       res.redirect(`/signup/otp/${email}`);
     }
@@ -283,79 +297,96 @@ exports.otppost = async (req, res) => {
   }
 };
 
-exports.allproductget = async (req, res) => {
-  try {
-    const query = req.query.query;
-    
-    const minPrice = req.query.minPrice;
-    const maxPrice = req.query.maxPrice;
+  exports.allproductget = async (req, res) => {
+    try {
+      const query = req.query.query;
+      
+      const minPrice = req.query.minPrice;
+      const maxPrice = req.query.maxPrice;
 
-    // Constructing the query object
-    let queryObj = {};
+      // Constructing the query object
+      let queryObj = {};
 
-    // Adding price range filters if provided
-    if (minPrice && maxPrice) {
-      queryObj.newPrice = { $gte: minPrice, $lte: maxPrice };
-    } else if (minPrice) {
-      queryObj.newPrice = { $gte: minPrice };
-    } else if (maxPrice) {
-      queryObj.newPrice = { $lte: maxPrice };
-    }
-
-
-    
-    
-    // If query is provided, add it to the search
-    if (query) {
-      const regex = new RegExp(query, 'i');
-      console.log(regex)
-      if (query.toLowerCase() === 'men') {
-        queryObj.category = 'MEN'; // Ensure only products with category 'MEN' are included
-      } else if (query.toLowerCase() !== 'allproducts') {
-        queryObj.$or = [
-          { productname: regex },
-          { description: regex },
-          { category: regex }
-        ];
+      // Adding price range filters if provided
+      if (minPrice && maxPrice) {
+        queryObj.newPrice = { $gte: minPrice, $lte: maxPrice };
+      } else if (minPrice) {
+        queryObj.newPrice = { $gte: minPrice };
+      } else if (maxPrice) {
+        queryObj.newPrice = { $lte: maxPrice };
       }
-      // If the query is 'allproducts', don't add any additional filter
-    }
 
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = 8;
+      
+      
+      // If query is provided, add it to the search
+      if (query) {
+        const regex = new RegExp(query, 'i');
+       
+        if (query.toLowerCase() === 'men') {
+          queryObj.category = 'MEN'; // Ensure only products with category 'MEN' are included
+        } else if (query.toLowerCase() !== 'allproducts') {
+          queryObj.$or = [
+            { productname: regex },
+            { description: regex },
+            { category: regex }
+          ];
+        }
+        // If the query is 'allproducts', don't add any additional filter
+      }
 
-    const skip = (page - 1) * limit;
 
-    const productsCount =await product.find(queryObj).countDocuments();
-    
-    const totalPages = Math.ceil(productsCount / limit);
-    
-  // const categorypass = req.query.category? new RegExp(req.query.category, 'i'):null
-  // console.log(categorypass)
-    // Retrieve products based on the constructed query
-console.log(queryObj)
-    const p = await product.find({category:'MEN'});
-    console.log(p)
-    const banner1 = await banner.find();
-    const user = req.session.user;
-    
-    const userId = user ? user._id : null;
-    const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
-    const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
+      const page = parseInt(req.query.page) || 1;
+      const limit = 8;
 
-    res.render("user/allproducts", {
-      products: p,
-      user1: user,
-      banner1: banner1,
-      userwishlist: userwishlist ? userwishlist.products : [],
-      Emptywishlist: Emptywishlist,
-      currentPage: page,
-      itemsPerPage: limit,
-      totalPages,
+      let  skip
 
-    });
-  } catch (err) {
+      if(page==1){
+
+
+  skip=0
+
+      }else{
+
+    skip = (page - 1) * limit;
+
+      }
+      
+      
+      
+      
+      
+  
+
+      const productsCount =await product.find(queryObj).countDocuments();
+     
+      const totalPages = Math.ceil(productsCount / limit);
+   
+
+
+  const p = await product.find({category:'MEN'}).skip(skip).limit(limit)
+
+      const currentURL = req.originalUrl?req.originalUrl:"";
+   
+      const banner1 = await banner.find();
+      const user = req.session.user;
+      
+      const userId = user ? user._id : null;
+      const userwishlist = await wishlist.findOne({ user: userId }).populate('products');
+      const Emptywishlist = !userwishlist || !userwishlist.products || userwishlist.products.length === 0;
+
+      res.render("user/allproducts", {
+        products: p,
+        user1: user,
+        banner1: banner1,
+        userwishlist: userwishlist ? userwishlist.products : [],
+        Emptywishlist: Emptywishlist,
+        currentPage: page,
+        itemsPerPage: limit,
+        totalPages,
+        currentURL
+      });
+    } catch (err) {
     console.log(err);
     res.status(500).send("An error occurred while rendering the all products page.");
   }
@@ -391,7 +422,6 @@ exports.womenget =async (req,res)=>{
       ];
     }
 
-    const p = await product.find(queryObj);
     
     const banner1 = await banner.find();
     const user = req.session.user;
@@ -402,17 +432,30 @@ exports.womenget =async (req,res)=>{
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 8;
 
-    const skip = (page - 1) * limit;
 
+    let  skip
+    if(page==1){
+  
+      skip=0
+      
+    }else{
+      
+      skip = (page - 1) * limit;
+      
+    }
+    
+    
     const productsCount =await product.find(queryObj).countDocuments();
     
     const totalPages = Math.ceil(productsCount / limit);
-
-
-
     
-
-
+    
+    const currentURL = req.originalUrl?req.originalUrl:"";
+    
+    
+    
+    const p = await product.find(queryObj).skip(skip).limit(limit)
+   
 
 
     res.render("user/allproducts", {
@@ -423,6 +466,7 @@ exports.womenget =async (req,res)=>{
       Emptywishlist: Emptywishlist,currentPage: page,
       itemsPerPage: limit,
       totalPages,
+      currentURL
 
     });
   } catch (err) {
@@ -535,7 +579,7 @@ if(req.session.email) {
   const email=req.session.email
  const productid1 = req.params.productid
 
- console.log(email,productid1)
+
 
 const user1 = await user.findOne({email:email})
 
@@ -544,7 +588,7 @@ const user1id = user1._id
 
 const userwishlist = await wishlist.findOne({user:user1id})
 if (userwishlist){
-console.log(userwishlist) 
+
 
 const loopingarray= userwishlist.products
 const index = loopingarray.indexOf(productid1)
@@ -701,21 +745,20 @@ try{
   if(req.session.email){
   const userfinder = await user.findOne({email:req.session.email})
   const userid = userfinder._id
-  console.log(userid)
+
   const cartid =req.params.cartid
-console.log(cartid)
+
 const usercart = await cart.findOne({userref:userid})
-console.log(usercart)
+
 if(usercart){
-console.log(usercart.items)
+
 const updatedarray =usercart.items.filter((a)=>{
-console.log(a._id)
-console.log(a._id.toString()==cartid)
+
 return a._id.toString()!==cartid
 }
 )
 
-console.log(updatedarray)
+
 usercart.items = updatedarray
 let newTotalQuantity = 0;
 let newTotalPrice = 0;
@@ -887,6 +930,7 @@ exports.searchandget = async (req, res) => {
       currentPage: page,
       itemsPerPage: limit,
       totalPages,
+      currentURL:""
 
 
 
@@ -937,19 +981,18 @@ console.log(error)
 }
 
 exports.couponcodeapply =async(req,res)=>{
-console.log("hai")
-console.log(req.query)
+
 
 if(req.session.email){
 const finder = await user.findOne({email:req.session.email})  
 
 const usercart = await cart.findOne({userref:finder._id})
-console.log(usercart)
+
 
 const Code  =req.query.code
 
 const coupons = await coupon.find()
-console.log(coupons)
+
 const checker = coupons.find( (ele)=>{
 
 return ele.code ==Code
@@ -961,21 +1004,16 @@ return ele.code ==Code
   
   )
 
-  console.log(checker)
+ 
 if(checker){
 
 const discount = checker.offerprice
 const amountcheck= checker.priceabove
 
-console.log(discount, amountcheck)
 
-console.log(usercart.totalprice)
-
-console.log(typeof(usercart.totalprice))
-console.log(typeof(amountcheck))
 
 if(usercart.totalprice > amountcheck ) {
-  console.log("worked")
+  
   usercart.totalprice = usercart.totalprice -discount
 
   usercart.save()
@@ -1111,8 +1149,8 @@ try{
 
  
   const storedOTP = req.session.otp; 
-  console.log(typeof(otp),typeof(storedOTP))
- console.log(Number(otp) === storedOTP)
+
+
   if (Number(otp) === storedOTP) {
      
       delete req.session.otp;
@@ -1191,7 +1229,7 @@ exports.razorpayget =async(req,res)=>{
   
   if (req.session.email&&req.session.order){
 const amount = req.session.order.totalamount
-console.log(amount)
+
   res.render("user/stripepayment" ,{key:publishkey,amount})
 }
 else{
@@ -1242,7 +1280,7 @@ exports.razorpaypost = async (req, res) => {
           // console.log(orders)
           const neworder = new Order (orders)
           const userid =  await user.findOne({email:req.session.email})
-          console.log(userid)
+       
           const usercart = await cart.findOne({ userref:userid._id});
           if (usercart){  
           
@@ -1270,7 +1308,7 @@ exports.cancelorderpost = async (req, res) => {
       const updatedOrder = await Order.findByIdAndUpdate(orderId, { status: 'cancelled' }, { new: true });
 
       if (updatedOrder) {
-          console.log("hi");
+         
           return res.status(200) .json({ message: 'Order updated successfully' });
       } else {
           return res.status(404).json({ error: 'Order not found' });
@@ -1383,7 +1421,7 @@ if(finder){
 
 exports.forgotpasswordotppost=async(req,res)=>{
 
-console.log(req.body)
+
 if(req.body.otp==req.session.otp){
 
   passwordUpdated = true
@@ -1399,7 +1437,7 @@ else{
 }
 
 exports.updatepasswordpost =async(req,res)=>{
-console.log(req.session)
+
 
 const{newPassword, confirmPassword} = req.body
 const email =req.session.email

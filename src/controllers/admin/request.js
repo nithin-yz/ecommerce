@@ -13,16 +13,16 @@ const path = require("path");
 
 exports.adminget = async (req, res) => {
   const userCount = await user.countDocuments({ role: "user", verified: true });
-  // console.log(userCount)
+
 
   const productscount = await product.countDocuments();
   const orders = await Order.find({ status: "delivered" });
-  // console.log(orders)
+  
 
   const totalsales = orders.reduce((sum, ele) => {
     return (sum += ele.totalamount);
   }, 0);
-  console.log(totalsales);
+ 
   res.render("admin/adminhome", {
     users: userCount,
     productscount,
@@ -445,3 +445,11 @@ exports.submitreviewpost =async(req,res)=>{
  
   res.status(400).json({login:"login"});
 }    
+exports.adminlogoutget = async (req, res) => {
+  if (req.session.admin === true) {
+      req.session.destroy();
+      res.status(200).redirect("/login");
+  } else {
+      res.status(200).redirect("/login");
+  }
+};

@@ -11,7 +11,7 @@ const {product, category,coupon,review1}= require("../../models/databaseschema")
 exports.usershowproducts = async (req, res) => {
   try {
     const id = req.params.id;
-     console.log(id)
+   
     const productId = await product.findById(id);
     const reviews = await review1.aggregate([
       { $unwind: "$review" },
@@ -22,7 +22,7 @@ exports.usershowproducts = async (req, res) => {
     
     const populatedReviews = await review1.populate(reviews, { path: "userid" });
 
-    console.log('Reviews:', populatedReviews);
+ 
   res.render("user/showproduct", {product:productId,review:populatedReviews})
 
     
@@ -226,7 +226,7 @@ res.render("admin/addcoupon" ,{coupons})
   
     exports.addcouponpost = async(req,res)=>{
 
-console.log(req.body)
+
 
 const {expirydatetime,priceabove,offerprice,code}=req.body
 
