@@ -27,33 +27,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-async function cart (id) {
-    const element = id
-    console.log(element)
-    fetch(`/userhome/cart/add/${id}`,{
-       method:'get' 
+async function cart(id) {
+    const element = id;
+ 
+    fetch(`/userhome/cart/add/${id}`, {
+        method: 'get'
     })
-    
-    .then(res=>{
-    
-    console.log(res)
-    if(res.ok){
-    
-        console.log("worked")
-    
-    
-   
-    
-    
-    
-    } else{
-        
-        window.location.href = '/login'
-    }
-    
-    
-    })
-    
-    
-    
-    }
+
+    .then(res => {
+
+        console.log(res);
+        if (res.ok) {
+            
+            
+          
+            swal("Success!", "Product added to cart.", "success");
+        } else {
+            window.location.href = '/login';
+        }
+    });
+}

@@ -14,36 +14,24 @@ smallImg[2].addEventListener("click", () =>{
 //     mainImg.src = smallImg[3].src;
 // })
 
-async function addcart (id) {
-    const element = id
-    console.log(element)
-    fetch(`/userhome/cart/add/${id}`,{
-       method:'get' 
-    })
-    
-    .then(res=>{
-    
-    console.log(res)
-    if(res.ok){
-    
-        console.log("worked")
-    
-    
-   
-    
-    
-    
-    } else{
-        
-        window.location.href = '/login'
-    }
-    
-    
-    })
-    
-    
-    
-    }
+// usershowproduct.js
+
+async function addcart(id) {
+  fetch(`/userhome/cart/add/${id}`, {
+      method: 'get'
+  })
+  .then(res => {
+      console.log(res);
+      if (res.ok) {
+          console.log("worked");
+          
+          // Show SweetAlert message when product is added to cart
+          swal("Success!", "Product added to cart.", "success");
+      } else {
+          window.location.href = '/login';
+      }
+  });
+}
 
 
     const bar = document.getElementById("bar");

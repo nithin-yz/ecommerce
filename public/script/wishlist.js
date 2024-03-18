@@ -1,3 +1,6 @@
+
+
+
 async function heart (id) {
 const element = document.getElementById(id)
 console.log(element)
@@ -36,33 +39,56 @@ if (element.innerHTML.includes('fa-solid fa-heart')) {
 }
 
 
-async function cart (id) {
-    const element = id
-    console.log(element)
-    fetch(`/userhome/cart/add/${id}`,{
-       method:'get' 
-    })
+// async function cart (id) {
+//     const element = id
+//     console.log(element)
+//     fetch(`/userhome/cart/add/${id}`,{
+//        method:'get' 
+//     })
     
-    .then(res=>{
+//     .then(res=>{
     
-    console.log(res)
-    if(res.ok){
+//     console.log(res)
+//     if(res.ok){
     
-        console.log("worked")
+//         console.log("worked")
     
     
    
     
     
     
-    } else{
+//     } else{
         
-        window.location.href = '/login'
-    }
+//         window.location.href = '/login'
+//     }
     
     
+//     })
+    
+    
+    
+//     }
+   
+
+async function cart(id) {
+    const element = id;
+ 
+    fetch(`/userhome/cart/add/${id}`, {
+        method: 'get'
     })
-    
-    
-    
-    }
+
+    .then(res => {
+
+        console.log(res);
+        if (res.ok) {
+            
+            
+          
+            swal("Success!", "Product added to cart.", "success");
+        } else {
+            window.location.href = '/login';
+        }
+    });
+}
+

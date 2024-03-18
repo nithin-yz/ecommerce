@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="/css/user/useroneproduct/shop.css">
     <link rel="stylesheet" href="/css/user/useroneproduct/sproduct.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+    
+  
+
 </head>
 
 
@@ -89,10 +92,11 @@ height: 38px;
             <input type="number" value="1" readonly>
             <button class="normal" onclick="addcart('<%=product._id%>')">Add to cart</button>
             <h4>Product Details</h4>
-            <span>This stylish men's fashion t-shirt boasts a modern and sleek design, perfect for the contemporary
+            <span><%=product.description%></span>
+            <!-- <span>This stylish men's fashion t-shirt boasts a modern and sleek design, perfect for the contemporary
                 urban wardrobe.The unique graphic print on the front adds an eye-catching element to elevate any casual
                 outfit.
-            </span>
+            </span> -->
         </div>
     </section>
     <section id="product1" class="section-p1">
@@ -174,7 +178,8 @@ height: 38px;
     
     <script src="/script/usershowproduct.js"></script>
 
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
     <script src ="/script/wishlist.js"></script>
     <script src="/script/searchget.js"></script>
 </body>

@@ -10,7 +10,7 @@ const accountID = "AC27dfaf6dc082030c3200209807da96fc";
 const authToken = "342ec8950109dbcc43494e64689f300f";
 const client = require("twilio")(accountID, authToken);
 const mongoose = require("mongoose");
-const e = require("connect-flash");
+const flash= require("connect-flash");
 const { SigningKeyContextImpl } = require("twilio/lib/rest/api/v2010/account/signingKey");
 
 
@@ -186,34 +186,59 @@ res.redirect("/login")
 
 
 
-
 exports.signuppost = async (req, res) => {
   try {
     const { username, email, phone, password, confirmpassword } = req.body;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneregex = /^\d{10}$/;
+    const passwordregex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{8,}$/;
 
-    const encrypt = await bcrypt.hash(password, 10);
-
-    const newuser = new user({
-      username,
-      email,
-      phone,
-      password: encrypt,
-    });
-
- const p =   await newuser.save();
-
-if (p){
-  
-
-    res.redirect(`/signup/otp/${email}`)
-  
-  }
+    if (emailRegex.test(email)) {
+      const finder = await user.findOne({ email: email });
+      if (!finder) {
+        if (phoneregex.test(phone)) {
+          if (passwordregex.test(password)) {
+            console.log(password,confirmpassword)
+            if (password == confirmpassword) {
+        
+              const encrypt = await bcrypt.hash(password, 10);
+              const newuser = new user({
+                username,
+                email,
+                phone,
+                password: encrypt,
+              });
+              const p = await newuser.save();
+              if (p) {
+                return res.redirect(`/signup/otp/${email}`);
+              }
+            } else {
+              req.flash('error', 'Confirm password does not match');
+              return res.redirect("/signup");
+            }
+          } else {
+            req.flash('error', 'Please enter a valid password (at least 8 characters, including one letter and one digit)');
+            return res.redirect("/signup");
+          }
+        } else {
+          req.flash('error', 'Please enter a valid phone number');
+          return res.redirect("/signup");
+        }
+      } else {
+        req.flash('error', 'Email already exists. Please sign in.');
+        return res.redirect("/signup");
+      }
+    } else {
+      req.flash('error', 'Please enter a valid email');
+      return res.redirect("/signup");
+    }
   } catch (err) {
     console.log(err);
-    res.flash('error', 'you are not signed yet')
-    res.redirect("/signup")
+    req.flash('error', 'You are not signed yet');
+    res.redirect("/signup");
   }
-};
+}
+
 
 exports.otpget = async (req, res) => {
   try {
