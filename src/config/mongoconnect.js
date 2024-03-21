@@ -1,5 +1,5 @@
 const mongoose =require("mongoose")
-const mongourl = "mongodb://localhost:27017/bestbuyecommerce"
+    const mongourl = "mongodb+srv://tomshift22:hmIIGiOuw7v8zKNe@bestbuy.zxclmeg.mongodb.net/?retryWrites=true&w=majority&appName=Bestbuy"
 
 const startmongoserver = async()=>{
 
