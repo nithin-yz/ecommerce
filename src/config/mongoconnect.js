@@ -1,6 +1,5 @@
 const mongoose =require("mongoose")
-    const mongourl = "mongodb+srv://tomshift22:hmIIGiOuw7v8zKNe@bestbuy.zxclmeg.mongodb.net/?retryWrites=true&w=majority&appName=Bestbuy"
-
+    const mongourl = "mongodb+srv://tomshift22:hmIIGiOuw7v8zKNe@bestbuy.zxclmeg.mongodb.net/bestbuy?retryWrites=true&w=majority&appName=Bestbuy%22"
 const startmongoserver = async()=>{
 
 try{
@@ -12,7 +11,7 @@ console.log("Database is connected")
 }
 catch (err){
 
-console.log("database is not connected")
+console.log("database is not connected",err)
 
 
 }
